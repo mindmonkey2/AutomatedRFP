@@ -1,0 +1,13 @@
+# Local Postgres for development: `docker compose up -d`
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_PASSWORD: postgres   # superuser, for admin only; the app uses the "rfp" role
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./deploy/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+volumes:
+  pgdata:
