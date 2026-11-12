@@ -73,6 +73,44 @@ jobs:
       - run: npm run typecheck
       - run: npm run build
 
+  self-host:
+    name: Self-hosted stack (docker compose)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Configure
+        run: |
+          ./deploy/setup.sh
+      - name: Build and start
+        run: docker compose up -d --build
+      - name: Smoke test through the frontend
+        run: |
+          B=http://127.0.0.1:3000/api; O="Origin: http://localhost:3000"; J=$RUNNER_TEMP/cookies
+          for i in $(seq 1 60); do curl -sf -o /dev/null http://127.0.0.1:3000/login && break; sleep 2; done
+          curl -sf $B/health
+          curl -sf -c $J -b $J -H "$O" -H 'Content-Type: application/json' -X POST $B/auth/signup \
+            -d '{"org_name":"CI Co","name":"CI","email":"ci@example.com","password":"correct-horse-battery"}' >/dev/null
+          echo "We completed the Riverside Elementary School, a K-12 project, in 2023." > $RUNNER_TEMP/doc.txt
+          curl -sf -c $J -b $J -H "$O" -F file=@$RUNNER_TEMP/doc.txt -F doc_type=proposal $B/library/documents >/dev/null
+          for i in $(seq 1 30); do
+            st=$(curl -sf -b $J $B/library/documents | python3 -c 'import json,sys; print(json.load(sys.stdin)[0]["status"])')
+            [ "$st" = ready ] && break; sleep 2
+          done
+          echo "document status: $st"; [ "$st" = ready ]
+          curl -sf -b $J "$B/library/search?q=Riverside" | grep -q Riverside
+          code=$(curl -s -o /dev/null -w '%{http_code}' -b $J -H 'Origin: https://evil.example' \
+            -H 'Content-Type: application/json' -X POST $B/bids -d '{"title":"x"}')
+          [ "$code" = 403 ]
+          # Only the frontend is published; the database and API are not reachable from outside.
+          ! curl -s --max-time 3 http://127.0.0.1:8000/health
+          ! (exec 3<>/dev/tcp/127.0.0.1/5432) 2>/dev/null
+      - name: Logs
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Stop
+        if: always()
+        run: docker compose down -v
+
   audit:
     name: Dependency vulnerability audit
     runs-on: ubuntu-latest

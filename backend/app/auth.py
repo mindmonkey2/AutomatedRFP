@@ -7,6 +7,7 @@
 """
 
 import hashlib
+import ipaddress
 import secrets
 import threading
 import time
@@ -97,7 +98,14 @@ class _RateLimiter:
             self.hits.pop(key, None)
 
 
-_LOCAL = {"127.0.0.1", "::1", "localhost"}
+def _is_internal_proxy(peer: str | None) -> bool:
+    if peer in (None, "localhost"):
+        return peer == "localhost"
+    try:
+        addr = ipaddress.ip_address(peer)
+    except ValueError:
+        return False
+    return any(addr in ipaddress.ip_network(c, strict=False) for c in settings.internal_proxy_cidrs)
 
 
 def client_ip(request: Request) -> str | None:
@@ -105,15 +113,15 @@ def client_ip(request: Request) -> str | None:
 
     With RFP_FORWARDED_HOPS=n, the n-th address from the right of X-Forwarded-For is the one
     our own outermost proxy saw (entries further left can be forged by the client). With 0,
-    the socket peer is used, except that a peer on this machine is the bundled Next.js proxy
-    and stands for every visitor at once, so it must not be rate-limited as one address.
+    the socket peer is used, except that a peer in RFP_INTERNAL_PROXY_CIDRS is our own Next.js
+    proxy and stands for every visitor at once, so it must not be rate-limited as one address.
     """
     peer = request.client.host if request.client else None
     hops = settings.forwarded_hops
     if hops > 0:
         forwarded = [a.strip() for a in request.headers.get("x-forwarded-for", "").split(",") if a.strip()]
         return forwarded[-hops] if len(forwarded) >= hops else peer
-    return None if peer in _LOCAL else peer
+    return None if _is_internal_proxy(peer) else peer
 
 
 login_limiter = _RateLimiter()

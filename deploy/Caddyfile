@@ -1,0 +1,6 @@
+# HTTPS in front of the app (docker compose --profile https up -d).
+# Caddy gets and renews a certificate automatically for SITE_ADDRESS (a domain that points here).
+{$SITE_ADDRESS} {
+	encode zstd gzip
+	reverse_proxy frontend:3000
+}

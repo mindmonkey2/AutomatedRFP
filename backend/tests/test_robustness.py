@@ -78,6 +78,16 @@ def test_client_ip_with_a_trusted_reverse_proxy(monkeypatch):
     assert client_ip(_request("127.0.0.1")) == "127.0.0.1"
 
 
+def test_client_ip_inside_docker_compose(monkeypatch):
+    # In compose the API port is not published, so every peer is the frontend container.
+    monkeypatch.setattr(settings, "forwarded_hops", 0)
+    monkeypatch.setattr(settings, "internal_proxy_cidrs", ["0.0.0.0/0", "::/0"])
+    assert client_ip(_request("172.18.0.5")) is None
+    monkeypatch.setattr(settings, "internal_proxy_cidrs", ["127.0.0.0/8", "::1/128"])
+    assert client_ip(_request("172.18.0.5")) == "172.18.0.5"
+    assert client_ip(_request("not-an-ip")) == "not-an-ip"
+
+
 def test_failed_logins_by_others_do_not_lock_out_a_user(anon, monkeypatch):
     from tests.conftest import PASSWORD, signup
 

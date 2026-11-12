@@ -27,6 +27,10 @@ class Settings(BaseSettings):
     # failed logins per visitor address. 0 = no such proxy; requests arriving through the
     # bundled Next.js proxy on this machine then have no usable visitor address.
     forwarded_hops: int = 0
+    # Addresses of our own frontend proxy. A request arriving from one of these stands for many
+    # visitors, so it is never rate-limited as one address. Docker Compose sets this to every
+    # address, because there the API port is not published and only the frontend can reach it.
+    internal_proxy_cidrs: list[str] = ["127.0.0.0/8", "::1/128"]
 
     # Which AI runs the extraction and drafting: "claude" or "openai_compatible"
     # (local models via Ollama, vLLM, llama.cpp server, LM Studio, or any OpenAI-compatible API).

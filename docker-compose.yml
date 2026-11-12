@@ -1,13 +1,147 @@
-# Local Postgres for development: `docker compose up -d`
+# RFP Engine, self-hosted: the whole app on your own server.
+#
+#   ./deploy/setup.sh              # once: writes .env with random passwords
+#   docker compose up -d --build   # http://localhost:3000
+#
+# Optional profiles:
+#   --profile local-ai   run the AI on this machine with Ollama (documents never leave it)
+#   --profile https      serve on your domain with an automatic HTTPS certificate (Caddy)
+# Full guide: docs/self-hosting.md
+
+name: rfp-engine
+
+x-backend: &backend
+  build: ./backend
+  image: rfp-engine-backend
+  restart: unless-stopped
+  environment:
+    RFP_DATABASE_URL: postgresql+psycopg://rfp:${RFP_DB_PASSWORD:?run ./deploy/setup.sh first}@postgres:5432/rfp
+    RFP_STORAGE_DIR: /data/files
+    RFP_LLM_PROVIDER: ${RFP_LLM_PROVIDER:-claude}
+    ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+    RFP_OPENAI_BASE_URL: ${RFP_OPENAI_BASE_URL:-http://ollama:11434/v1}
+    RFP_OPENAI_MODEL: ${RFP_OPENAI_MODEL:-}
+    RFP_OPENAI_API_KEY: ${RFP_OPENAI_API_KEY:-}
+    RFP_ALLOW_SIGNUP: ${RFP_ALLOW_SIGNUP:-true}
+    # The browser's address for the app: writes from any other origin are refused.
+    RFP_CORS_ORIGINS: '["${PUBLIC_URL:-http://localhost:3000}"]'
+    RFP_COOKIE_SECURE: ${COOKIE_SECURE:-false}
+    RFP_FORWARDED_HOPS: ${FORWARDED_HOPS:-0}
+    # The API port is not published: every request comes through the frontend container.
+    RFP_INTERNAL_PROXY_CIDRS: '["0.0.0.0/0", "::/0"]'
+    RFP_EMBEDDED_WORKER: "false"  # the worker service runs the jobs
+    RFP_WORKER_THREADS: ${WORKER_THREADS:-4}
+  volumes:
+    - files:/data
+  depends_on:
+    postgres:
+      condition: service_healthy
+    migrate:
+      condition: service_completed_successfully
+
 services:
   postgres:
     image: postgres:18
+    restart: unless-stopped
     environment:
-      POSTGRES_PASSWORD: postgres   # superuser, for admin only (dev); the app uses the "rfp" role
-    ports:
-      - "127.0.0.1:5432:5432"   # this machine only; never expose the superuser to the network
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run ./deploy/setup.sh first}
+      RFP_DB_PASSWORD: ${RFP_DB_PASSWORD:?run ./deploy/setup.sh first}
     volumes:
       - pgdata:/var/lib/postgresql
-      - ./deploy/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - ./deploy/postgres-init.sh:/docker-entrypoint-initdb.d/10-rfp.sh:ro
+    healthcheck:
+      # TCP on purpose: during first-time initialisation Postgres listens on its socket only.
+      test: ["CMD", "pg_isready", "-h", "127.0.0.1", "-U", "rfp", "-d", "rfp"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  # Applies database migrations, then exits. The API and worker start after it succeeds.
+  migrate:
+    image: rfp-engine-backend
+    build: ./backend
+    command: ["alembic", "upgrade", "head"]
+    environment:
+      RFP_DATABASE_URL: postgresql+psycopg://rfp:${RFP_DB_PASSWORD}@postgres:5432/rfp
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  api:
+    <<: *backend
+
+  worker:
+    <<: *backend
+    command: ["python", "-m", "app.worker"]
+    healthcheck:
+      disable: true
+    stop_grace_period: 2m  # let running jobs finish; anything cut off is retried after a restart
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        BACKEND_URL: http://api:8000
+        FRONTEND_HTTPS: ${FRONTEND_HTTPS:-false}
+    image: rfp-engine-frontend
+    restart: unless-stopped
+    ports:
+      # This machine only by default. HTTP_BIND=0.0.0.0 opens it to your network (prefer the https profile).
+      - "${HTTP_BIND:-127.0.0.1}:${HTTP_PORT:-3000}:3000"
+    depends_on:
+      api:
+        condition: service_healthy
+
+  # --profile https: Caddy terminates TLS for SITE_ADDRESS and forwards to the frontend.
+  caddy:
+    image: caddy:2
+    profiles: [https]
+    restart: unless-stopped
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-localhost}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - frontend
+
+  # --profile local-ai: an Ollama model server on this machine (GPU: add -f deploy/compose.gpu.yaml).
+  ollama:
+    image: ollama/ollama:latest
+    profiles: [local-ai]
+    restart: unless-stopped
+    environment:
+      OLLAMA_CONTEXT_LENGTH: "32768"  # long RFP sections need a long context window
+    volumes:
+      - ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  # Downloads RFP_OPENAI_MODEL into Ollama once (it stays in the ollama volume).
+  ollama-pull:
+    image: ollama/ollama:latest
+    profiles: [local-ai]
+    environment:
+      OLLAMA_HOST: ollama:11434
+      MODEL: ${RFP_OPENAI_MODEL:-}
+    entrypoint: ["sh", "-c", "if [ -z \"$$MODEL\" ]; then echo 'Set RFP_OPENAI_MODEL in .env (e.g. qwen3:32b)'; exit 1; fi; ollama pull \"$$MODEL\""]
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+
 volumes:
   pgdata:
+  files:
+  caddy_data:
+  caddy_config:
+  ollama:

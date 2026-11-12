@@ -226,6 +226,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Sign-in, organizations, invites, roles | Built |
 | Postgres with migrations, full-text search, row-level security | Built |
 | Choice of AI provider: Claude or self-hosted models via any OpenAI-compatible server | Built |
+| One-command self-hosting: Docker Compose with optional local AI (Ollama) and automatic HTTPS (Caddy) | Built |
 | Semantic search (pgvector) alongside full-text search | Planned |
 | Durable job queue in Postgres: survives restarts, retries temporary failures, live progress | Built |
 | OCR for scanned PDFs | Planned |
@@ -287,11 +288,26 @@ its parameter count in GB of GPU memory at 8-bit, or roughly half that at 4-bit,
 context; models around 30B parameters and up are the realistic starting point for this kind of
 extraction, and small (1-8B) models are best treated as a fallback until the eval says otherwise.
 
-## Run it locally
+## Self-host it (Docker Compose)
+
+The whole app (web app, API, background worker and Postgres, plus an optional local AI model and
+automatic HTTPS) runs with one command on your own server:
+
+```bash
+./deploy/setup.sh             # writes .env with random database passwords; add your AI choice
+docker compose up -d --build  # http://localhost:3000
+```
+
+Add `--profile local-ai` to run the AI on the same machine with Ollama, or `--profile https` to
+serve your domain with an automatic certificate. Only the web app publishes a port. CI starts this
+stack on every push and checks sign-up, upload, background processing and the security
+boundaries. See the [self-hosting guide](docs/self-hosting.md).
+
+## Run it locally (development)
 
 Requirements: Python 3.12+, Node 20+, Postgres 15+.
 
-**1. Database.** With Docker: `docker compose up -d` (creates the `rfp` role and the `rfp` and `rfp_test` databases).
+**1. Database.** With Docker: `docker compose -f docker-compose.dev.yml up -d` (Postgres only; creates the `rfp` role and the `rfp` and `rfp_test` databases).
 Without Docker, install Postgres and run the statements in [`deploy/postgres-init.sql`](deploy/postgres-init.sql) as a superuser.
 The app must connect as a regular role, not a superuser, or row-level security is bypassed (the API logs a warning if so).
 
@@ -358,9 +374,10 @@ frontend/
   app/             Next.js pages: bids, bid workspace, library, team, sign-in
   components/      shared UI and session handling
   lib/             API client and types
-deploy/            Postgres init script
 .github/workflows/ CI: tests on Postgres, migration check, frontend build, dependency audit
-docker-compose.yml local Postgres
+docker-compose.yml     self-hosted stack (see docs/self-hosting.md)
+docker-compose.dev.yml Postgres only, for development
+deploy/            setup script, Postgres init, Caddyfile, GPU override
 ```
 
 ## Configuration

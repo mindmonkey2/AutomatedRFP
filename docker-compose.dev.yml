@@ -1,0 +1,14 @@
+# Postgres only, for local development: `docker compose -f docker-compose.dev.yml up -d`
+# (the full self-hosted stack is docker-compose.yml)
+services:
+  postgres:
+    image: postgres:18
+    environment:
+      POSTGRES_PASSWORD: postgres   # superuser, for admin only (dev); the app uses the "rfp" role
+    ports:
+      - "127.0.0.1:5432:5432"   # this machine only; never expose the superuser to the network
+    volumes:
+      - pgdata:/var/lib/postgresql
+      - ./deploy/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+volumes:
+  pgdata:

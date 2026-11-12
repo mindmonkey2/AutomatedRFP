@@ -23,3 +23,6 @@ frontend/tsconfig.tsbuildinfo
 
 # Eval source text rebuilt locally by `python -m evals.fetch` (not redistributed)
 backend/evals/cases/*/document.fetched.txt
+
+# Self-hosted stack settings (deploy/setup.sh writes it; holds passwords)
+/.env
