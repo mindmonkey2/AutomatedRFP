@@ -5,13 +5,13 @@ of its meaningful terms, ranked with ts_rank_cd. Semantic (pgvector) search can 
 added next to this as a hybrid; this module is the only place that needs to change.
 """
 
-import re
 from dataclasses import dataclass
 
 from sqlalchemy import delete, func, literal, select
 from sqlalchemy.orm import Session
 
 from .models import Chunk
+from .parsing import words
 
 STOPWORDS = set(
     """a an and are as at be been by can could do does for from has have how if in into is it its
@@ -44,8 +44,7 @@ def remove_source(session: Session, org_id: int, source_type: str, source_id: in
 
 def query_terms(question: str, max_terms: int = 24) -> list[str]:
     terms: list[str] = []
-    for w in re.findall(r"[A-Za-z0-9][A-Za-z0-9\-]+", question.lower()):
-        w = w.strip("-")
+    for w in words(question):  # any script: Hindi, Tamil, accented Latin...
         if len(w) >= 3 and w not in STOPWORDS and w not in terms:
             terms.append(w)
     return terms[:max_terms]

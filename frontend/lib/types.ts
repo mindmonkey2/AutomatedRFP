@@ -12,6 +12,14 @@ export interface LibraryDocument {
   created_at: string;
 }
 
+export interface SavedAnswer {
+  chunk_id: number;
+  label: string;
+  question: string;
+  answer: string;
+  bid_deleted: boolean;
+}
+
 export interface SearchHit {
   chunk_id: number;
   source_type: string;

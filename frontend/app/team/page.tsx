@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useMe } from "@/components/session";
-import { Badge, Button, Card, ErrorNote, Field, inputCls } from "@/components/ui";
+import { Badge, Button, Card, ErrorNote, Field, inputCls, useLoad } from "@/components/ui";
 import { api } from "@/lib/api";
 
 interface Member { id: number; email: string; name: string; role: string; is_active: boolean }
@@ -25,7 +25,7 @@ export default function TeamPage() {
     } catch (e) { setError((e as Error).message); }
   }, [isAdmin]);
 
-  useEffect(() => { load(); }, [load]);
+  useLoad(load);
 
   const run = (fn: () => Promise<unknown>) => async () => {
     try { setError(null); await fn(); await load(); } catch (e) { setError((e as Error).message); }

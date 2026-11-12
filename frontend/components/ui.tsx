@@ -94,10 +94,23 @@ export function ErrorNote({ error }: { error: string | null }) {
   return <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700 ring-1 ring-red-200">{error}</p>;
 }
 
+/**
+ * Runs an async loader when the component mounts and whenever the loader changes (e.g. a new id).
+ * Loaders fetch first and set state only when their requests resolve, so this does not cause
+ * the cascading synchronous renders that setting state directly in an effect would.
+ */
+export function useLoad(load: () => Promise<unknown>) {
+  useEffect(() => {
+    load();
+  }, [load]);
+}
+
 /** Calls `fn` every `ms` while `active` is true (used to watch background jobs). */
 export function usePoll(fn: () => void, active: boolean, ms = 2500) {
   const saved = useRef(fn);
-  saved.current = fn;
+  useEffect(() => {
+    saved.current = fn;
+  }, [fn]);
   useEffect(() => {
     if (!active) return;
     const id = setInterval(() => saved.current(), ms);

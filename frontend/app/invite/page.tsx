@@ -14,8 +14,10 @@ function AcceptInvite() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  const tokenError = token ? null : "This invite link is missing its token.";
+
   useEffect(() => {
-    if (!token) { setError("This invite link is missing its token."); return; }
+    if (!token) return;
     api.get<{ email: string; org_name: string }>(`/auth/invites/lookup?token=${encodeURIComponent(token)}`)
       .then(setInfo).catch((e) => setError((e as Error).message));
   }, [token]);
@@ -35,7 +37,7 @@ function AcceptInvite() {
 
   return (
     <AuthCard title={info ? `Join ${info.org_name}` : "Accept invite"}
-      subtitle={info ? `You were invited as ${info.email}.` : undefined} error={error}>
+      subtitle={info ? `You were invited as ${info.email}.` : undefined} error={tokenError ?? error}>
       {info && (
         <form onSubmit={submit} className="space-y-3">
           <Field label="Your name"><input required className={inputCls} value={name} onChange={(e) => setName(e.target.value)} /></Field>

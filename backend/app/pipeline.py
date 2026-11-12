@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 
 from . import db
 from .config import settings
-from .llm import ExtractedRequirement, get_llm
+from .llm import ExtractedRequirement, attr, get_llm, neutralize
 from .models import (
     Answer,
     Bid,
@@ -27,7 +27,7 @@ from .models import (
     Requirement,
     SolicitationFile,
 )
-from .parsing import chunk_pages, obligation_sentences, parse_file, windows
+from .parsing import chunk_pages, obligation_sentences, parse_file, windows, words
 from .retrieval import add_chunk, remove_source, search
 
 log = logging.getLogger(__name__)
@@ -235,11 +235,8 @@ def _extract_base(s: Session, f: SolicitationFile, text: str) -> None:
         bid.summary = " ".join(summaries[:2])[:3000]
 
 
-_WORD = re.compile(r"[a-z0-9]+")
-
-
 def _tokens(t: str) -> set[str]:
-    return {w for w in _WORD.findall(t.lower()) if len(w) > 2}
+    return {part for w in words(t) for part in w.split("-") if len(part) > 2}
 
 
 def _covered(sentence: str, reqs: list[ExtractedRequirement], threshold: float = 0.6) -> bool:
@@ -375,22 +372,23 @@ def _draft(s: Session, req: Requirement, ans: Answer) -> None:
     ).all()
     context = "\n".join(
         x for x in [
-            f"<solicitation title=\"{bid.title}\" agency=\"{bid.agency or ''}\">",
-            bid.summary or "",
+            f'<solicitation title="{attr(bid.title)}" agency="{attr(bid.agency)}">',
+            neutralize(bid.summary),
             "</solicitation>",
-            "<evaluation_criteria>\n" + "\n".join(f"- {c.text}" for c in criteria) + "\n</evaluation_criteria>"
+            "<evaluation_criteria>\n" + "\n".join(f"- {neutralize(c.text)}" for c in criteria) + "\n</evaluation_criteria>"
             if criteria else "",
-            "<page_limits>\n" + "\n".join(f"- {p.text}" for p in limits) + "\n</page_limits>" if limits else "",
-            f"<requirement kind=\"{req.kind}\" section=\"{req.section or ''}\" page=\"{req.page or ''}\">",
-            req.text,
-            f"Original wording: {req.source_quote}" if req.source_quote else "",
+            "<page_limits>\n" + "\n".join(f"- {neutralize(p.text)}" for p in limits) + "\n</page_limits>"
+            if limits else "",
+            f'<requirement kind="{attr(req.kind)}" section="{attr(req.section)}" page="{attr(req.page)}">',
+            neutralize(req.text),
+            f"Original wording: {neutralize(req.source_quote)}" if req.source_quote else "",
             "</requirement>",
             "Draft the proposal content that responds to this requirement.",
         ] if x
     )
     sources = "\n\n".join(
-        f'<source number="{i}" from="{h.chunk.label}" page="{h.chunk.page or ""}" '
-        f'section="{h.chunk.heading or ""}">\n{h.chunk.text}\n</source>'
+        f'<source number="{i}" from="{attr(h.chunk.label)}" page="{attr(h.chunk.page)}" '
+        f'section="{attr(h.chunk.heading)}">\n{neutralize(h.chunk.text)}\n</source>'
         for i, h in enumerate(hits, start=1)
     ) or "(no matching sources found in the library)"
 

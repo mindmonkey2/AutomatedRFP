@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
-  Badge, Button, Card, Confidence, ErrorNote, Field, FilePicker, StatusBadge, inputCls, usePoll,
+  Badge, Button, Card, Confidence, ErrorNote, Field, FilePicker, StatusBadge, inputCls, useLoad, usePoll,
 } from "@/components/ui";
 import { api, download } from "@/lib/api";
 import type { Answer, Bid, Readiness, Requirement } from "@/lib/types";
@@ -43,7 +43,7 @@ export default function BidPage() {
     }
   }, [id]);
 
-  useEffect(() => { load(); }, [load]);
+  useLoad(load);
 
   const busy = !!bid && (bid.files.some((f) => BUSY.has(f.status)) || reqs.some((r) => r.answer && BUSY.has(r.answer.status)));
   usePoll(load, busy);
@@ -197,14 +197,20 @@ function RequirementPanel({ req, bidId, onChange, onError }: {
   req: Requirement; bidId: string; onChange: () => void; onError: (e: string) => void;
 }) {
   const a: Answer | null = req.answer;
-  const [text, setText] = useState(a?.final_text ?? a?.draft_text ?? "");
-  const [assignee, setAssignee] = useState(a?.assignee ?? "");
-  const dirty = !!a && (text !== (a.final_text ?? a.draft_text ?? "") || assignee !== (a.assignee ?? ""));
+  const serverText = a?.final_text ?? a?.draft_text ?? "";
+  const serverAssignee = a?.assignee ?? "";
+  const [text, setText] = useState(serverText);
+  const [assignee, setAssignee] = useState(serverAssignee);
+  // The server values the form was last filled from; edits are measured against these.
+  const [synced, setSynced] = useState({ text: serverText, assignee: serverAssignee });
+  const dirty = !!a && (text !== synced.text || assignee !== synced.assignee);
 
-  useEffect(() => {
-    if (!dirty) { setText(a?.final_text ?? a?.draft_text ?? ""); setAssignee(a?.assignee ?? ""); }
-    // Only resync from the server when the user has no unsaved edits.
-  }, [a?.final_text, a?.draft_text, a?.assignee]);
+  // When the server copy changes (redraft, addendum, another reviewer), refill the form, but only if
+  // the user has no unsaved edits. Adjusting state during render is React's pattern for this.
+  if (serverText !== synced.text || serverAssignee !== synced.assignee) {
+    setSynced({ text: serverText, assignee: serverAssignee });
+    if (!dirty) { setText(serverText); setAssignee(serverAssignee); }
+  }
 
   const run = (fn: () => Promise<unknown>) => async () => {
     try { await fn(); onChange(); } catch (err) { onError((err as Error).message); }

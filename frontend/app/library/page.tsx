@@ -1,11 +1,11 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
-  Badge, Button, Card, ErrorNote, Field, FilePicker, StatusBadge, inputCls, usePoll,
+  Badge, Button, Card, ErrorNote, Field, FilePicker, StatusBadge, inputCls, useLoad, usePoll,
 } from "@/components/ui";
 import { api } from "@/lib/api";
-import type { Credential, LibraryDocument, Project, SearchHit } from "@/lib/types";
+import type { Credential, LibraryDocument, Project, SavedAnswer, SearchHit } from "@/lib/types";
 
 const DOC_TYPES = ["proposal", "questionnaire", "policy", "resume", "project_sheet", "other"];
 
@@ -13,23 +13,25 @@ export default function LibraryPage() {
   const [docs, setDocs] = useState<LibraryDocument[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
   const [creds, setCreds] = useState<Credential[]>([]);
+  const [saved, setSaved] = useState<SavedAnswer[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [docType, setDocType] = useState("proposal");
 
   const load = useCallback(async () => {
     try {
-      const [d, p, c] = await Promise.all([
+      const [d, p, c, a] = await Promise.all([
         api.get<LibraryDocument[]>("/library/documents"),
         api.get<Project[]>("/projects"),
         api.get<Credential[]>("/credentials"),
+        api.get<SavedAnswer[]>("/library/answers"),
       ]);
-      setDocs(d); setProjects(p); setCreds(c); setError(null);
+      setDocs(d); setProjects(p); setCreds(c); setSaved(a); setError(null);
     } catch (err) {
       setError(`Could not reach the API: ${(err as Error).message}`);
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useLoad(load);
   usePoll(load, docs.some((d) => d.status === "queued" || d.status === "processing"));
 
   const run = (fn: () => Promise<unknown>) => async () => {
@@ -42,7 +44,7 @@ export default function LibraryPage() {
         <h1 className="text-xl font-semibold text-slate-900">Knowledge library</h1>
         <p className="mt-1 text-sm text-slate-600">
           Everything here can be cited in drafts: past proposals, policies, résumés, project records and credentials.
-          Approved answers are added automatically.
+          Answers you approve are saved here too.
         </p>
       </div>
       <ErrorNote error={error} />
@@ -91,6 +93,8 @@ export default function LibraryPage() {
         )}
       </Card>
 
+      <SavedAnswers saved={saved} onDelete={(id) => run(() => api.del(`/library/answers/${id}`))()} />
+
       <SearchBox />
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -98,6 +102,31 @@ export default function LibraryPage() {
         <Credentials creds={creds} onChange={load} onError={setError} />
       </div>
     </div>
+  );
+}
+
+function SavedAnswers({ saved, onDelete }: { saved: SavedAnswer[]; onDelete: (chunkId: number) => void }) {
+  return (
+    <Card title={`Saved answers (${saved.length})`}>
+      {saved.length === 0 ? (
+        <p className="text-sm text-slate-500">Answers you approve in a bid are saved here and reused in later drafts.</p>
+      ) : (
+        <ul className="divide-y divide-slate-100">
+          {saved.map((a) => (
+            <li key={a.chunk_id} className="flex items-start justify-between gap-4 py-3">
+              <div className="min-w-0 text-sm">
+                <p className="font-medium text-slate-900">{a.question}</p>
+                <p className="mt-1 line-clamp-3 whitespace-pre-line text-slate-600">{a.answer}</p>
+                <p className="mt-1 text-xs text-slate-500">
+                  {a.label}{a.bid_deleted && " · its bid has been deleted"}
+                </p>
+              </div>
+              <Button variant="ghost" onClick={() => onDelete(a.chunk_id)}>Remove</Button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Card>
   );
 }
 

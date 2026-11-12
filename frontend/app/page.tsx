@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-import { Badge, Button, Card, ErrorNote, Field, inputCls } from "@/components/ui";
+import { useCallback, useState } from "react";
+import { Badge, Button, Card, ErrorNote, Field, inputCls, useLoad } from "@/components/ui";
 import { api } from "@/lib/api";
 import type { BidListItem, Credential } from "@/lib/types";
 
@@ -27,7 +27,7 @@ export default function BidsPage() {
     }
   }, []);
 
-  useEffect(() => { load(); }, [load]);
+  useLoad(load);
 
   async function create(e: React.FormEvent) {
     e.preventDefault();

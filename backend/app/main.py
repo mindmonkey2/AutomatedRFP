@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from datetime import date, timedelta
 from pathlib import Path
 from typing import Annotated
+from urllib.parse import quote
 
 from fastapi import BackgroundTasks, Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
@@ -19,6 +20,7 @@ from .db import check_role, get_session
 from .models import (
     Answer,
     Bid,
+    Chunk,
     Credential,
     LibraryDocument,
     ProjectRecord,
@@ -33,6 +35,7 @@ from .schemas import (
     BidListItem,
     BidOut,
     BidPatch,
+    SavedAnswerOut,
     CredentialIn,
     CredentialOut,
     DraftQueued,
@@ -68,6 +71,26 @@ UNSAFE = {"POST", "PUT", "PATCH", "DELETE"}
 
 
 @app.middleware("http")
+async def security_headers(request: Request, call_next):
+    """API responses hold customer data: never cache them, sniff them or show them in a frame."""
+    response = await call_next(request)
+    response.headers.setdefault("Cache-Control", "no-store")
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "no-referrer")
+    return response
+
+
+@app.middleware("http")
+async def limit_request_size(request: Request, call_next):
+    """Refuse oversized uploads before the body is read (a reverse proxy should cap it too)."""
+    length = request.headers.get("content-length")
+    if length and length.isdigit() and int(length) > MAX_UPLOAD_BYTES + 1024 * 1024:
+        return JSONResponse({"detail": "File is larger than 50 MB."}, status_code=413)
+    return await call_next(request)
+
+
+@app.middleware("http")
 async def block_cross_site_writes(request: Request, call_next):
     """CSRF defence on top of SameSite=Lax cookies: browsers send Origin on writes,
     and only our own frontend origins may change data."""
@@ -91,19 +114,27 @@ def _owned(s: Session, model, obj_id: int, org: int):
 
 
 async def _save_upload(upload: UploadFile, org: int) -> Path:
+    """Stream the upload to storage in 1 MB pieces, so a large file is never held in memory."""
     name = Path(upload.filename or "upload").name
     if Path(name).suffix.lower() not in SUPPORTED:
         raise HTTPException(415, f"Unsupported file type. Use one of: {', '.join(sorted(SUPPORTED))}")
-    data = await upload.read()
-    if len(data) > MAX_UPLOAD_BYTES:
-        raise HTTPException(413, "File is larger than 50 MB.")
-    if not data:
-        raise HTTPException(400, "File is empty.")
     folder = settings.storage_dir / str(org)
     folder.mkdir(parents=True, exist_ok=True)
-    safe = re.sub(r"[^A-Za-z0-9._-]", "_", name)
+    safe = re.sub(r"[^\w.-]", "_", name)
     path = folder / f"{uuid.uuid4().hex}_{safe}"
-    path.write_bytes(data)
+    size = 0
+    try:
+        with path.open("wb") as out:
+            while piece := await upload.read(1024 * 1024):
+                size += len(piece)
+                if size > MAX_UPLOAD_BYTES:
+                    raise HTTPException(413, "File is larger than 50 MB.")
+                out.write(piece)
+        if size == 0:
+            raise HTTPException(400, "File is empty.")
+    except BaseException:
+        path.unlink(missing_ok=True)
+        raise
     return path
 
 
@@ -163,6 +194,31 @@ def search_library(q: str, s: DB, org: Org, k: int = 10):
         )
         for h in retrieval.search(s, org, q, k)
     ]
+
+
+@app.get("/library/answers", response_model=list[SavedAnswerOut])
+def list_saved_answers(s: DB, org: Org):
+    """Approved answers saved to the library (they are cited in later drafts like any other source)."""
+    rows = s.scalars(
+        select(Chunk).where(Chunk.org_id == org, Chunk.source_type == "answer").order_by(Chunk.id.desc())
+    ).all()
+    live = set(s.scalars(select(Answer.id).where(Answer.org_id == org, Answer.id.in_([c.source_id for c in rows]))))
+    out = []
+    for c in rows:
+        question, _, answer = c.text.removeprefix("Question: ").partition("\nApproved answer: ")
+        out.append(SavedAnswerOut(chunk_id=c.id, label=c.label, question=question, answer=answer,
+                                  bid_deleted=c.source_id not in live))
+    return out
+
+
+@app.delete("/library/answers/{chunk_id}", status_code=204)
+def delete_saved_answer(chunk_id: int, s: DB, org: Org):
+    """Remove a saved answer from the library. The answer in its bid (if any) is not changed."""
+    c = s.get(Chunk, chunk_id)
+    if c is None or c.org_id != org or c.source_type != "answer":
+        raise HTTPException(404, f"Saved answer {chunk_id} not found")
+    s.delete(c)
+    s.commit()
 
 
 # ------------------------------------------------------------------ projects & credentials
@@ -389,8 +445,12 @@ def bid_readiness(bid_id: int, s: DB, org: Org):
     return export.readiness(_owned(s, Bid, bid_id, org))
 
 
-def _filename(bid: Bid, suffix: str) -> str:
-    return re.sub(r"[^A-Za-z0-9]+", "_", bid.title).strip("_")[:60] + suffix
+def _attachment(bid: Bid, suffix: str) -> str:
+    """Content-Disposition with the bid title kept in any script (RFC 6266 filename*), plus a plain
+    ASCII fallback for old clients. A title like "भवन निर्माण" no longer becomes "_response.docx"."""
+    title = re.sub(r'[\x00-\x1f\x7f"\\/:*?<>|]+', "_", bid.title).strip(" ._")[:80] or f"bid_{bid.id}"
+    ascii_name = re.sub(r"[^A-Za-z0-9]+", "_", bid.title).strip("_")[:60] or f"bid_{bid.id}"
+    return f"attachment; filename=\"{ascii_name}{suffix}\"; filename*=UTF-8''{quote(title + suffix, safe='')}"
 
 
 @app.get("/bids/{bid_id}/export/response.docx")
@@ -399,7 +459,7 @@ def export_response(bid_id: int, s: DB, org: Org):
     return Response(
         export.export_docx(b),
         media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-        headers={"Content-Disposition": f'attachment; filename="{_filename(b, "_response.docx")}"'},
+        headers={"Content-Disposition": _attachment(b, "_response.docx")},
     )
 
 
@@ -409,5 +469,5 @@ def export_matrix(bid_id: int, s: DB, org: Org):
     return Response(
         export.export_matrix_xlsx(b),
         media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        headers={"Content-Disposition": f'attachment; filename="{_filename(b, "_compliance_matrix.xlsx")}"'},
+        headers={"Content-Disposition": _attachment(b, "_compliance_matrix.xlsx")},
     )

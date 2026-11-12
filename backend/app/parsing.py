@@ -4,6 +4,8 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from .config import settings
+
 SUPPORTED = {".pdf", ".docx", ".xlsx", ".txt", ".md"}
 
 
@@ -37,8 +39,27 @@ class ParsedDoc:
         return "\n\n".join(parts)
 
 
+class FileTooLarge(ValueError):
+    pass
+
+
+def _check_zip(path: Path) -> None:
+    """DOCX and XLSX are zip archives; refuse ones that unpack to more than the limit (zip bombs)."""
+    import zipfile
+
+    try:
+        with zipfile.ZipFile(path) as z:
+            total = sum(i.file_size for i in z.infolist())
+    except zipfile.BadZipFile as e:
+        raise UnsupportedFile("This file is damaged or is not really a DOCX/XLSX file.") from e
+    if total > settings.max_unzipped_mb * 1024 * 1024:
+        raise FileTooLarge(f"This file unpacks to more than {settings.max_unzipped_mb} MB, which is not supported.")
+
+
 def parse_file(path: Path) -> ParsedDoc:
     ext = path.suffix.lower()
+    if ext in (".docx", ".xlsx"):
+        _check_zip(path)
     if ext == ".pdf":
         return _parse_pdf(path)
     if ext == ".docx":
@@ -46,7 +67,7 @@ def parse_file(path: Path) -> ParsedDoc:
     if ext == ".xlsx":
         return _parse_xlsx(path)
     if ext in (".txt", ".md"):
-        return ParsedDoc(pages=[Page(None, path.read_text(errors="replace"))])
+        return ParsedDoc(pages=[Page(None, path.read_text(encoding="utf-8", errors="replace"))])
     raise UnsupportedFile(f"Unsupported file type {ext}. Use one of: {', '.join(sorted(SUPPORTED))}")
 
 
@@ -55,6 +76,9 @@ def _parse_pdf(path: Path) -> ParsedDoc:
 
     pages, empty = [], []
     with pymupdf.open(path) as doc:
+        if doc.page_count > settings.max_pdf_pages:
+            raise FileTooLarge(f"This PDF has {doc.page_count} pages; the limit is {settings.max_pdf_pages}. "
+                               "Split it into parts.")
         for i, page in enumerate(doc, start=1):
             text = page.get_text("text") or ""
             if len(text.strip()) < 20:
@@ -99,9 +123,15 @@ def _parse_xlsx(path: Path) -> ParsedDoc:
 
     wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
     pages = []
+    rows = 0
     for ws in wb.worksheets:
         lines = []
         for row in ws.iter_rows(values_only=True):
+            rows += 1
+            if rows > settings.max_sheet_rows:
+                wb.close()
+                raise FileTooLarge(f"This spreadsheet has more than {settings.max_sheet_rows:,} rows, "
+                                   "which is not supported.")
             cells = ["" if v is None else str(v).strip() for v in row]
             if any(cells):
                 lines.append(" | ".join(cells))
@@ -168,6 +198,16 @@ def chunk_pages(pages: list[Page], max_chars: int = 2000) -> list[TextChunk]:
             size += len(para) + 2
         flush()
     return chunks
+
+
+# A word is a run of anything that is not whitespace or punctuation. Python's \w is not enough:
+# it excludes combining marks, such as Hindi vowel signs, and would cut "निर्माण" into pieces.
+WORD = re.compile(r"[^\s!-,./:-@\[-^`{-~\u00a0-\u00bf\u2000-\u206f\u0964\u0965\u3000-\u303f]+")
+
+
+def words(text: str) -> list[str]:
+    """Lower-cased words in any script (hyphens/underscores at the ends trimmed)."""
+    return [w for w in (m.strip("-_") for m in WORD.findall(text.lower())) if any(c.isalnum() for c in w)]
 
 
 _PAGE_MARK = re.compile(r"\[Page (\d+)\]")

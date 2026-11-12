@@ -191,6 +191,14 @@ Answer keys were labelled with AI assistance; independent human review is pendin
   Postgres row-level security hides other organizations' rows even if a query forgets the filter. With
   no organization bound, customer tables return nothing (fail closed). Tests verify both layers.
 - **Cross-site request protection:** SameSite cookies plus an Origin check on every write.
+- **Browser hardening:** a Content Security Policy (scripts, styles and API calls only from the app
+  itself, no embedding in other sites), no-referrer handling so invite links never leak, and API
+  responses marked never to be cached.
+- **Untrusted documents:** solicitations and library files are written by outside parties, so their
+  text is escaped before it goes into a prompt (it cannot close a prompt section or pose as another
+  source), and every prompt tells the model to analyse that text, never to follow instructions in it.
+- **Upload limits:** files are streamed to disk (50 MB cap) and refused if they expand too far: PDF
+  page count, spreadsheet rows, and the unpacked size of DOCX/XLSX files (zip bombs).
 - **Continuous integration:** every push runs the test suite against a real Postgres (as a non-superuser,
   so row-level security is enforced), checks the models against the migrations, builds the frontend, and
   audits Python and npm dependencies for known vulnerabilities (also weekly).
@@ -206,7 +214,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Compliance matrix extraction with gap-filling pass | Built |
 | Addendum diffing and stale-answer flags | Built |
 | Cited drafting, citation verification, confidence scoring, review queue | Built |
-| Review, assignment, approval back into the library | Built |
+| Review, assignment, approval back into the library (saved answers can be viewed and removed) | Built |
 | Word and Excel export, readiness check | Built |
 | Sign-in, organizations, invites, roles | Built |
 | Postgres with migrations, full-text search, row-level security | Built |
@@ -355,6 +363,8 @@ All backend settings are environment variables (or `backend/.env`); see
 | `RFP_COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
 | `RFP_FORWARDED_HOPS` | `0` | Number of reverse proxies (nginx, Caddy, a load balancer) in front of the app that append to `X-Forwarded-For`; set to `1` behind one so failed logins are also limited per visitor address. Keep the API port private when this is above 0 |
 | `RFP_DRAFT_WORKERS` | `4` | Answers drafted in parallel; 1-2 for a single local GPU |
+| `RFP_MAX_PDF_PAGES` / `RFP_MAX_SHEET_ROWS` / `RFP_MAX_UNZIPPED_MB` | `2000` / `100000` / `300` | Largest document the parser accepts |
+| `FRONTEND_HTTPS` (frontend) | unset | Set `true` when the site is served over HTTPS to send HSTS |
 
 ## License
 

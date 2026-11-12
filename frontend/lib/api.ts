@@ -58,11 +58,21 @@ export async function download(path: string) {
   if (res.status === 401) onUnauthorized();
   if (!res.ok) throw new ApiError(res.status, res.statusText);
   const blob = await res.blob();
-  const name = /filename="([^"]+)"/.exec(res.headers.get("Content-Disposition") ?? "")?.[1] ?? "download";
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = name;
+  a.download = attachmentName(res.headers.get("Content-Disposition"));
   a.click();
-  URL.revokeObjectURL(url);
+  setTimeout(() => URL.revokeObjectURL(url), 10_000); // revoking at once can cancel the download
+}
+
+/** File name from Content-Disposition, preferring the UTF-8 form (keeps non-English titles). */
+export function attachmentName(header: string | null): string {
+  const utf8 = /filename\*=UTF-8''([^;]+)/i.exec(header ?? "")?.[1];
+  if (utf8) {
+    try {
+      return decodeURIComponent(utf8);
+    } catch {}
+  }
+  return /filename="([^"]+)"/.exec(header ?? "")?.[1] ?? "download";
 }

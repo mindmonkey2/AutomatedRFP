@@ -31,6 +31,15 @@ class SearchHitOut(BaseModel):
     score: float
 
 
+class SavedAnswerOut(BaseModel):
+    """An approved answer saved to the library for reuse in later bids."""
+    chunk_id: int
+    label: str
+    question: str
+    answer: str
+    bid_deleted: bool  # the bid it came from is gone; the saved copy is still used in drafts
+
+
 class ProjectIn(BaseModel):
     name: str
     client: str | None = None
