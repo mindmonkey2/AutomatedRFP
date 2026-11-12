@@ -1,0 +1,214 @@
+{
+  "id": "in_sai_bhopal_cladding_2020",
+  "title": "Sports Authority of India — Wall cladding work, Bhopal: e-Tender (2020), pages 4-5 and 19-20",
+  "source": "real",
+  "source_url": "https://www.sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/tenders/1635761375_wallcladdingtechnical.pdf",
+  "status": "reviewed",
+  "labelled_by": "Claude (AI-assisted), line by line against the parser output; independent human review pending",
+  "notes": "Central government sports body, small civil works tender on the CPP portal, 2020. Justified text is extracted one word per line and the qualification table interleaves its two columns. Publicly posted Indian government tender. Reuse terms for tender documents are unclear (GODL covers datasets), so only the answer key is stored here; run `python -m evals.fetch` to rebuild the text locally from the official source.",
+  "fetch": {
+    "url": "https://www.sportsauthorityofindia.nic.in/sai_new/public/assets/uploads/tenders/1635761375_wallcladdingtechnical.pdf",
+    "pages": [
+      4,
+      5,
+      19,
+      20
+    ],
+    "sha256": "17f7f6692e335a29fe23f12f2723d3a0e4b722fcf14b30e891ba5cd3290494c7"
+  },
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "form",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Scanned copy of Bid Security/Exemption certificate is to be uploaded online"
+    },
+    {
+      "id": "R02",
+      "kind": "form",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Hard copy of the same must be sent to the Office of Director Incharge, Sports Authority of India, Central Regional Centre, Bhopalon or before Bid Submission Date & Time"
+    },
+    {
+      "id": "R03",
+      "kind": "deadline",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bid Submission End Date 20.02.2020 (04:00 PM)"
+    },
+    {
+      "id": "R04",
+      "kind": "deadline",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Date and time of pre bid conference* 14.02.2020 (11:00 AM)"
+    },
+    {
+      "id": "R05",
+      "kind": "deadline",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Last date for submission of queries/ clarification made during the pre bid conference in writing ** 14.02.2020 (11:00 AM)"
+    },
+    {
+      "id": "R06",
+      "kind": "submission",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidders shall ensure that their Bids, complete in all respect should be uploaded online before the closing date and time"
+    },
+    {
+      "id": "R07",
+      "kind": "format",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bids shall be submitted online only at CPP website"
+    },
+    {
+      "id": "R08",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall not tamper/modify the tender form including downloaded price bid template in any manner"
+    },
+    {
+      "id": "R09",
+      "kind": "qualification",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidder must be a company/firm/sole proprietor registered in India"
+    },
+    {
+      "id": "R10",
+      "kind": "form",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Enclose copy of certificate incorporation/registration"
+    },
+    {
+      "id": "R11",
+      "kind": "qualification",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidder must have annual average turnover of Rs.15.00 Lakh in the last three financial years"
+    },
+    {
+      "id": "R12",
+      "kind": "form",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Statutory Auditor’s Certificate is mandatory"
+    },
+    {
+      "id": "R13",
+      "kind": "qualification",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Copies of Completion certificates of Civil works executed successfully during the last five years"
+    },
+    {
+      "id": "R14",
+      "kind": "form",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Satisfactory completion certificates issued by relevant authority not less than the rank of Section Officer be enclosed"
+    },
+    {
+      "id": "R15",
+      "kind": "qualification",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidders should not have been debarred/blacklisted by any state/central government/PSUs"
+    },
+    {
+      "id": "R16",
+      "kind": "form",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Enclose blacklisting declaration in the format given in Section IV (I)"
+    },
+    {
+      "id": "R17",
+      "kind": "qualification",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidder should have a valid GST No. or should have registered under GST"
+    },
+    {
+      "id": "R18",
+      "kind": "form",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "copy of GST Registration certificate"
+    },
+    {
+      "id": "R19",
+      "kind": "qualification",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "CPWD/PWD Registration"
+    },
+    {
+      "id": "R20",
+      "kind": "form",
+      "page": 19,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Enclose copy of Registration certificate"
+    },
+    {
+      "id": "R21",
+      "kind": "evaluation",
+      "page": 20,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Technical bids will be evaluated as per qualification criteria given in Section III"
+    },
+    {
+      "id": "R22",
+      "kind": "evaluation",
+      "page": 20,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The successful bidder will be the one who emerges overall L-1 out of responsive bids"
+    }
+  ],
+  "traps": [
+    {
+      "page": 4,
+      "quote": "Queries / Clarifications are to be responded online only",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    },
+    {
+      "page": 20,
+      "quote": "Authority reserves the right to accept or reject any or all bids",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    },
+    {
+      "page": 20,
+      "quote": "Authority also reserves the right to reject any bid",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    }
+  ]
+}

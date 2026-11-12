@@ -156,20 +156,27 @@ harness in [`backend/evals`](backend/evals/README.md) runs the app's real extrac
 solicitations with hand-labelled answer keys and reports recall, mandatory recall, type and page
 accuracy, how many owner-obligation "traps" were wrongly extracted, and the API cost of the run.
 
-The test set has **8 cases and 187 labelled requirements**: 3 real federal solicitations (a 2021 DOE/NNSA
-RFP's Section L and Section M, and a scanned 1985 Army Corps of Engineers construction bid with messy
-OCR), plus 5 synthetic construction and public-sector solicitations. A tool imports more real RFPs as
-draft cases for review.
+The test set has **11 cases and 266 labelled requirements**:
+
+- **6 real solicitations:** a 2021 DOE/NNSA RFP's Section L and Section M; a scanned 1985 Army Corps of
+  Engineers construction bid with messy OCR; and three Indian government tenders (an NHAI highway EPC
+  tender, an ESIC building tender in CPWD format with Telugu and Hindi on the page, and a Sports Authority
+  of India tender from the CPP portal)
+- **5 synthetic** construction and public-sector solicitations
+
+Indian tender text is not redistributed: the repo keeps only the answer keys, and `python -m evals.fetch`
+rebuilds the documents locally from the official sites.
 
 | Extractor | Recall, all cases | Recall, real cases | Mandatory recall | Traps extracted |
 | --- | --- | --- | --- | --- |
-| Keyword sweep only (no AI, baseline) | 58.8% (110/187) | 64.7% (55/85) | 64.2% | 4 of 22 |
+| Keyword sweep only (no AI, baseline) | 49.2% (131/266) | 46.3% (76/164) | 52.7% | 8 of 32 |
 | Claude pipeline (`claude-opus-5-5`) | not yet run | | | |
 | **Target** | **95%** | | | |
 
 The keyword baseline misses anything phrased as an instruction ("Describe...", "Provide..."), schedule
-lines and evaluation criteria (0 of 22 found), which is the gap the AI pass has to close. Run it
-yourself with `../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
+tables and evaluation criteria, and most Indian tender rules, which use "should" and bare document lists
+(23-31% found). That is the gap the AI pass has to close. Run it yourself with
+`../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
 Answer keys were labelled with AI assistance; independent human review is pending.
 
 ## Security and data isolation
@@ -202,7 +209,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Filling the customer's own Excel questionnaire in place; fillable PDF forms | Planned |
 | Email delivery of invites and expiry alerts; password reset; SSO | Planned |
 | Bid/no-bid scoring, SAM.gov monitoring, win/loss learning | Later |
-| Requirement-extraction evaluation: 8 labelled cases (3 real, 5 synthetic), keyword baseline | Built |
+| Requirement-extraction evaluation: 11 labelled cases (3 US federal, 3 Indian, 5 synthetic), keyword baseline | Built |
 | Claude score on the eval set; human review of answer keys; more real solicitations | Next |
 
 ## AI providers

@@ -8,6 +8,8 @@ from pathlib import Path
 from app.llm import REQUIREMENT_KINDS
 
 CASES_DIR = Path(__file__).resolve().parent / "cases"
+# Text rebuilt locally by `python -m evals.fetch` for cases not redistributed in the repo.
+FETCHED_NAME = "document.fetched.txt"
 
 
 @dataclass
@@ -38,16 +40,22 @@ class Case:
     traps: list[Trap] = field(default_factory=list)
     source_url: str | None = None
     labelled_by: str | None = None
+    local_only: bool = False  # text is fetched from the source, not stored in the repo
 
 
 def normalize(text: str) -> str:
     return " ".join(text.split())
 
 
-def load_case(folder: Path) -> Case:
+def load_case(folder: Path) -> Case | None:
+    """Load a case; returns None for a fetch-only case whose text has not been fetched yet."""
     gold = json.loads((folder / "gold.json").read_text())
-    doc = (folder / "document.txt").read_text()
-    return Case(
+    local_only = "fetch" in gold
+    doc_path = folder / (FETCHED_NAME if local_only else "document.txt")
+    if not doc_path.exists():
+        return None
+    doc = doc_path.read_text()
+    return Case(local_only=local_only,
         id=gold["id"], title=gold["title"], source=gold.get("source", "real"),
         status=gold.get("status", "draft"), document=doc, source_url=gold.get("source_url"),
         labelled_by=gold.get("labelled_by"),
@@ -57,7 +65,7 @@ def load_case(folder: Path) -> Case:
 
 
 def load_cases(ids: list[str] | None = None, include_drafts: bool = False) -> list[Case]:
-    cases = [load_case(d) for d in sorted(CASES_DIR.iterdir()) if (d / "gold.json").exists()]
+    cases = [c for d in sorted(CASES_DIR.iterdir()) if (d / "gold.json").exists() and (c := load_case(d))]
     if ids:
         cases = [c for c in cases if c.id in ids]
     if not include_drafts:
@@ -84,3 +92,10 @@ def validate(case: Case) -> list[str]:
         if normalize(t.quote) not in doc:
             problems.append(f"trap quote not found in document: {t.quote[:60]!r}")
     return problems
+
+
+def unfetched_case_ids() -> list[str]:
+    """Fetch-only cases whose source text is not on this machine yet."""
+    return [d.name for d in sorted(CASES_DIR.iterdir())
+            if (d / "gold.json").exists() and "fetch" in json.loads((d / "gold.json").read_text())
+            and not (d / FETCHED_NAME).exists()]

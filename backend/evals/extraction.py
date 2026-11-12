@@ -22,7 +22,7 @@ from app.config import settings
 from app.llm import ExtractedRequirement
 from app.parsing import obligation_sentences
 
-from .dataset import Case, load_cases, validate
+from .dataset import Case, load_cases, unfetched_case_ids, validate
 from .scoring import CaseResult, score_case, summarize
 
 RESULTS_DIR = Path(__file__).resolve().parent / "results"
@@ -141,6 +141,9 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
 
     cases = load_cases(args.cases.split(",") if args.cases else None, args.include_drafts)
+    if missing := unfetched_case_ids():
+        print(f"Skipping {len(missing)} case(s) whose source text is not downloaded yet "
+              f"({', '.join(missing)}). Run: python -m evals.fetch", file=sys.stderr)
     if not cases:
         print("No cases to run.", file=sys.stderr)
         return 2
@@ -183,8 +186,11 @@ def main(argv: list[str] | None = None) -> int:
             "missed": [{"id": g, "kind": gold_by_id[g].kind, "mandatory": gold_by_id[g].mandatory,
                         "quote": gold_by_id[g].quote} for g in res.missed],
             "trap_hits": res.trap_hits,
-            "unmatched_extracted": [{"kind": extracted[i].kind, "page": extracted[i].page, "text": extracted[i].text}
-                                    for i in res.unmatched_extracted],
+            # Source text of fetch-only cases is not redistributed, so reports keep only counts for them.
+            "local_only": case.local_only,
+            "unmatched_extracted": (len(res.unmatched_extracted) if case.local_only else
+                                    [{"kind": extracted[i].kind, "page": extracted[i].page, "text": extracted[i].text}
+                                     for i in res.unmatched_extracted]),
             "matches": [{"gold": g, "kind": extracted[ei].kind, "page": extracted[ei].page, "score": sc}
                         for g, ei, sc in res.matched],
         })

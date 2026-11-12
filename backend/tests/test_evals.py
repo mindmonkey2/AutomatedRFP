@@ -93,3 +93,47 @@ def test_claude_runner_path_with_stand_in_model(tmp_path, monkeypatch):
     report = json.loads(next(tmp_path.glob("*.json")).read_text())
     assert report["summary"]["recall"] == 1.0
     assert report["meta"]["cost_usd"] > 0  # usage is priced
+
+
+def test_fetch_only_cases_rebuild_text_locally(tmp_path):
+    """A fetch-only case is skipped until fetched, then rebuilt from the source PDF (here a file:// URL)."""
+    import hashlib
+
+    import pymupdf
+
+    from evals.dataset import FETCHED_NAME, load_case
+    from evals.fetch import fetch_case
+
+    pdf = tmp_path / "src.pdf"
+    doc = pymupdf.open()
+    for text in ["Cover page", "Bidders shall submit an EMD of Rs. 50,000.", "Annexures"]:
+        doc.new_page().insert_text((72, 72), text, fontsize=10)
+    doc.save(pdf)
+    case = tmp_path / "in_demo"
+    case.mkdir()
+    (case / "gold.json").write_text(json.dumps({
+        "id": "in_demo", "title": "Demo", "source": "real", "status": "reviewed", "labelled_by": "test",
+        "fetch": {"url": pdf.as_uri(), "pages": [2], "sha256": hashlib.sha256(pdf.read_bytes()).hexdigest()},
+        "requirements": [{"id": "R01", "kind": "form", "page": 2, "mandatory": True, "needs_response": False,
+                          "quote": "Bidders shall submit an EMD of Rs. 50,000"}],
+        "traps": [],
+    }))
+    assert load_case(case) is None  # not fetched yet: skipped, not an error
+    assert fetch_case(case) == "fetched"
+    text = (case / FETCHED_NAME).read_text()
+    assert "[Page 2]" in text and "Cover page" not in text  # only the labelled pages are kept
+    assert load_case(case).local_only
+
+
+def test_fetched_text_is_not_committed():
+    import subprocess
+
+    from evals.dataset import CASES_DIR, FETCHED_NAME
+
+    fetch_cases = [d for d in CASES_DIR.iterdir() if (d / "gold.json").exists()
+                   and "fetch" in json.loads((d / "gold.json").read_text())]
+    assert fetch_cases, "expected fetch-only cases (Indian tenders)"
+    for d in fetch_cases:
+        assert not (d / "document.txt").exists(), f"{d.name}: source text must not be stored in the repo"
+        r = subprocess.run(["git", "check-ignore", "-q", str(d / FETCHED_NAME)], cwd=CASES_DIR)
+        assert r.returncode == 0, f"{d.name}: {FETCHED_NAME} must be git-ignored"

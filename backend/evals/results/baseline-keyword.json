@@ -1,42 +1,42 @@
 {
   "meta": {
     "runner": "keyword",
-    "started_at": "2026-11-12 14:56 UTC",
+    "started_at": "2026-11-12 15:05 UTC",
     "seconds": 0.2
   },
   "summary": {
-    "cases": 8,
+    "cases": 11,
     "cases_failed": 0,
-    "gold_requirements": 187,
-    "found": 110,
-    "recall": 0.5882,
-    "mandatory_recall": 0.6418,
-    "kind_accuracy": 0.2091,
+    "gold_requirements": 266,
+    "found": 131,
+    "recall": 0.4925,
+    "mandatory_recall": 0.5274,
+    "kind_accuracy": 0.2061,
     "page_accuracy": 1.0,
-    "extracted": 156,
-    "unmatched_extracted": 46,
-    "trap_hits": 4,
-    "traps_total": 22,
+    "extracted": 219,
+    "unmatched_extracted": 88,
+    "trap_hits": 8,
+    "traps_total": 32,
     "recall_by_kind": {
       "deadline": {
-        "found": 6,
-        "total": 14,
-        "recall": 0.4286
+        "found": 7,
+        "total": 22,
+        "recall": 0.3182
       },
       "evaluation": {
         "found": 0,
-        "total": 22,
+        "total": 24,
         "recall": 0.0
       },
       "form": {
-        "found": 27,
-        "total": 40,
-        "recall": 0.675
+        "found": 31,
+        "total": 75,
+        "recall": 0.4133
       },
       "format": {
-        "found": 24,
-        "total": 27,
-        "recall": 0.8889
+        "found": 31,
+        "total": 35,
+        "recall": 0.8857
       },
       "page_limit": {
         "found": 6,
@@ -44,9 +44,9 @@
         "recall": 0.4615
       },
       "qualification": {
-        "found": 18,
-        "total": 19,
-        "recall": 0.9474
+        "found": 23,
+        "total": 36,
+        "recall": 0.6389
       },
       "question": {
         "found": 6,
@@ -54,9 +54,9 @@
         "recall": 0.4
       },
       "submission": {
-        "found": 23,
-        "total": 37,
-        "recall": 0.6216
+        "found": 27,
+        "total": 46,
+        "recall": 0.587
       }
     }
   },
@@ -180,6 +180,7 @@
       "trap_hits": [
         "The County shall provide the selected firm with design documents at each design phase"
       ],
+      "local_only": false,
       "unmatched_extracted": [
         {
           "kind": "submission",
@@ -338,6 +339,7 @@
       "trap_hits": [
         "The Contracting Officer, must approve the Small Business Plan"
       ],
+      "local_only": false,
       "unmatched_extracted": [
         {
           "kind": "submission",
@@ -758,6 +760,7 @@
       "trap_hits": [
         "the contracting officer is not required to discuss every area where the proposal could be improved"
       ],
+      "local_only": false,
       "unmatched_extracted": [
         {
           "kind": "submission",
@@ -876,6 +879,7 @@
         }
       ],
       "trap_hits": [],
+      "local_only": false,
       "unmatched_extracted": [
         {
           "kind": "submission",
@@ -976,6 +980,546 @@
       ]
     },
     {
+      "id": "in_esic_hyderabad_cpwd_2023",
+      "title": "ESIC (India) \u2014 Annual repairs and maintenance of civil works, Hyderabad: Notice Inviting e-Tender, CPWD format (2023), pages 3-5",
+      "source": "real",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 25,
+      "found": 6,
+      "recall": 0.24,
+      "mandatory_found": 5,
+      "mandatory_total": 23,
+      "extracted": 21,
+      "missed": [
+        {
+          "id": "R01",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Last Date & Time of Bid submission. 07.06.2023, 11.00 AM"
+        },
+        {
+          "id": "R02",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "The original EMD should be submitted in the office of Construction Branch"
+        },
+        {
+          "id": "R03",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Period for submission of original EMD/ Eligibility documents by the Lowest Bidder Within one week from the date of opening the financial bid"
+        },
+        {
+          "id": "R04",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Period of Completion 12 Months"
+        },
+        {
+          "id": "R05",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The bidder should have registration with CPWD/State PWD /MES/Railways/BSNL"
+        },
+        {
+          "id": "R06",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The Bidder should have satisfactorily completed similar works during the last Seven years"
+        },
+        {
+          "id": "R07",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "This should be certified by an officer not below the rank of Executive Engineer/Project Manager"
+        },
+        {
+          "id": "R09",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "Average Annual Financial Turn over of Rs.14,97,536-00"
+        },
+        {
+          "id": "R10",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The bidder should not have incurred any loss (profit after tax should be positive) in more than two years"
+        },
+        {
+          "id": "R11",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The solvency of Rs bidder should have Rs11,98,028-00"
+        },
+        {
+          "id": "R12",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "The past experience in similar nature of work should be supported by certificates issued by the client\u2019s organisation"
+        },
+        {
+          "id": "R13",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The tenderer must be registered with following statutory authorities and must also furnish self attested copies ESI, EPF, GST along with last six months payment receipts"
+        },
+        {
+          "id": "R14",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "an affidavit in this matter to be enclosed / uploaded that firm has never been employed"
+        },
+        {
+          "id": "R15",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "The Earnest Money Deposit (EMD) for Rs.59,901-00(Rupees Fifty nine thousand nine hundred and one only) Which shall be in the form of Insurance Surety Bonds"
+        },
+        {
+          "id": "R18",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Conditional bid will not to be accepted"
+        },
+        {
+          "id": "R22",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "The bidder does not upload all the documents (including GST Registration) as stipulated in the bid document"
+        },
+        {
+          "id": "R23",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Copy of EMD."
+        },
+        {
+          "id": "R24",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Letter of Transmittal."
+        },
+        {
+          "id": "R25",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Certificate of Work Experience as per Form \u2013 A"
+        }
+      ],
+      "trap_hits": [
+        "Financial bids submitted by the eligible and intending bidders shall be opened only for those bidders who are found qualified",
+        "Financial bids submitted by the eligible and intending bidders shall be opened only for those bidders who are found qualified",
+        "ESIC reserves the right to verify the particulars furnished by the bidder independently"
+      ],
+      "local_only": true,
+      "unmatched_extracted": 15,
+      "matches": [
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R19",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R20",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R21",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "in_nhai_makhu_epc_2024",
+      "title": "NHAI (India) \u2014 EPC widening of NH-54 in Makhu Town, Punjab: Instructions to Bidder for e-Tendering (2024)",
+      "source": "real",
+      "error": null,
+      "seconds": 0.1,
+      "gold": 32,
+      "found": 10,
+      "recall": 0.3125,
+      "mandatory_found": 10,
+      "mandatory_total": 26,
+      "extracted": 31,
+      "missed": [
+        {
+          "id": "R02",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "DSC should be in the name of the authorized signatory as authorized in Appendix III"
+        },
+        {
+          "id": "R06",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "Registration should be valid at least up to the date of submission of BID"
+        },
+        {
+          "id": "R07",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "bidders have to pay a sum of Rs. 10,000/- (Rupees ten thousand only) as a cost of the RFP process (non-refundable)"
+        },
+        {
+          "id": "R09",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "on or before 28.08.2024 (upto 1100 hours IST)"
+        },
+        {
+          "id": "R10",
+          "kind": "format",
+          "mandatory": true,
+          "quote": "scanned in different files (in PDF or RAR format such that file size is not more than 30 MB)"
+        },
+        {
+          "id": "R11",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Appendix IA (Letter comprising the Technical Bid) including Annexure-I to VI and supporting certificates / documents"
+        },
+        {
+          "id": "R12",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Power of Attorney for signing the BID as per the format at Appendix-III"
+        },
+        {
+          "id": "R13",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "Power of Attorney for Lead Member of Joint Venture as per the format at Appendix-IV"
+        },
+        {
+          "id": "R14",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "Joint Bidding Agreement for Joint Venture as per the format at"
+        },
+        {
+          "id": "R15",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "BID Security of Rs. 46.29 lakh (Rupees forty six lakh twenty nine thousand only) in the form of Insurance Surety Bond"
+        },
+        {
+          "id": "R16",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Proof of online payment towards the cost of Bid document of Rs. 10,000/-"
+        },
+        {
+          "id": "R18",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "An undertaking from the person having PoA referred to in Sub. Clause-(b) above that they agree and abide by the Bid documents"
+        },
+        {
+          "id": "R19",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Annexure-VIII of Appendix \u2013 IA showing details of all ongoing project works"
+        },
+        {
+          "id": "R20",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Copy of Memorandum and Articles of Association of the Bidder or of each Member"
+        },
+        {
+          "id": "R21",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Copies of duly audited complete annual accounts of the Bidder or of each member (in case of Joint Venture) for preceding 5 years"
+        },
+        {
+          "id": "R22",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "Copy of originals of experience certificates apostile at foreign origin, if any"
+        },
+        {
+          "id": "R23",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Certificate regarding Compliance with Restrictions under Rule 144 (xi) of the General Financial Rules (GFRs)"
+        },
+        {
+          "id": "R24",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "Copy of Registration from the Competent Authority as defined in Public Procurement Order No. F. No. 6/18/2019-PPD"
+        },
+        {
+          "id": "R26",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "Self- certification by the Bidder that its Bid meets the Local Content requirement"
+        },
+        {
+          "id": "R27",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "shall have to provide a Certificate from the Statutory Auditor or Cost Auditor of the Company"
+        },
+        {
+          "id": "R28",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Original (in Envelope) by the Lowest Bidder before issuance of Letter of Acceptance (LOA)"
+        },
+        {
+          "id": "R29",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Account Payee demand draft or Banker\u2019s Cheque are submitted physically latest within 5 working days of the Bid Due Date"
+        }
+      ],
+      "trap_hits": [
+        "The Authority shall open documents of the Bid received in electronic form"
+      ],
+      "local_only": true,
+      "unmatched_extracted": 21,
+      "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R25",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R30",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R31",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R32",
+          "kind": "submission",
+          "page": 5,
+          "score": 0.8
+        }
+      ]
+    },
+    {
+      "id": "in_sai_bhopal_cladding_2020",
+      "title": "Sports Authority of India \u2014 Wall cladding work, Bhopal: e-Tender (2020), pages 4-5 and 19-20",
+      "source": "real",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 22,
+      "found": 5,
+      "recall": 0.2273,
+      "mandatory_found": 5,
+      "mandatory_total": 18,
+      "extracted": 11,
+      "missed": [
+        {
+          "id": "R02",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Hard copy of the same must be sent to the Office of Director Incharge, Sports Authority of India, Central Regional Centre, Bhopalon or before Bid Submission Date & Time"
+        },
+        {
+          "id": "R03",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Bid Submission End Date 20.02.2020 (04:00 PM)"
+        },
+        {
+          "id": "R04",
+          "kind": "deadline",
+          "mandatory": false,
+          "quote": "Date and time of pre bid conference* 14.02.2020 (11:00 AM)"
+        },
+        {
+          "id": "R05",
+          "kind": "deadline",
+          "mandatory": false,
+          "quote": "Last date for submission of queries/ clarification made during the pre bid conference in writing ** 14.02.2020 (11:00 AM)"
+        },
+        {
+          "id": "R06",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Bidders shall ensure that their Bids, complete in all respect should be uploaded online before the closing date and time"
+        },
+        {
+          "id": "R10",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Enclose copy of certificate incorporation/registration"
+        },
+        {
+          "id": "R12",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Statutory Auditor\u2019s Certificate is mandatory"
+        },
+        {
+          "id": "R13",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "Copies of Completion certificates of Civil works executed successfully during the last five years"
+        },
+        {
+          "id": "R14",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Satisfactory completion certificates issued by relevant authority not less than the rank of Section Officer be enclosed"
+        },
+        {
+          "id": "R15",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The bidders should not have been debarred/blacklisted by any state/central government/PSUs"
+        },
+        {
+          "id": "R16",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Enclose blacklisting declaration in the format given in Section IV (I)"
+        },
+        {
+          "id": "R17",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "The bidder should have a valid GST No. or should have registered under GST"
+        },
+        {
+          "id": "R18",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "copy of GST Registration certificate"
+        },
+        {
+          "id": "R19",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "CPWD/PWD Registration"
+        },
+        {
+          "id": "R20",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Enclose copy of Registration certificate"
+        },
+        {
+          "id": "R21",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Technical bids will be evaluated as per qualification criteria given in Section III"
+        },
+        {
+          "id": "R22",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The successful bidder will be the one who emerges overall L-1 out of responsive bids"
+        }
+      ],
+      "trap_hits": [],
+      "local_only": true,
+      "unmatched_extracted": 6,
+      "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R11",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 5,
+          "score": 0.667
+        }
+      ]
+    },
+    {
       "id": "k12_school_ifb",
       "title": "Maple Valley USD \u2014 Invitation for Bids, New Classroom Building (K-12)",
       "source": "synthetic",
@@ -1020,6 +1564,7 @@
         }
       ],
       "trap_hits": [],
+      "local_only": false,
       "unmatched_extracted": [
         {
           "kind": "submission",
@@ -1211,6 +1756,7 @@
         }
       ],
       "trap_hits": [],
+      "local_only": false,
       "unmatched_extracted": [],
       "matches": [
         {
@@ -1310,6 +1856,7 @@
       "trap_hits": [
         "The Government shall not be responsible for any interpretation of or conclusion drawn from the data"
       ],
+      "local_only": false,
       "unmatched_extracted": [
         {
           "kind": "submission",
@@ -1509,6 +2056,7 @@
         }
       ],
       "trap_hits": [],
+      "local_only": false,
       "unmatched_extracted": [],
       "matches": [
         {

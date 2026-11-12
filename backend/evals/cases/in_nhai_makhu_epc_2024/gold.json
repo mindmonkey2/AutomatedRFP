@@ -1,0 +1,296 @@
+{
+  "id": "in_nhai_makhu_epc_2024",
+  "title": "NHAI (India) — EPC widening of NH-54 in Makhu Town, Punjab: Instructions to Bidder for e-Tendering (2024)",
+  "source": "real",
+  "source_url": "https://nhai.gov.in/nhai/sites/default/files/2020/E-Tendering_Makhu_Town.pdf",
+  "status": "reviewed",
+  "labelled_by": "Claude (AI-assisted), line by line against the parser output; independent human review pending",
+  "notes": "National Highways Authority of India, central government highway EPC tender, 2024. Complete 6-page e-tendering instructions. Publicly posted Indian government tender. Reuse terms for tender documents are unclear (GODL covers datasets), so only the answer key is stored here; run `python -m evals.fetch` to rebuild the text locally from the official source.",
+  "fetch": {
+    "url": "https://nhai.gov.in/nhai/sites/default/files/2020/E-Tendering_Makhu_Town.pdf",
+    "pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "sha256": "ad698fdf09b86c7ee21160aac391de1e45fd09742112044e8aa9060132139267"
+  },
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "It is mandatory for all the Bidders to have class-III Digital Signature Certificate (DSC)"
+    },
+    {
+      "id": "R02",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "DSC should be in the name of the authorized signatory as authorized in Appendix III"
+    },
+    {
+      "id": "R03",
+      "kind": "submission",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Bidder shall submit document in support of the class III DSC"
+    },
+    {
+      "id": "R04",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Authorized Signatory holding Power of Attorney (POA) or the person executing/delegating such POA shall only be the Digital Signatory"
+    },
+    {
+      "id": "R05",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "it is mandatory for the bidders to get registered their firm / Joint Venture with e-tendering portal of NHAI"
+    },
+    {
+      "id": "R06",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Registration should be valid at least up to the date of submission of BID"
+    },
+    {
+      "id": "R07",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "bidders have to pay a sum of Rs. 10,000/- (Rupees ten thousand only) as a cost of the RFP process (non-refundable)"
+    },
+    {
+      "id": "R08",
+      "kind": "format",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bid must be submitted online only through e-procurement portal of NHAI"
+    },
+    {
+      "id": "R09",
+      "kind": "deadline",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "on or before 28.08.2024 (upto 1100 hours IST)"
+    },
+    {
+      "id": "R10",
+      "kind": "format",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "scanned in different files (in PDF or RAR format such that file size is not more than 30 MB)"
+    },
+    {
+      "id": "R11",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Appendix IA (Letter comprising the Technical Bid) including Annexure-I to VI and supporting certificates / documents"
+    },
+    {
+      "id": "R12",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Power of Attorney for signing the BID as per the format at Appendix-III"
+    },
+    {
+      "id": "R13",
+      "kind": "form",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Power of Attorney for Lead Member of Joint Venture as per the format at Appendix-IV"
+    },
+    {
+      "id": "R14",
+      "kind": "form",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Joint Bidding Agreement for Joint Venture as per the format at"
+    },
+    {
+      "id": "R15",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "BID Security of Rs. 46.29 lakh (Rupees forty six lakh twenty nine thousand only) in the form of Insurance Surety Bond"
+    },
+    {
+      "id": "R16",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proof of online payment towards the cost of Bid document of Rs. 10,000/-"
+    },
+    {
+      "id": "R17",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "the Integrity Pact (IP) duly signed by Authorised signatory shall be submitted by the Bidder with the RFP Bid"
+    },
+    {
+      "id": "R18",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "An undertaking from the person having PoA referred to in Sub. Clause-(b) above that they agree and abide by the Bid documents"
+    },
+    {
+      "id": "R19",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Annexure-VIII of Appendix – IA showing details of all ongoing project works"
+    },
+    {
+      "id": "R20",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Copy of Memorandum and Articles of Association of the Bidder or of each Member"
+    },
+    {
+      "id": "R21",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Copies of duly audited complete annual accounts of the Bidder or of each member (in case of Joint Venture) for preceding 5 years"
+    },
+    {
+      "id": "R22",
+      "kind": "form",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Copy of originals of experience certificates apostile at foreign origin, if any"
+    },
+    {
+      "id": "R23",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Certificate regarding Compliance with Restrictions under Rule 144 (xi) of the General Financial Rules (GFRs)"
+    },
+    {
+      "id": "R24",
+      "kind": "form",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Copy of Registration from the Competent Authority as defined in Public Procurement Order No. F. No. 6/18/2019-PPD"
+    },
+    {
+      "id": "R25",
+      "kind": "form",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Appendix-IB (Letter comprising the Financial Bid) shall be submitted online"
+    },
+    {
+      "id": "R26",
+      "kind": "form",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Self- certification by the Bidder that its Bid meets the Local Content requirement"
+    },
+    {
+      "id": "R27",
+      "kind": "form",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "shall have to provide a Certificate from the Statutory Auditor or Cost Auditor of the Company"
+    },
+    {
+      "id": "R28",
+      "kind": "submission",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Original (in Envelope) by the Lowest Bidder before issuance of Letter of Acceptance (LOA)"
+    },
+    {
+      "id": "R29",
+      "kind": "deadline",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Account Payee demand draft or Banker’s Cheque are submitted physically latest within 5 working days of the Bid Due Date"
+    },
+    {
+      "id": "R30",
+      "kind": "format",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall be placed in an envelope, which shall be sealed"
+    },
+    {
+      "id": "R31",
+      "kind": "format",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The envelope shall clearly bear the identification"
+    },
+    {
+      "id": "R32",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Bidder shall upload scanned copies of the documents as specified in point nos. 2(ii)(A)&(B) above"
+    }
+  ],
+  "traps": [
+    {
+      "page": 2,
+      "quote": "The amendments / clarifications to the BID document, if any, will be hosted on the NHAI website",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    },
+    {
+      "page": 6,
+      "quote": "The Bidder may modify, substitute or withdraw its e- BID after submission prior to the BID Due Date",
+      "why": "Permission, not an obligation"
+    },
+    {
+      "page": 6,
+      "quote": "The Authority shall open documents of the Bid received in electronic form",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    }
+  ]
+}

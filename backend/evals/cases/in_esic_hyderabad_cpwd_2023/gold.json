@@ -1,0 +1,242 @@
+{
+  "id": "in_esic_hyderabad_cpwd_2023",
+  "title": "ESIC (India) — Annual repairs and maintenance of civil works, Hyderabad: Notice Inviting e-Tender, CPWD format (2023), pages 3-5",
+  "source": "real",
+  "source_url": "https://esic.gov.in/attachments/tenderfile/8657e779a675f360b7ebce1ed98e3a2a.pdf",
+  "status": "reviewed",
+  "labelled_by": "Claude (AI-assisted), line by line against the parser output; independent human review pending",
+  "notes": "Employees' State Insurance Corporation, central government building-works tender in CPWD percentage-rate format, 2023. Pages contain Telugu, Hindi and English, key dates in a table, and India-specific eligibility (CPWD/PWD registration, turnover, solvency, ESI/EPF/GST, EMD with MSE exemption). Publicly posted Indian government tender. Reuse terms for tender documents are unclear (GODL covers datasets), so only the answer key is stored here; run `python -m evals.fetch` to rebuild the text locally from the official source.",
+  "fetch": {
+    "url": "https://esic.gov.in/attachments/tenderfile/8657e779a675f360b7ebce1ed98e3a2a.pdf",
+    "pages": [
+      3,
+      4,
+      5
+    ],
+    "sha256": "f8456b9254339d55ec3c34a2855b31574038d82b1c1107d2f3bb4002d971c104"
+  },
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "deadline",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Last Date & Time of Bid submission. 07.06.2023, 11.00 AM"
+    },
+    {
+      "id": "R02",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The original EMD should be submitted in the office of Construction Branch"
+    },
+    {
+      "id": "R03",
+      "kind": "deadline",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Period for submission of original EMD/ Eligibility documents by the Lowest Bidder Within one week from the date of opening the financial bid"
+    },
+    {
+      "id": "R04",
+      "kind": "submission",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Period of Completion 12 Months"
+    },
+    {
+      "id": "R05",
+      "kind": "qualification",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidder should have registration with CPWD/State PWD /MES/Railways/BSNL"
+    },
+    {
+      "id": "R06",
+      "kind": "qualification",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "The Bidder should have satisfactorily completed similar works during the last Seven years"
+    },
+    {
+      "id": "R07",
+      "kind": "form",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "This should be certified by an officer not below the rank of Executive Engineer/Project Manager"
+    },
+    {
+      "id": "R08",
+      "kind": "form",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "shall upload two separate letters for experience certificate and affidavit"
+    },
+    {
+      "id": "R09",
+      "kind": "qualification",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Average Annual Financial Turn over of Rs.14,97,536-00"
+    },
+    {
+      "id": "R10",
+      "kind": "qualification",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidder should not have incurred any loss (profit after tax should be positive) in more than two years"
+    },
+    {
+      "id": "R11",
+      "kind": "qualification",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The solvency of Rs bidder should have Rs11,98,028-00"
+    },
+    {
+      "id": "R12",
+      "kind": "form",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The past experience in similar nature of work should be supported by certificates issued by the client’s organisation"
+    },
+    {
+      "id": "R13",
+      "kind": "qualification",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The tenderer must be registered with following statutory authorities and must also furnish self attested copies ESI, EPF, GST along with last six months payment receipts"
+    },
+    {
+      "id": "R14",
+      "kind": "form",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "an affidavit in this matter to be enclosed / uploaded that firm has never been employed"
+    },
+    {
+      "id": "R15",
+      "kind": "form",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Earnest Money Deposit (EMD) for Rs.59,901-00(Rupees Fifty nine thousand nine hundred and one only) Which shall be in the form of Insurance Surety Bonds"
+    },
+    {
+      "id": "R16",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bids need to be submitted along with all required and relevant documents related to works experience, financial strength"
+    },
+    {
+      "id": "R17",
+      "kind": "format",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "submission of bids by any other mode other than online mode bids will not be accepted"
+    },
+    {
+      "id": "R18",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Conditional bid will not to be accepted"
+    },
+    {
+      "id": "R19",
+      "kind": "deadline",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The tender for the work shall remain open for acceptance by ESI Corporation for a period 60 days"
+    },
+    {
+      "id": "R20",
+      "kind": "format",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidder must ensure to quote the percentage above or below or at par to two places of decimal only both in figures as well as in words"
+    },
+    {
+      "id": "R21",
+      "kind": "format",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The total amount of the offer corresponding to the percentages quoted by the bidder shall also be mentioned both in words and figures"
+    },
+    {
+      "id": "R22",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The bidder does not upload all the documents (including GST Registration) as stipulated in the bid document"
+    },
+    {
+      "id": "R23",
+      "kind": "form",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Copy of EMD."
+    },
+    {
+      "id": "R24",
+      "kind": "form",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Letter of Transmittal."
+    },
+    {
+      "id": "R25",
+      "kind": "form",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Certificate of Work Experience as per Form – A"
+    }
+  ],
+  "traps": [
+    {
+      "page": 5,
+      "quote": "ESI Corporation reserves the right to accept or reject any bid",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    },
+    {
+      "page": 5,
+      "quote": "ESIC reserves the right to verify the particulars furnished by the bidder independently",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    },
+    {
+      "page": 5,
+      "quote": "Exemption of EMD is allowed for Micro and Small Enterprises(MSEs)",
+      "why": "Exemption (a bidder right), not an obligation"
+    },
+    {
+      "page": 5,
+      "quote": "Financial bids submitted by the eligible and intending bidders shall be opened only for those bidders who are found qualified",
+      "why": "Obligation or right of the procuring authority, not the bidder"
+    }
+  ]
+}

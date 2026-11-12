@@ -39,15 +39,40 @@ other three would be missing from the checklist.
 
 ## The cases
 
-8 cases, 187 labelled requirements, 22 traps.
+11 cases, 266 labelled requirements, 32 traps.
 
-**Real public solicitations** (US federal documents, public domain; source links in each `gold.json`):
+**Real US federal solicitations** (public domain; text stored in the repo; source links in each `gold.json`):
 
 | Case | What it is | Requirements | Traps |
 | --- | --- | --- | --- |
 | `doe_nnsa_rfp_section_l` | DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex management and operating contract, 2021), Section L pages 5-10: proposal structure, page limits, formatting, Volume I forms | 56 | 4 |
 | `doe_nnsa_rfp_section_m` | The same RFP's complete Section M: evaluation criteria plus offeror obligations stated only there | 13 | 4 |
 | `usace_1985_ifb_ocr` | US Army Corps of Engineers construction IFB DACW61-85-B-0039 (1985), special contract requirements from a scanned PDF with poor OCR; quotes keep the OCR errors | 16 | 4 |
+
+**Real Indian government tenders** (text *not* stored in the repo, see below):
+
+| Case | What it is | Requirements | Traps |
+| --- | --- | --- | --- |
+| `in_nhai_makhu_epc_2024` | NHAI highway EPC tender, NH-54 Makhu Town, Punjab (2024): complete e-tendering instructions (DSC, portal registration, bid security, integrity pact, GFR Rule 144(xi) certificate, local content, originals by post) | 32 | 3 |
+| `in_esic_hyderabad_cpwd_2023` | ESIC building maintenance tender in CPWD percentage-rate format, Hyderabad (2023), pages 3-5: date table, CPWD/PWD registration, turnover, solvency, ESI/EPF/GST, EMD with MSE exemption; Telugu, Hindi and English on the same pages | 25 | 4 |
+| `in_sai_bhopal_cladding_2020` | Sports Authority of India civil works tender on the CPP portal, Bhopal (2020), pages 4-5 and 19-20: justified text extracted one word per line, qualification table with interleaved columns | 22 | 3 |
+
+Indian tenders state many mandatory rules with "should", "to be enclosed" or bare document lists
+("Copy of EMD."), so a sweep for shall/must/required misses them; the keyword baseline finds only
+23-31% here.
+
+**Fetch-only cases.** Indian government works are copyrighted and tender documents are not clearly
+covered by an open licence (GODL covers datasets), so for these cases the repo stores only the answer
+key: short quotes, page numbers, the official source URL and the PDF's SHA-256. Rebuild the text locally
+with:
+
+```bash
+../.venv/bin/python -m evals.fetch      # downloads from the official sites; text is git-ignored
+```
+
+Cases that have not been fetched are skipped (with a message), so tests and CI work without network
+access. If a source PDF changes after labelling, `evals.fetch` warns and re-validates every quote.
+Reports keep only counts, not extracted text, for these cases.
 
 **Synthetic cases**, written for this evaluation to mirror common construction and public-sector
 solicitations, so they can be labelled precisely:
