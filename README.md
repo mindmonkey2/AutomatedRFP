@@ -1,5 +1,7 @@
 # RFP Engine
 
+[![CI](https://github.com/mindmonkey2/AutomatedRFP/actions/workflows/ci.yml/badge.svg)](https://github.com/mindmonkey2/AutomatedRFP/actions/workflows/ci.yml)
+
 **A compliance-first AI workspace for answering RFPs, built for construction firms and government contractors.**
 
 Upload a solicitation and RFP Engine lists every requirement in it, tracks every addendum, and
@@ -183,11 +185,15 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 ## Security and data isolation
 
 - **Sign-in:** email and password (Argon2id hashing), server-side sessions in an httpOnly cookie,
-  logout revokes the session, failed-login rate limiting, invite links for teammates, admin and member roles.
+  logout revokes the session, failed-login rate limiting (per account, and per visitor address when a
+  trusted reverse proxy reports it), invite links for teammates, admin and member roles.
 - **Isolation between companies, enforced twice:** every query filters by organization, **and**
   Postgres row-level security hides other organizations' rows even if a query forgets the filter. With
   no organization bound, customer tables return nothing (fail closed). Tests verify both layers.
 - **Cross-site request protection:** SameSite cookies plus an Origin check on every write.
+- **Continuous integration:** every push runs the test suite against a real Postgres (as a non-superuser,
+  so row-level security is enforced), checks the models against the migrations, builds the frontend, and
+  audits Python and npm dependencies for known vulnerabilities (also weekly).
 - **Your data and the AI:** documents are sent to the configured AI provider only to process your own
   bids. With Claude, the API does not train on API data by default. With a self-hosted model, nothing
   leaves your servers.
@@ -300,8 +306,10 @@ library, then create a bid and upload a solicitation.
 
 ```bash
 cd backend
-TEST_DATABASE_URL=postgresql+psycopg://rfp:rfp@localhost:5432/rfp_test ../.venv/bin/python -m pytest -q
+TEST_DATABASE_URL=postgresql+psycopg://rfp:rfp@localhost:5432/rfp_test "$PWD/../.venv/bin/python" -m pytest -q
 ```
+
+The same checks run on GitHub Actions for every push ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)).
 
 ## Project layout
 
@@ -326,6 +334,7 @@ frontend/
   components/      shared UI and session handling
   lib/             API client and types
 deploy/            Postgres init script
+.github/workflows/ CI: tests on Postgres, migration check, frontend build, dependency audit
 docker-compose.yml local Postgres
 ```
 
@@ -344,6 +353,8 @@ All backend settings are environment variables (or `backend/.env`); see
 | `RFP_REVIEW_THRESHOLD` | `0.6` | Answers below this confidence go to review |
 | `RFP_ALLOW_SIGNUP` | `true` | Allow new companies to sign up |
 | `RFP_COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
+| `RFP_FORWARDED_HOPS` | `0` | Number of reverse proxies (nginx, Caddy, a load balancer) in front of the app that append to `X-Forwarded-For`; set to `1` behind one so failed logins are also limited per visitor address. Keep the API port private when this is above 0 |
+| `RFP_DRAFT_WORKERS` | `4` | Answers drafted in parallel; 1-2 for a single local GPU |
 
 ## License
 

@@ -1,3 +1,4 @@
+import logging
 import re
 import uuid
 from contextlib import asynccontextmanager
@@ -47,6 +48,7 @@ from .schemas import (
 )
 
 MAX_UPLOAD_BYTES = 50 * 1024 * 1024
+log = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
@@ -105,6 +107,14 @@ async def _save_upload(upload: UploadFile, org: int) -> Path:
     return path
 
 
+def _remove_files(paths: list[str]) -> None:
+    for p in paths:
+        try:
+            Path(p).unlink(missing_ok=True)
+        except OSError:
+            log.warning("Could not delete stored file %s", p)
+
+
 @app.get("/health")
 def health():
     provider = settings.llm_provider
@@ -139,9 +149,9 @@ def list_library_documents(s: DB, org: Org):
 def delete_library_document(doc_id: int, s: DB, org: Org):
     doc = _owned(s, LibraryDocument, doc_id, org)
     retrieval.remove_source(s, org, "document", doc.id)
-    Path(doc.storage_path).unlink(missing_ok=True)
     s.delete(doc)
     s.commit()
+    _remove_files([doc.storage_path])  # only after the database change has succeeded
 
 
 @app.get("/library/search", response_model=list[SearchHitOut])
@@ -290,10 +300,10 @@ def update_bid(bid_id: int, body: BidPatch, s: DB, org: Org):
 @app.delete("/bids/{bid_id}", status_code=204)
 def delete_bid(bid_id: int, s: DB, org: Org):
     b = _owned(s, Bid, bid_id, org)
-    for f in b.files:
-        Path(f.storage_path).unlink(missing_ok=True)
+    paths = [f.storage_path for f in b.files]
     s.delete(b)
     s.commit()
+    _remove_files(paths)
 
 
 @app.post("/bids/{bid_id}/files", response_model=SolicitationFileOut, status_code=201)
@@ -303,9 +313,11 @@ async def upload_solicitation_file(
 ):
     if kind not in ("base", "addendum"):
         raise HTTPException(422, "kind must be 'base' or 'addendum'")
-    bid = _owned(s, Bid, bid_id, org)
+    _owned(s, Bid, bid_id, org)
     path = await _save_upload(file, org)
-    seq = len(bid.files) + 1
+    # Lock the bid row so two uploads at once cannot get the same sequence number.
+    bid = s.get(Bid, bid_id, with_for_update=True)
+    seq = (s.scalar(select(func.max(SolicitationFile.sequence)).where(SolicitationFile.bid_id == bid.id)) or 0) + 1
     f = SolicitationFile(org_id=org, bid_id=bid.id, filename=Path(file.filename).name, kind=kind,
                          sequence=seq, storage_path=str(path))
     s.add(f)

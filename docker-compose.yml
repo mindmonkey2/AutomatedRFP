@@ -3,9 +3,9 @@ services:
   postgres:
     image: postgres:18
     environment:
-      POSTGRES_PASSWORD: postgres   # superuser, for admin only; the app uses the "rfp" role
+      POSTGRES_PASSWORD: postgres   # superuser, for admin only (dev); the app uses the "rfp" role
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"   # this machine only; never expose the superuser to the network
     volumes:
       - pgdata:/var/lib/postgresql
       - ./deploy/postgres-init.sql:/docker-entrypoint-initdb.d/init.sql:ro

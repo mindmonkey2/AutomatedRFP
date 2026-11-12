@@ -99,6 +99,7 @@ export default function BidPage() {
                     <span className="font-medium text-slate-900">{f.filename}</span>
                     <StatusBadge status={f.status} />
                   </div>
+                  {f.status === "queued" && <p className="mt-1 text-xs text-slate-500">Waiting its turn: files are read in upload order, so an addendum is compared against everything before it.</p>}
                   {f.status === "processing" && <p className="mt-1 text-xs text-slate-500">Reading the document and extracting requirements. This can take a few minutes for long RFPs.</p>}
                   {f.error && <p className="mt-1 text-xs text-red-600">{f.error}</p>}
                   {f.change_summary && <p className="mt-1 text-xs text-slate-600">{f.change_summary}</p>}

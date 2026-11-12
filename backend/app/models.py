@@ -181,7 +181,7 @@ class Requirement(Base):
     needs_response: Mapped[bool] = mapped_column(default=False)
     page_limit: Mapped[int | None] = mapped_column(Integer)
     status: Mapped[str] = mapped_column(String(20), default="open")  # open|drafted|met|na|removed
-    changed_by_file_id: Mapped[int | None] = mapped_column(ForeignKey("solicitation_files.id"))
+    changed_by_file_id: Mapped[int | None] = mapped_column(ForeignKey("solicitation_files.id", ondelete="SET NULL"))
     change_type: Mapped[str | None] = mapped_column(String(20))  # added|modified|removed
 
     bid: Mapped[Bid] = relationship(back_populates="requirements")

@@ -22,6 +22,11 @@ class Settings(BaseSettings):
     cookie_name: str = "rfp_session"
     cookie_secure: bool = False  # set true in production (HTTPS)
     cors_origins: list[str] = ["http://localhost:3000"]
+    # How many reverse proxies in front of the app append the visitor's address to
+    # X-Forwarded-For (e.g. 1 for nginx or Caddy -> Next.js -> API). Used only to rate-limit
+    # failed logins per visitor address. 0 = no such proxy; requests arriving through the
+    # bundled Next.js proxy on this machine then have no usable visitor address.
+    forwarded_hops: int = 0
 
     # Which AI runs the extraction and drafting: "claude" or "openai_compatible"
     # (local models via Ollama, vLLM, llama.cpp server, LM Studio, or any OpenAI-compatible API).
@@ -50,6 +55,9 @@ class Settings(BaseSettings):
     draft_workers: int = 4  # answers drafted in parallel; 1-2 suits a single local GPU
     review_threshold: float = 0.6  # answers below this confidence go to "needs_review"
     extraction_window_chars: int = 40_000
+    # A file still queued/processing after this long was lost in a restart and no longer
+    # holds up later files of the same bid (until the durable job queue lands).
+    job_stale_hours: float = 6
 
 
 settings = Settings()

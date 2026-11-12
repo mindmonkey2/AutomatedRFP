@@ -66,22 +66,31 @@ def _parse_pdf(path: Path) -> ParsedDoc:
 
 def _parse_docx(path: Path) -> ParsedDoc:
     import docx
+    from docx.table import Table
 
     d = docx.Document(str(path))
     lines: list[str] = []
-    for p in d.paragraphs:
-        t = p.text.strip()
+    # Body order matters: a table belongs under the heading it appears after.
+    for block in d.iter_inner_content():
+        if isinstance(block, Table):
+            for row in block.rows:
+                cells: list[str] = []
+                seen: list = []  # cell XML elements (kept alive, compared by identity)
+                for c in row.cells:
+                    if any(c._tc is e for e in seen):  # a merged cell repeats once per column it spans
+                        continue
+                    seen.append(c._tc)
+                    cells.append(c.text.strip())
+                if any(cells):
+                    lines.append(" | ".join(cells))
+            continue
+        t = block.text.strip()
         if not t:
             continue
-        if p.style is not None and p.style.name.lower().startswith("heading"):
+        if block.style is not None and block.style.name.lower().startswith("heading"):
             lines.append(f"\n## {t}")
         else:
             lines.append(t)
-    for table in d.tables:
-        for row in table.rows:
-            cells = [c.text.strip() for c in row.cells]
-            if any(cells):
-                lines.append(" | ".join(cells))
     return ParsedDoc(pages=[Page(None, "\n".join(lines))])
 
 
@@ -161,8 +170,15 @@ def chunk_pages(pages: list[Page], max_chars: int = 2000) -> list[TextChunk]:
     return chunks
 
 
+_PAGE_MARK = re.compile(r"\[Page (\d+)\]")
+
+
 def windows(text: str, max_chars: int) -> list[str]:
-    """Split long text into windows on page/paragraph boundaries for extraction."""
+    """Split long text into windows on page/paragraph boundaries for extraction.
+
+    A window that starts mid-page is prefixed with that page's [Page N] marker, so the model
+    can still report correct page numbers for what it finds there.
+    """
     if len(text) <= max_chars:
         return [text]
     out, start = [], 0
@@ -174,7 +190,12 @@ def windows(text: str, max_chars: int) -> list[str]:
                 cut = text.rfind("\n\n", start + max_chars // 2, end)
             if cut != -1:
                 end = cut
-        out.append(text[start:end])
+        window = text[start:end]
+        if start and not window.lstrip().startswith("[Page "):
+            marks = _PAGE_MARK.findall(text, 0, start)
+            if marks:
+                window = f"[Page {marks[-1]}] (continued)\n" + window.lstrip("\n")
+        out.append(window)
         start = end
     return out
 

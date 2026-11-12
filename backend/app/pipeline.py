@@ -7,6 +7,7 @@ response has been sent.
 import logging
 import re
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from sqlalchemy import func, select
@@ -110,13 +111,50 @@ def index_approved_answer(s: Session, a: Answer) -> None:
 # ---------------------------------------------------------------- solicitations
 
 
+PENDING = ("queued", "processing")
+
+
 def process_solicitation_file(org_id: int, file_id: int) -> None:
+    """Process one uploaded solicitation file, then any later files of the bid that waited for it.
+
+    Files of a bid are processed strictly in upload order: an addendum is compared against the
+    requirements of the files before it, so it must not start while those are still being read.
+    """
+    next_id: int | None = file_id
+    while next_id is not None:
+        bid_id = _process_one(org_id, next_id)
+        next_id = _next_waiting_file(org_id, bid_id) if bid_id is not None else None
+
+
+def _claim(s: Session, f: SolicitationFile) -> bool:
+    """Mark the file as processing if every earlier file of its bid is done. The bid row lock
+    makes this check-and-set atomic against other files finishing or starting at the same time."""
+    s.get(Bid, f.bid_id, with_for_update=True)
+    s.refresh(f)
+    if f.status != "queued":
+        return False  # already taken by another worker
+    stale_before = datetime.now(timezone.utc) - timedelta(hours=settings.job_stale_hours)
+    earlier_pending = s.scalar(
+        select(func.count()).select_from(SolicitationFile).where(
+            SolicitationFile.bid_id == f.bid_id, SolicitationFile.sequence < f.sequence,
+            SolicitationFile.status.in_(PENDING),
+            SolicitationFile.created_at > stale_before,  # ignore jobs lost in a server restart
+        )
+    )
+    if earlier_pending:
+        s.commit()  # stays queued; the earlier file starts it when it finishes
+        return False
+    f.status = "processing"
+    s.commit()
+    return True
+
+
+def _process_one(org_id: int, file_id: int) -> int | None:
+    """Returns the bid id if the file was processed (so waiting files can start), else None."""
     with db.org_session(org_id) as s:
         f = s.get(SolicitationFile, file_id)
-        if f is None:
-            return
-        f.status = "processing"
-        s.commit()
+        if f is None or not _claim(s, f):
+            return None
         try:
             parsed = parse_file(Path(f.storage_path))
             text = parsed.tagged_text()
@@ -134,6 +172,15 @@ def process_solicitation_file(org_id: int, file_id: int) -> None:
             f = s.get(SolicitationFile, file_id)
             f.status, f.error = "failed", str(e)[:2000]
         s.commit()
+        return f.bid_id
+
+
+def _next_waiting_file(org_id: int, bid_id: int) -> int | None:
+    with db.org_session(org_id) as s:
+        return s.scalar(
+            select(SolicitationFile.id).where(SolicitationFile.bid_id == bid_id, SolicitationFile.status == "queued")
+            .order_by(SolicitationFile.sequence).limit(1)
+        )
 
 
 def _has_requirements(s: Session, bid_id: int) -> bool:

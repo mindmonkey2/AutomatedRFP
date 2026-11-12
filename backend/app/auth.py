@@ -8,8 +8,9 @@
 
 import hashlib
 import secrets
+import threading
 import time
-from collections import defaultdict, deque
+from collections import deque
 from datetime import datetime, timedelta, timezone
 from typing import Annotated, Literal
 
@@ -57,26 +58,62 @@ def _utcnow() -> datetime:
 
 
 class _RateLimiter:
-    """In-process limiter for failed logins (per email and per IP).
+    """In-process limiter for failed logins (per email and per visitor address).
 
     Good enough for one API process; move to Redis when running several.
     """
 
+    MAX_KEYS = 10_000  # prune expired keys beyond this, so sprayed emails cannot grow memory forever
+
     def __init__(self, limit: int = 10, window_s: int = 15 * 60):
         self.limit, self.window = limit, window_s
-        self.hits: dict[str, deque[float]] = defaultdict(deque)
+        self.hits: dict[str, deque[float]] = {}
+        self._lock = threading.Lock()
+
+    def _trim(self, q: deque[float], now: float) -> None:
+        while q and q[0] < now - self.window:
+            q.popleft()
 
     def blocked(self, key: str) -> bool:
-        q, cutoff = self.hits[key], time.monotonic() - self.window
-        while q and q[0] < cutoff:
-            q.popleft()
-        return len(q) >= self.limit
+        with self._lock:
+            q = self.hits.get(key)  # a lookup must not create an entry
+            if not q:
+                return False
+            self._trim(q, time.monotonic())
+            return len(q) >= self.limit
 
     def fail(self, key: str) -> None:
-        self.hits[key].append(time.monotonic())
+        now = time.monotonic()
+        with self._lock:
+            self.hits.setdefault(key, deque()).append(now)
+            if len(self.hits) > self.MAX_KEYS:
+                for k in list(self.hits):
+                    self._trim(self.hits[k], now)
+                    if not self.hits[k]:
+                        del self.hits[k]
 
     def reset(self, key: str) -> None:
-        self.hits.pop(key, None)
+        with self._lock:
+            self.hits.pop(key, None)
+
+
+_LOCAL = {"127.0.0.1", "::1", "localhost"}
+
+
+def client_ip(request: Request) -> str | None:
+    """The visitor's address, or None when it cannot be known reliably.
+
+    With RFP_FORWARDED_HOPS=n, the n-th address from the right of X-Forwarded-For is the one
+    our own outermost proxy saw (entries further left can be forged by the client). With 0,
+    the socket peer is used, except that a peer on this machine is the bundled Next.js proxy
+    and stands for every visitor at once, so it must not be rate-limited as one address.
+    """
+    peer = request.client.host if request.client else None
+    hops = settings.forwarded_hops
+    if hops > 0:
+        forwarded = [a.strip() for a in request.headers.get("x-forwarded-for", "").split(",") if a.strip()]
+        return forwarded[-hops] if len(forwarded) >= hops else peer
+    return None if peer in _LOCAL else peer
 
 
 login_limiter = _RateLimiter()
@@ -210,7 +247,9 @@ def signup(body: SignupIn, s: DB, response: Response):
 @router.post("/login", response_model=UserOut)
 def login(body: LoginIn, s: DB, request: Request, response: Response):
     email = body.email.lower()
-    keys = [f"email:{email}", f"ip:{request.client.host if request.client else '?'}"]
+    keys = [f"email:{email}"]
+    if ip := client_ip(request):
+        keys.append(f"ip:{ip}")
     if any(login_limiter.blocked(k) for k in keys):
         raise HTTPException(429, "Too many failed attempts. Try again in 15 minutes.")
     user = s.scalar(select(User).where(User.email == email))
