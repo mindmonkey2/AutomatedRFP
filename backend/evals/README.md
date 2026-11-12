@@ -60,8 +60,9 @@ other three would be missing from the checklist.
 | `in_sai_bhopal_cladding_2020` | Sports Authority of India civil works tender on the CPP portal, Bhopal (2020), pages 4-5 and 19-20: justified text extracted one word per line, qualification table with interleaved columns | 22 | 3 |
 
 Indian tenders state many mandatory rules with "should", "to be enclosed" or bare document lists
-("Copy of EMD."), so a sweep for shall/must/required misses them; the keyword baseline finds only
-23-31% here.
+("Copy of EMD."), so a sweep for shall/must/required missed them (23-31% found). The current sweep
+also reads these styles and finds 77-94% (see `results/baseline-keyword.md`; the v1 results are kept as
+`results/baseline-keyword-v1.md`).
 
 **Fetch-only cases.** Indian government works are copyrighted and tender documents are not clearly
 covered by an open licence (GODL covers datasets), so for these cases the repo stores only the answer

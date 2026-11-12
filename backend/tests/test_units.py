@@ -79,3 +79,76 @@ def test_claude_request_shape():
     assert body["system"][0]["cache_control"] == {"type": "ephemeral"}
     assert body["fallbacks"] == "default"
     assert "server-side-fallback-2026-07-01" in seen["beta"]
+
+
+# ---------------------------------------------------------------- obligation sweep (Indian tender styles)
+
+
+def _sweep(text: str) -> list[str]:
+    return [s for _, s in obligation_sentences("[Page 1]\n" + text)]
+
+
+def test_sweep_joins_pdf_hard_wraps():
+    text = ("The contractor must be enlisted with the State PWD and must also furnish self attested copies \n"
+            "of PAN, GST and EPF registration with the bid.")
+    assert _sweep(text) == ["The contractor must be enlisted with the State PWD and must also furnish self "
+                            "attested copies of PAN, GST and EPF registration with the bid."]
+
+
+def test_sweep_joins_one_word_per_line_layout():
+    assert _sweep("(i) Bidder \nshall \ncomply \nwith \nthe \nIntegrity Pact.") == [
+        "Bidder shall comply with the Integrity Pact."]
+
+
+def test_sweep_indian_wording():
+    found = _sweep("(i) The bidder should have completed three similar works in the last seven years.\n\n"
+                   "(ii) An affidavit to be enclosed that the firm is not blacklisted.\n\n"
+                   "(iii) Conditional bids will not to be accepted.\n\n"
+                   "(iv) Bidders have to pay Rs. 5,000/- as tender fee.")
+    assert len(found) == 4
+    assert found[3] == "Bidders have to pay Rs. 5,000/- as tender fee."  # no split at "Rs."
+
+
+def test_sweep_document_checklist_without_obligation_words():
+    text = ("Documents to be uploaded with the technical bid:\n\n"
+            "1. \nCopy of EMD.\n\n2. \nLetter of Transmittal.\n\n"
+            "(c) if applicable, Power of Attorney for the lead partner;\n\n"
+            "Contact us for help.")
+    found = _sweep(text)
+    assert {"Copy of EMD.", "Letter of Transmittal.",
+            "if applicable, Power of Attorney for the lead partner;"} <= set(found)
+    assert "Contact us for help." not in found
+
+
+def test_sweep_items_under_an_invalid_if_lead_in():
+    text = ("The bid shall become invalid if:\n\n"
+            "1. The bidder does not upload the GST certificate.\n\n"
+            "2. The bid is received after the due time.\n\n"
+            "The weather in the region is mild.")
+    found = _sweep(text)
+    assert "The bidder does not upload the GST certificate." in found
+    assert "The bid is received after the due time." in found
+    assert "The weather in the region is mild." not in found
+
+
+def test_sweep_summary_table_label_and_value():
+    text = ("Estimated Cost \nRs 12,00,000 \nLast Date & Time of Bid submission. \n15.03.2026, 3.00 PM \n"
+            "Period of Completion \n9 Months \nName of Work \nRepairs to hostel block")
+    found = _sweep(text)
+    assert "Last Date & Time of Bid submission. 15.03.2026, 3.00 PM" in found
+    assert "Period of Completion 9 Months" in found
+    assert not any("Estimated Cost" in s or "Name of Work" in s for s in found)
+
+
+def test_sweep_keeps_inline_lists_with_their_obligation():
+    text = "The Contractor shall be required to \n(a) \nstart work within 10 days, (b) finish within 90 days."
+    assert _sweep(text) == ["The Contractor shall be required to (a) start work within 10 days, "
+                            "(b) finish within 90 days."]
+
+
+def test_sweep_skips_authority_obligations():
+    found = _sweep("The Authority shall open the bids at 3 PM.\n\n"
+                   "The Department reserves the right to reject any bid.\n\n"
+                   "Financial bids shall be opened only for qualified bidders.\n\n"
+                   "The bidder shall submit a bid security.")
+    assert found == ["The bidder shall submit a bid security."]

@@ -240,20 +240,141 @@ def windows(text: str, max_chars: int) -> list[str]:
     return out
 
 
-_OBLIGATION = re.compile(r"\b(shall|must|is required to|are required to|required|mandatory|will not be accepted)\b", re.I)
+# ---------------------------------------------------------------- obligation sweep
+#
+# A keyword safety net under the AI extraction: every sentence or checklist line that looks like
+# something the bidder must do or submit. The AI pass re-reads whatever the extraction missed.
+# It is tuned for both US-style solicitations ("shall", "must") and Indian government tenders
+# (CPWD / NHAI style: "should", "to be enclosed", document checklists, NIT summary tables).
+
+_OBLIGATION = re.compile(
+    r"\b(shall|must|should|is required to|are required to|required|mandatory|has to|have to|needs? to"
+    r"|(?:will|shall)? ?not (?:to )?be accepted|liable to be (?:summarily )?rejected|(?:shall|will) be rejected"
+    r"|non[- ]?responsive|is to be ensured"
+    r"|to be (?:enclosed|submitted|uploaded|furnished|attached|provided|deposited|produced|sent|scanned|signed)"
+    r"|be enclosed|enclose[sd]?)\b",
+    re.I,
+)
+# Checklist lines that name a document without any obligation word: "(a) Copy of EMD."
+_DOCUMENT_ITEM = re.compile(
+    r"^(?:if applicable,?\s*)?(?:(?:an? |the |original |self[- ]attested |scanned |duly )?"
+    r"(?:cop(?:y|ies)|certificates?|affidavits?|undertakings?|letters? of|power of attorney|proof of"
+    r"|self[- ]{0,2}certification|annexure|appendix|form\b|joint bidding agreement|bid security|emd|earnest money"
+    r"|integrity pact|declaration|registration|audited|balance sheets?|solvency|details of|statement of)"
+    r"|original\b)",
+    re.I,
+)
+_DATE = re.compile(
+    r"\b(?:\d{1,2}[./-]\d{1,2}[./-]\d{2,4}"
+    r"|\d{1,2}(?:st|nd|rd|th)? (?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*,? \d{4}"
+    r"|(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]* \d{1,2},? \d{4})\b",
+    re.I,
+)
+_DEADLINE_WORD = re.compile(r"\b(last|due|end|closing|before|latest|deadline|submission|pre[- ]?bid|queries)\b", re.I)
+_PERIOD = re.compile(
+    r"\b(period|validity|within)\b.*?\b(\d+|one|two|three|four|five|six|seven|ten|fifteen|thirty)"
+    r"\s*(working )?(days?|weeks?|months?|years?)\b",
+    re.I,
+)
+# What the procuring authority does or may do is not a bidder requirement (a "trap").
+_AUTHORITY_ACTION = re.compile(
+    r"reserves? the right"
+    r"|^(?:the )?(?:authority|owner|employer|department|corporation|government|purchaser|competent authority"
+    r"|tender inviting authority|engineer[- ]in[- ]charge)\b[^.]{0,40}\b(?:shall|will|may)\b"
+    r"|\b(?:shall|will) be (?:opened|hosted|returned|refunded|intimated|notified|published)\b",
+    re.I,
+)
+# List markers: 1.  (a)  a)  (iv)  iv.  A.  •  -
+_MARKER = re.compile(r"^(?:\(?(?:\d{1,2}|[ivxlc]{1,6}|[a-z])[.)]|\((?:\d{1,2}|[ivxlc]{1,6}|[a-z])\)|[•▪●◦*–-])(?=\s|$)\s*", re.I)
+# A lead-in whose list items are all requirements: "The bid shall become invalid if:",
+# "The list of documents to be scanned and uploaded ...:"
+_LEAD_IN = re.compile(r"(?:invalid|rejected|disqualified|non[- ]?responsive)\s+if\s*:?$|:$")
+_VALUE_START = re.compile(r"^(?:\d|rs\.?\s|₹|inr\b|within\b|up ?to\b)", re.I)
+# A line ending in one of these words is mid-sentence, so a list marker after it is inline.
+_OPEN_END = re.compile(r"\b(?:to|and|or|of|the|a|an|by|with|for|be|shall|must|will|in|on|that|following)$", re.I)
+_SHORT_LINE = 60  # wrapped prose lines are longer; shorter lines end a heading, row or item
+_ABBREV = re.compile(r"\b(?:rs|no|nos|mr|ms|dr|sl|viz|etc|co|ltd|pvt|st|vol|cl|sub|para|i\.e|e\.g|[a-z])\.$", re.I)
+
+
+def _logical_lines(block: str) -> list[tuple[str, bool]]:
+    """Undo PDF hard wrapping. Returns (text, starts_with_list_marker) units: wrapped lines of one
+    sentence are joined, while list items, headings and short table cells stay separate, and a
+    short label is joined with the value on the next line ("Period of Completion" + "12 Months")."""
+    units: list[tuple[str, bool]] = []
+    cur, cur_item, prev = "", False, ""
+    for raw in block.split("\n"):
+        line = raw.strip()
+        if not line:
+            if cur:
+                units.append((cur, cur_item))
+            cur, cur_item, prev = "", False, ""
+            continue
+        is_item = bool(_MARKER.match(line))
+        if cur:
+            if _MARKER.fullmatch(prev):  # a marker on its own line belongs to the text after it
+                new_unit = False
+            elif is_item:
+                # "...shall be required to (a) commence..., (b) complete..." is one inline list.
+                new_unit = not _OPEN_END.search(prev)
+            elif line[0].islower() or _OPEN_END.search(prev):  # the sentence continues
+                new_unit = False
+            elif len(prev) < _SHORT_LINE and len(line) < _SHORT_LINE and _VALUE_START.match(line) \
+                    and not _OBLIGATION.search(prev):
+                new_unit = False  # label + value in a summary table
+            else:
+                new_unit = prev.endswith((".", ";", ":", "?", "!")) or len(prev) < _SHORT_LINE
+            if new_unit:
+                units.append((cur, cur_item))
+                cur, cur_item = "", False
+        if not cur:
+            cur_item = is_item
+        cur = f"{cur} {line}".strip()
+        prev = line
+    if cur:
+        units.append((cur, cur_item))
+    return units
+
+
+def _sentences(unit: str) -> list[str]:
+    """Split a unit into sentences, without breaking at abbreviations like "Rs." or "No."."""
+    parts = re.split(r"(?<=[.;?!])\s+(?=[A-Z(\[\"“‘])|(?<=:)\s+(?=[A-Z])", unit)
+    out: list[str] = []
+    for p in parts:
+        if out and _ABBREV.search(out[-1]):
+            out[-1] = f"{out[-1]} {p}"
+        else:
+            out.append(p)
+    return out
 
 
 def obligation_sentences(text: str) -> list[tuple[int | None, str]]:
-    """Keyword sweep: every sentence containing an obligation word, with its page."""
-    out = []
+    """Keyword sweep: (page, sentence) for every sentence or checklist line that looks like a
+    bidder requirement: obligation wording, a listed document, or a dated deadline / period."""
+    out: list[tuple[int | None, str]] = []
     page = None
+    in_required_list = False  # inside the items of a lead-in like "The bid shall become invalid if:"
     for block in re.split(r"(\[Page \d+\])", text):
         m = re.fullmatch(r"\[Page (\d+)\]", block)
         if m:
             page = int(m.group(1))
             continue
-        for sent in re.split(r"(?<=[.;:])\s+|\n(?=[A-Z0-9•\-])", block):
-            s = " ".join(sent.split())
-            if 25 <= len(s) <= 600 and _OBLIGATION.search(s):
-                out.append((page, s))
+        for unit, is_item in _logical_lines(block):
+            body = _MARKER.sub("", unit, count=1) if is_item else unit
+            listed = is_item and in_required_list
+            if not is_item:
+                flat = " ".join(unit.split())
+                in_required_list = bool(_LEAD_IN.search(flat)) and bool(
+                    _OBLIGATION.search(flat) or re.search(r"\b(?:invalid|rejected|disqualified)\b", flat, re.I))
+            for sent in _sentences(body):
+                s = " ".join(sent.split())
+                if not 10 <= len(s) <= 600 or _AUTHORITY_ACTION.search(s):
+                    continue
+                if (
+                    (len(s) >= 25 and _OBLIGATION.search(s))
+                    or (is_item and _DOCUMENT_ITEM.match(s))
+                    or listed
+                    or (len(s) <= 200 and _DATE.search(s) and _DEADLINE_WORD.search(s))
+                    or (len(s) <= 200 and _PERIOD.search(s))
+                ):
+                    out.append((page, s))
     return out

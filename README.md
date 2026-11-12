@@ -144,7 +144,7 @@ solicitation itself, section by section, and returns structured data.
 | Citation check | Each cited quote must appear in the passage it points to, or it is marked "not found in source" | `pipeline.quote_in` |
 | Confidence routing | Unverified citations, placeholders or low confidence send the answer to review | `pipeline.score` |
 | Verbatim requirements | Each extracted requirement carries the exact quote and page, so a reviewer can check it at a glance | `ExtractedRequirement` |
-| Recall safety net | A keyword sweep catches "shall/must/required" sentences the first extraction missed | `parsing.obligation_sentences` |
+| Recall safety net | A keyword sweep re-checks what the first extraction missed: obligation wording (US "shall/must", Indian "should/to be enclosed"), document checklists, and deadline rows, with PDF line wrapping undone | `parsing.obligation_sentences` |
 | Human approval | Nothing is approved or exported as final without a person | review screen, readiness check |
 
 Known limits: the citation check confirms that a quote exists in the source, not that the sentence
@@ -171,14 +171,20 @@ rebuilds the documents locally from the official sites.
 
 | Extractor | Recall, all cases | Recall, real cases | Mandatory recall | Traps extracted |
 | --- | --- | --- | --- | --- |
-| Keyword sweep only (no AI, baseline) | 49.2% (131/266) | 46.3% (76/164) | 52.7% | 8 of 32 |
+| Keyword sweep v1 (shall/must/required only) | 49.2% (131/266) | 46.3% (76/164) | 52.7% | 8 of 32 |
+| Keyword sweep v2 (current, no AI) | 71.8% (191/266) | 80.5% (132/164) | 77.1% | 3 of 32 |
 | Claude pipeline (`claude-opus-5-5`) | not yet run | | | |
 | Self-hosted model (any OpenAI-compatible server) | not yet run | | | |
 | **Target** | **95%** | | | |
 
-The keyword baseline misses anything phrased as an instruction ("Describe...", "Provide..."), schedule
-tables and evaluation criteria, and most Indian tender rules, which use "should" and bare document lists
-(23-31% found). That is the gap the AI pass has to close. Run it yourself with
+The first keyword sweep found only 23-31% of the requirements in the Indian tenders, which say "should"
+and "to be enclosed" and list documents with no obligation word at all, in PDFs whose hard line breaks
+cut sentences in half. Version 2 undoes the line wrapping and reads checklists, "invalid if:" lists and
+summary-table rows, finding 92% (ESIC) and 94% (NHAI). The third Indian tender (SAI Bhopal) was held out
+while the rules were written and went from 23% to 77%. It also skips more buyer obligations (3 traps instead
+of 8) and flags fewer false positives (34% of its items are not in the answer key, down from 40%). It still
+misses most instructions ("Describe...", "Provide...") and evaluation criteria: that is the gap the AI
+pass has to close. Run it yourself with
 `../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
 Answer keys were labelled with AI assistance; independent human review is pending.
 

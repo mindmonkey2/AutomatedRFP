@@ -1,27 +1,27 @@
 {
   "meta": {
     "runner": "keyword",
-    "started_at": "2026-11-12 15:05 UTC",
-    "seconds": 0.2
+    "started_at": "2026-11-12 18:54 UTC",
+    "seconds": 0.4
   },
   "summary": {
     "cases": 11,
     "cases_failed": 0,
     "gold_requirements": 266,
-    "found": 131,
-    "recall": 0.4925,
-    "mandatory_recall": 0.5274,
-    "kind_accuracy": 0.2061,
-    "page_accuracy": 1.0,
-    "extracted": 219,
-    "unmatched_extracted": 88,
-    "trap_hits": 8,
+    "found": 191,
+    "recall": 0.718,
+    "mandatory_recall": 0.7711,
+    "kind_accuracy": 0.1885,
+    "page_accuracy": 0.9948,
+    "extracted": 289,
+    "unmatched_extracted": 98,
+    "trap_hits": 3,
     "traps_total": 32,
     "recall_by_kind": {
       "deadline": {
-        "found": 7,
+        "found": 17,
         "total": 22,
-        "recall": 0.3182
+        "recall": 0.7727
       },
       "evaluation": {
         "found": 0,
@@ -29,14 +29,14 @@
         "recall": 0.0
       },
       "form": {
-        "found": 31,
+        "found": 59,
         "total": 75,
-        "recall": 0.4133
+        "recall": 0.7867
       },
       "format": {
-        "found": 31,
+        "found": 33,
         "total": 35,
-        "recall": 0.8857
+        "recall": 0.9429
       },
       "page_limit": {
         "found": 6,
@@ -44,9 +44,9 @@
         "recall": 0.4615
       },
       "qualification": {
-        "found": 23,
+        "found": 34,
         "total": 36,
-        "recall": 0.6389
+        "recall": 0.9444
       },
       "question": {
         "found": 6,
@@ -54,9 +54,9 @@
         "recall": 0.4
       },
       "submission": {
-        "found": 27,
+        "found": 36,
         "total": 46,
-        "recall": 0.587
+        "recall": 0.7826
       }
     }
   },
@@ -72,7 +72,7 @@
       "recall": 0.2917,
       "mandatory_found": 6,
       "mandatory_total": 17,
-      "extracted": 9,
+      "extracted": 10,
       "missed": [
         {
           "id": "R01",
@@ -190,6 +190,11 @@
         {
           "kind": "submission",
           "page": 3,
+          "text": "Proposals that do not meet the minimum qualifications will be rejected without further evaluation."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
           "text": "The County shall provide the selected firm with design documents at each design phase for review and cost estimating."
         }
       ],
@@ -243,55 +248,19 @@
       "title": "DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex M&O) \u2014 Section L, pages 5-10",
       "source": "real",
       "error": null,
-      "seconds": 0.2,
+      "seconds": 0.4,
       "gold": 56,
-      "found": 42,
-      "recall": 0.75,
-      "mandatory_found": 29,
+      "found": 48,
+      "recall": 0.8571,
+      "mandatory_found": 32,
       "mandatory_total": 39,
-      "extracted": 58,
+      "extracted": 66,
       "missed": [
-        {
-          "id": "R02",
-          "kind": "submission",
-          "mandatory": false,
-          "quote": "The Offeror shall not submit the information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past Performance, for team members with a proposed work scope less than $10 million"
-        },
-        {
-          "id": "R05",
-          "kind": "deadline",
-          "mandatory": false,
-          "quote": "no later than 2:00pm EST November 23, 2020"
-        },
         {
           "id": "R07",
           "kind": "submission",
           "mandatory": false,
           "quote": "Only potential Offerors that submit an intent to bid in accordance with L-29 below will be granted access to this reading room information"
-        },
-        {
-          "id": "R10",
-          "kind": "format",
-          "mandatory": false,
-          "quote": "The following edit feature settings shall be applied: inserted text--red and underlined; deleted text--struck through in black"
-        },
-        {
-          "id": "R15",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Volume I \u2013 The Offer - One (1) signed original"
-        },
-        {
-          "id": "R16",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Volume II \u2013 Technical and Management Information \u2013 One (1) original"
-        },
-        {
-          "id": "R17",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Volume III \u2013 Cost Information \u2013 One (1) original"
         },
         {
           "id": "R25",
@@ -344,12 +313,7 @@
         {
           "kind": "submission",
           "page": 5,
-          "text": "The Offeror shall not submit the information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past"
-        },
-        {
-          "kind": "submission",
-          "page": 5,
-          "text": "FedConnect shall be controlling."
+          "text": "In the event information posted on FedConnect differs from information posted on the secondary websites, the information on FedConnect shall be controlling."
         },
         {
           "kind": "submission",
@@ -364,11 +328,6 @@
         {
           "kind": "submission",
           "page": 6,
-          "text": "The following edit feature settings shall be applied:"
-        },
-        {
-          "kind": "submission",
-          "page": 6,
           "text": "The FAR Report (reference Section L-8(c)(4)), SAM Assertions (Section L-8(c)(6)), and Annual Reports (Section L-8(d)) do not require \u201cline-in/line-out\u201d copies, but shall be noted in the crosswalk."
         },
         {
@@ -378,18 +337,33 @@
         },
         {
           "kind": "submission",
+          "page": 6,
+          "text": "Reference(s) to another part or section within the same Volume of the proposal may be appropriate in order to avoid duplication of detailed information."
+        },
+        {
+          "kind": "submission",
+          "page": 6,
+          "text": "Team member submissions of proprietary information may provide a password protected document (file) to the prime Offeror."
+        },
+        {
+          "kind": "submission",
+          "page": 6,
+          "text": "The e-mail should indicate the name of prime Offeror."
+        },
+        {
+          "kind": "submission",
           "page": 7,
           "text": "Any passwords required to open password protected documents are subject to the proposal due date/time."
         },
         {
           "kind": "submission",
           "page": 7,
-          "text": "Performance Information Forms (PPIFs), therefore, extraneous pages such as resume cover pages are not required and will count against the page limitation)."
+          "text": "This process will be applied to the overall page limit for Volume II as well as page limits for specific documents (e.g., resumes and Past Performance Information Forms (PPIFs), therefore, extraneous pages such as resume cover pages are not required and will count against the page limitation)."
         },
         {
           "kind": "submission",
-          "page": 8,
-          "text": "For the Volume II Table of Contents and list of Figures/Glossary of Acronyms, the page(s) shall use the following number style:"
+          "page": 7,
+          "text": "Letters of commitment for Key Personnel;"
         },
         {
           "kind": "submission",
@@ -399,7 +373,7 @@
         {
           "kind": "submission",
           "page": 9,
-          "text": "89233220RNA000002\u201d appear in the Contract resulting from this solicitation, they shall be deemed to read \u201cContract No."
+          "text": "89233220RNA000002\u201d \u201cRequest For Proposal No. 89233220RNA000002\u201d or \u201cRFP No. 89233220RNA000002\u201d appear in the Contract resulting from this solicitation, they shall be deemed to read \u201cContract No. [insert Contract number]\u201d in the signed Contract for the management and operation of theY-12 National Security Complex (Y-12) in Oak Ridge, TN and the Pantex Plant (PX) near Amarillo, TX."
         },
         {
           "kind": "submission",
@@ -419,6 +393,11 @@
         {
           "kind": "submission",
           "page": 10,
+          "text": "Offerors should consider historical subcontract performance along with the current year subcontracting goals for the Site, as provided on the NNSA website, https://www.energy.gov/nnsa/y-12-national-security-complex-and-pantex-plant- management-and-operating-mo-contract."
+        },
+        {
+          "kind": "submission",
+          "page": 10,
           "text": "The Offeror shall complete the \u201cproposal\u201d"
         }
       ],
@@ -430,7 +409,19 @@
           "score": 1.0
         },
         {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
           "gold": "R03",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
           "kind": "submission",
           "page": 5,
           "score": 1.0
@@ -449,6 +440,12 @@
         },
         {
           "gold": "R09",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R10",
           "kind": "submission",
           "page": 6,
           "score": 1.0
@@ -478,6 +475,24 @@
           "score": 1.0
         },
         {
+          "gold": "R15",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
           "gold": "R18",
           "kind": "submission",
           "page": 6,
@@ -485,6 +500,12 @@
         },
         {
           "gold": "R19",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R20",
           "kind": "submission",
           "page": 6,
           "score": 1.0
@@ -503,6 +524,12 @@
         },
         {
           "gold": "R23",
+          "kind": "submission",
+          "page": 7,
+          "score": 1.0
+        },
+        {
+          "gold": "R24",
           "kind": "submission",
           "page": 7,
           "score": 1.0
@@ -592,13 +619,55 @@
           "score": 1.0
         },
         {
+          "gold": "R45",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
           "gold": "R46",
           "kind": "submission",
           "page": 9,
           "score": 1.0
         },
         {
+          "gold": "R47",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R48",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R49",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
+          "gold": "R50",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
           "gold": "R51",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
+          "gold": "R52",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
+          "gold": "R53",
           "kind": "submission",
           "page": 10,
           "score": 1.0
@@ -616,64 +685,10 @@
           "score": 1.0
         },
         {
-          "gold": "R52",
-          "kind": "submission",
-          "page": 10,
-          "score": 0.875
-        },
-        {
-          "gold": "R50",
-          "kind": "submission",
-          "page": 10,
-          "score": 0.857
-        },
-        {
-          "gold": "R47",
-          "kind": "submission",
-          "page": 9,
-          "score": 0.833
-        },
-        {
-          "gold": "R48",
-          "kind": "submission",
-          "page": 9,
-          "score": 0.818
-        },
-        {
-          "gold": "R24",
-          "kind": "submission",
-          "page": 7,
-          "score": 0.714
-        },
-        {
-          "gold": "R49",
-          "kind": "submission",
-          "page": 10,
-          "score": 0.7
-        },
-        {
-          "gold": "R20",
-          "kind": "submission",
-          "page": 6,
-          "score": 0.667
-        },
-        {
-          "gold": "R53",
-          "kind": "submission",
-          "page": 10,
-          "score": 0.667
-        },
-        {
           "gold": "R04",
           "kind": "submission",
           "page": 5,
           "score": 0.636
-        },
-        {
-          "gold": "R45",
-          "kind": "submission",
-          "page": 9,
-          "score": 0.6
         }
       ]
     },
@@ -684,23 +699,17 @@
       "error": null,
       "seconds": 0.0,
       "gold": 13,
-      "found": 2,
-      "recall": 0.1538,
-      "mandatory_found": 2,
+      "found": 3,
+      "recall": 0.2308,
+      "mandatory_found": 3,
       "mandatory_total": 6,
-      "extracted": 6,
+      "extracted": 7,
       "missed": [
         {
           "id": "R01",
           "kind": "submission",
           "mandatory": true,
           "quote": "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation for inclusion in the resulting contract may make the offer unacceptable for award"
-        },
-        {
-          "id": "R02",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "requires that the Offeror provide enough information in its statement to allow a meaningful evaluation by the Government"
         },
         {
           "id": "R04",
@@ -765,7 +774,7 @@
         {
           "kind": "submission",
           "page": 2,
-          "text": "Offeror must furnish comprehensive and specific information in its response."
+          "text": "The Offeror must furnish comprehensive and specific information in its response."
         },
         {
           "kind": "submission",
@@ -775,7 +784,7 @@
         {
           "kind": "submission",
           "page": 3,
-          "text": "In making this determination, the Contracting Officer will consider the Offeror\u2019s representation and disclosure statement required by DEAR 952.209-8, Organizational Conflicts Of Interest"
+          "text": "In making this determination, the Contracting Officer will consider the Offeror\u2019s representation and disclosure statement required by DEAR 952.209-8, Organizational Conflicts Of Interest Disclosure-Advisory and Assistance Services, and, if appropriate, information from other sources."
         },
         {
           "kind": "submission",
@@ -785,16 +794,22 @@
       ],
       "matches": [
         {
-          "gold": "R09",
+          "gold": "R02",
           "kind": "submission",
-          "page": 5,
+          "page": 3,
           "score": 1.0
         },
         {
           "gold": "R03",
           "kind": "submission",
           "page": 3,
-          "score": 0.7
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
         }
       ]
     },
@@ -805,18 +820,12 @@
       "error": null,
       "seconds": 0.0,
       "gold": 25,
-      "found": 14,
-      "recall": 0.56,
-      "mandatory_found": 13,
+      "found": 15,
+      "recall": 0.6,
+      "mandatory_found": 14,
       "mandatory_total": 19,
       "extracted": 16,
       "missed": [
-        {
-          "id": "R04",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "Proposals are due no later than 1:00 p.m. Eastern Time on June 9, 2026"
-        },
         {
           "id": "R08",
           "kind": "form",
@@ -884,11 +893,6 @@
         {
           "kind": "submission",
           "page": 1,
-          "text": "proposals submitted by email will not be accepted."
-        },
-        {
-          "kind": "submission",
-          "page": 1,
           "text": "The proposal shall consist of four volumes:"
         }
       ],
@@ -907,6 +911,12 @@
         },
         {
           "gold": "R03",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
           "kind": "submission",
           "page": 1,
           "score": 1.0
@@ -960,6 +970,12 @@
           "score": 1.0
         },
         {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
           "gold": "R19",
           "kind": "submission",
           "page": 2,
@@ -970,12 +986,6 @@
           "kind": "submission",
           "page": 2,
           "score": 1.0
-        },
-        {
-          "gold": "R17",
-          "kind": "submission",
-          "page": 2,
-          "score": 0.833
         }
       ]
     },
@@ -984,26 +994,14 @@
       "title": "ESIC (India) \u2014 Annual repairs and maintenance of civil works, Hyderabad: Notice Inviting e-Tender, CPWD format (2023), pages 3-5",
       "source": "real",
       "error": null,
-      "seconds": 0.0,
+      "seconds": 0.1,
       "gold": 25,
-      "found": 6,
-      "recall": 0.24,
-      "mandatory_found": 5,
+      "found": 23,
+      "recall": 0.92,
+      "mandatory_found": 21,
       "mandatory_total": 23,
-      "extracted": 21,
+      "extracted": 37,
       "missed": [
-        {
-          "id": "R01",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "Last Date & Time of Bid submission. 07.06.2023, 11.00 AM"
-        },
-        {
-          "id": "R02",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "The original EMD should be submitted in the office of Construction Branch"
-        },
         {
           "id": "R03",
           "kind": "deadline",
@@ -1011,112 +1009,90 @@
           "quote": "Period for submission of original EMD/ Eligibility documents by the Lowest Bidder Within one week from the date of opening the financial bid"
         },
         {
-          "id": "R04",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Period of Completion 12 Months"
-        },
-        {
-          "id": "R05",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The bidder should have registration with CPWD/State PWD /MES/Railways/BSNL"
-        },
-        {
-          "id": "R06",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The Bidder should have satisfactorily completed similar works during the last Seven years"
-        },
-        {
-          "id": "R07",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "This should be certified by an officer not below the rank of Executive Engineer/Project Manager"
-        },
-        {
-          "id": "R09",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "Average Annual Financial Turn over of Rs.14,97,536-00"
-        },
-        {
-          "id": "R10",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The bidder should not have incurred any loss (profit after tax should be positive) in more than two years"
-        },
-        {
-          "id": "R11",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The solvency of Rs bidder should have Rs11,98,028-00"
-        },
-        {
-          "id": "R12",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "The past experience in similar nature of work should be supported by certificates issued by the client\u2019s organisation"
-        },
-        {
-          "id": "R13",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The tenderer must be registered with following statutory authorities and must also furnish self attested copies ESI, EPF, GST along with last six months payment receipts"
-        },
-        {
-          "id": "R14",
-          "kind": "form",
-          "mandatory": false,
-          "quote": "an affidavit in this matter to be enclosed / uploaded that firm has never been employed"
-        },
-        {
-          "id": "R15",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "The Earnest Money Deposit (EMD) for Rs.59,901-00(Rupees Fifty nine thousand nine hundred and one only) Which shall be in the form of Insurance Surety Bonds"
-        },
-        {
-          "id": "R18",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Conditional bid will not to be accepted"
-        },
-        {
           "id": "R22",
           "kind": "submission",
           "mandatory": true,
           "quote": "The bidder does not upload all the documents (including GST Registration) as stipulated in the bid document"
-        },
-        {
-          "id": "R23",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Copy of EMD."
-        },
-        {
-          "id": "R24",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Letter of Transmittal."
-        },
-        {
-          "id": "R25",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Certificate of Work Experience as per Form \u2013 A"
         }
       ],
-      "trap_hits": [
-        "Financial bids submitted by the eligible and intending bidders shall be opened only for those bidders who are found qualified",
-        "Financial bids submitted by the eligible and intending bidders shall be opened only for those bidders who are found qualified",
-        "ESIC reserves the right to verify the particulars furnished by the bidder independently"
-      ],
+      "trap_hits": [],
       "local_only": true,
-      "unmatched_extracted": 15,
+      "unmatched_extracted": 14,
       "matches": [
         {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
           "gold": "R08",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R11",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R12",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R15",
           "kind": "submission",
           "page": 4,
           "score": 1.0
@@ -1129,6 +1105,12 @@
         },
         {
           "gold": "R17",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R18",
           "kind": "submission",
           "page": 5,
           "score": 1.0
@@ -1150,6 +1132,30 @@
           "kind": "submission",
           "page": 5,
           "score": 1.0
+        },
+        {
+          "gold": "R23",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R24",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R25",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R10",
+          "kind": "submission",
+          "page": 4,
+          "score": 0.818
         }
       ]
     },
@@ -1158,32 +1164,14 @@
       "title": "NHAI (India) \u2014 EPC widening of NH-54 in Makhu Town, Punjab: Instructions to Bidder for e-Tendering (2024)",
       "source": "real",
       "error": null,
-      "seconds": 0.1,
+      "seconds": 0.2,
       "gold": 32,
-      "found": 10,
-      "recall": 0.3125,
-      "mandatory_found": 10,
+      "found": 30,
+      "recall": 0.9375,
+      "mandatory_found": 25,
       "mandatory_total": 26,
-      "extracted": 31,
+      "extracted": 56,
       "missed": [
-        {
-          "id": "R02",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "DSC should be in the name of the authorized signatory as authorized in Appendix III"
-        },
-        {
-          "id": "R06",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "Registration should be valid at least up to the date of submission of BID"
-        },
-        {
-          "id": "R07",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "bidders have to pay a sum of Rs. 10,000/- (Rupees ten thousand only) as a cost of the RFP process (non-refundable)"
-        },
         {
           "id": "R09",
           "kind": "deadline",
@@ -1191,122 +1179,24 @@
           "quote": "on or before 28.08.2024 (upto 1100 hours IST)"
         },
         {
-          "id": "R10",
-          "kind": "format",
-          "mandatory": true,
-          "quote": "scanned in different files (in PDF or RAR format such that file size is not more than 30 MB)"
-        },
-        {
-          "id": "R11",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Appendix IA (Letter comprising the Technical Bid) including Annexure-I to VI and supporting certificates / documents"
-        },
-        {
-          "id": "R12",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Power of Attorney for signing the BID as per the format at Appendix-III"
-        },
-        {
-          "id": "R13",
-          "kind": "form",
-          "mandatory": false,
-          "quote": "Power of Attorney for Lead Member of Joint Venture as per the format at Appendix-IV"
-        },
-        {
-          "id": "R14",
-          "kind": "form",
-          "mandatory": false,
-          "quote": "Joint Bidding Agreement for Joint Venture as per the format at"
-        },
-        {
-          "id": "R15",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "BID Security of Rs. 46.29 lakh (Rupees forty six lakh twenty nine thousand only) in the form of Insurance Surety Bond"
-        },
-        {
-          "id": "R16",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Proof of online payment towards the cost of Bid document of Rs. 10,000/-"
-        },
-        {
-          "id": "R18",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "An undertaking from the person having PoA referred to in Sub. Clause-(b) above that they agree and abide by the Bid documents"
-        },
-        {
-          "id": "R19",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Annexure-VIII of Appendix \u2013 IA showing details of all ongoing project works"
-        },
-        {
-          "id": "R20",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Copy of Memorandum and Articles of Association of the Bidder or of each Member"
-        },
-        {
-          "id": "R21",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Copies of duly audited complete annual accounts of the Bidder or of each member (in case of Joint Venture) for preceding 5 years"
-        },
-        {
-          "id": "R22",
-          "kind": "form",
-          "mandatory": false,
-          "quote": "Copy of originals of experience certificates apostile at foreign origin, if any"
-        },
-        {
-          "id": "R23",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Certificate regarding Compliance with Restrictions under Rule 144 (xi) of the General Financial Rules (GFRs)"
-        },
-        {
-          "id": "R24",
-          "kind": "form",
-          "mandatory": false,
-          "quote": "Copy of Registration from the Competent Authority as defined in Public Procurement Order No. F. No. 6/18/2019-PPD"
-        },
-        {
           "id": "R26",
           "kind": "form",
           "mandatory": false,
           "quote": "Self- certification by the Bidder that its Bid meets the Local Content requirement"
-        },
-        {
-          "id": "R27",
-          "kind": "form",
-          "mandatory": false,
-          "quote": "shall have to provide a Certificate from the Statutory Auditor or Cost Auditor of the Company"
-        },
-        {
-          "id": "R28",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Original (in Envelope) by the Lowest Bidder before issuance of Letter of Acceptance (LOA)"
-        },
-        {
-          "id": "R29",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "Account Payee demand draft or Banker\u2019s Cheque are submitted physically latest within 5 working days of the Bid Due Date"
         }
       ],
-      "trap_hits": [
-        "The Authority shall open documents of the Bid received in electronic form"
-      ],
+      "trap_hits": [],
       "local_only": true,
-      "unmatched_extracted": 21,
+      "unmatched_extracted": 26,
       "matches": [
         {
           "gold": "R01",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R02",
           "kind": "submission",
           "page": 1,
           "score": 1.0
@@ -1330,9 +1220,63 @@
           "score": 1.0
         },
         {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
           "gold": "R08",
           "kind": "submission",
           "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R10",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R11",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R12",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R15",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 3,
           "score": 1.0
         },
         {
@@ -1342,7 +1286,61 @@
           "score": 1.0
         },
         {
+          "gold": "R18",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R19",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R20",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R21",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R23",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R24",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
           "gold": "R25",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R27",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R28",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R29",
           "kind": "submission",
           "page": 4,
           "score": 1.0
@@ -1364,6 +1362,12 @@
           "kind": "submission",
           "page": 5,
           "score": 0.8
+        },
+        {
+          "gold": "R22",
+          "kind": "submission",
+          "page": 5,
+          "score": 0.714
         }
       ]
     },
@@ -1372,13 +1376,13 @@
       "title": "Sports Authority of India \u2014 Wall cladding work, Bhopal: e-Tender (2020), pages 4-5 and 19-20",
       "source": "real",
       "error": null,
-      "seconds": 0.0,
+      "seconds": 0.1,
       "gold": 22,
-      "found": 5,
-      "recall": 0.2273,
-      "mandatory_found": 5,
+      "found": 17,
+      "recall": 0.7727,
+      "mandatory_found": 15,
       "mandatory_total": 18,
-      "extracted": 11,
+      "extracted": 26,
       "missed": [
         {
           "id": "R02",
@@ -1387,88 +1391,16 @@
           "quote": "Hard copy of the same must be sent to the Office of Director Incharge, Sports Authority of India, Central Regional Centre, Bhopalon or before Bid Submission Date & Time"
         },
         {
-          "id": "R03",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "Bid Submission End Date 20.02.2020 (04:00 PM)"
-        },
-        {
-          "id": "R04",
-          "kind": "deadline",
-          "mandatory": false,
-          "quote": "Date and time of pre bid conference* 14.02.2020 (11:00 AM)"
-        },
-        {
-          "id": "R05",
-          "kind": "deadline",
-          "mandatory": false,
-          "quote": "Last date for submission of queries/ clarification made during the pre bid conference in writing ** 14.02.2020 (11:00 AM)"
-        },
-        {
-          "id": "R06",
-          "kind": "submission",
-          "mandatory": true,
-          "quote": "Bidders shall ensure that their Bids, complete in all respect should be uploaded online before the closing date and time"
-        },
-        {
-          "id": "R10",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Enclose copy of certificate incorporation/registration"
-        },
-        {
           "id": "R12",
           "kind": "form",
           "mandatory": true,
           "quote": "Statutory Auditor\u2019s Certificate is mandatory"
         },
         {
-          "id": "R13",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "Copies of Completion certificates of Civil works executed successfully during the last five years"
-        },
-        {
-          "id": "R14",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Satisfactory completion certificates issued by relevant authority not less than the rank of Section Officer be enclosed"
-        },
-        {
-          "id": "R15",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The bidders should not have been debarred/blacklisted by any state/central government/PSUs"
-        },
-        {
-          "id": "R16",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Enclose blacklisting declaration in the format given in Section IV (I)"
-        },
-        {
-          "id": "R17",
-          "kind": "qualification",
-          "mandatory": true,
-          "quote": "The bidder should have a valid GST No. or should have registered under GST"
-        },
-        {
-          "id": "R18",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "copy of GST Registration certificate"
-        },
-        {
           "id": "R19",
           "kind": "qualification",
           "mandatory": true,
           "quote": "CPWD/PWD Registration"
-        },
-        {
-          "id": "R20",
-          "kind": "form",
-          "mandatory": true,
-          "quote": "Enclose copy of Registration certificate"
         },
         {
           "id": "R21",
@@ -1485,10 +1417,28 @@
       ],
       "trap_hits": [],
       "local_only": true,
-      "unmatched_extracted": 6,
+      "unmatched_extracted": 9,
       "matches": [
         {
           "gold": "R01",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
           "kind": "submission",
           "page": 4,
           "score": 1.0
@@ -1506,15 +1456,69 @@
           "score": 1.0
         },
         {
+          "gold": "R10",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
           "gold": "R11",
           "kind": "submission",
           "page": 19,
           "score": 1.0
         },
         {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R15",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R18",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R20",
+          "kind": "submission",
+          "page": 19,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 4,
+          "score": 0.833
+        },
+        {
           "gold": "R07",
           "kind": "submission",
           "page": 5,
+          "score": 0.667
+        },
+        {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 19,
           "score": 0.667
         }
       ]
@@ -1526,18 +1530,12 @@
       "error": null,
       "seconds": 0.0,
       "gold": 20,
-      "found": 15,
-      "recall": 0.75,
-      "mandatory_found": 14,
+      "found": 16,
+      "recall": 0.8,
+      "mandatory_found": 15,
       "mandatory_total": 19,
-      "extracted": 18,
+      "extracted": 19,
       "missed": [
-        {
-          "id": "R01",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "no later than 2:00 p.m. local time on Thursday, March 12, 2026"
-        },
         {
           "id": "R10",
           "kind": "form",
@@ -1569,12 +1567,12 @@
         {
           "kind": "submission",
           "page": 1,
-          "text": "Sealed bids must be received at the District Facilities Office, 410 Orchard Way, Maple Valley, no later than 2:00 p.m."
+          "text": "Bidders who do not attend the mandatory pre-bid conference will be deemed non-responsive."
         },
         {
           "kind": "submission",
-          "page": 1,
-          "text": "Bidders who do not attend the mandatory pre-bid conference will be deemed non-responsive."
+          "page": 2,
+          "text": "Bid Security."
         },
         {
           "kind": "submission",
@@ -1584,6 +1582,18 @@
       ],
       "matches": [
         {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
           "gold": "R03",
           "kind": "submission",
           "page": 1,
@@ -1591,6 +1601,12 @@
         },
         {
           "gold": "R04",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
           "kind": "submission",
           "page": 1,
           "score": 1.0
@@ -1660,18 +1676,6 @@
           "kind": "submission",
           "page": 3,
           "score": 1.0
-        },
-        {
-          "gold": "R05",
-          "kind": "submission",
-          "page": 1,
-          "score": 0.8
-        },
-        {
-          "gold": "R02",
-          "kind": "submission",
-          "page": 1,
-          "score": 0.727
         }
       ]
     },
@@ -1682,18 +1686,12 @@
       "error": null,
       "seconds": 0.0,
       "gold": 19,
-      "found": 8,
-      "recall": 0.4211,
-      "mandatory_found": 8,
+      "found": 9,
+      "recall": 0.4737,
+      "mandatory_found": 9,
       "mandatory_total": 13,
-      "extracted": 8,
+      "extracted": 9,
       "missed": [
-        {
-          "id": "R02",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "Statements of Qualifications are due by 3:00 p.m. Central Time on September 3, 2026"
-        },
         {
           "id": "R03",
           "kind": "format",
@@ -1766,6 +1764,12 @@
           "score": 1.0
         },
         {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
           "gold": "R04",
           "kind": "submission",
           "page": 1,
@@ -1796,16 +1800,16 @@
           "score": 1.0
         },
         {
-          "gold": "R13",
+          "gold": "R10",
           "kind": "submission",
           "page": 2,
           "score": 1.0
         },
         {
-          "gold": "R10",
+          "gold": "R13",
           "kind": "submission",
           "page": 2,
-          "score": 0.636
+          "score": 1.0
         }
       ]
     },
@@ -1853,9 +1857,7 @@
           "quote": "agrees to use its best efforts to place subcontractors in accorda~ce with this policy"
         }
       ],
-      "trap_hits": [
-        "The Government shall not be responsible for any interpretation of or conclusion drawn from the data"
-      ],
+      "trap_hits": [],
       "local_only": false,
       "unmatched_extracted": [
         {
@@ -1866,22 +1868,22 @@
         {
           "kind": "submission",
           "page": 2,
-          "text": "If the Contractor fails to complete the work within the time specified in the contract, or any extensions thereof, the Contractor shall pay to the Governme~t CIS liquidatt.'Cl damages, the sum of"
+          "text": "If the Contractor fails to complete the work within the time specified in the contract, or any extensions thereof, the Contractor shall pay to the Governme~t CIS liquidatt.'Cl damages, the sum of Sl3~. 13~ for each day of delay."
         },
         {
           "kind": "submission",
           "page": 2,
-          "text": "If the Government terminates the Contractor's right to proceed, the resulti~g demage will consist of liquidated damages ~~til such reasonable time as mny ~ required tor fi~al completion of the work together with a:ty increased costs occassioned the Govet:unent in completing the work \u2022 c."
+          "text": "~ required tor fi~al completion of the work together with a:ty increased costs occassioned the Govet:unent in completing the work \u2022"
         },
         {
           "kind": "submission",
           "page": 2,
-          "text": "the peri\"d specified for acceptance, fails to execute all contract'Jai doc1.1ne~ts or give a bond (s) as required by the solicitatio!\"l withi:'l the time specified, the Contracting Oificer may"
+          "text": "It the successful cidder, upon accepta~ce of .its bid by the Gover:\"lrnent within. the peri\"d specified for acceptance, fails to execute all contract'Jai doc1.1ne~ts or give a bond (s) as required by the solicitatio!\"l withi:'l the time specified, the Contracting Oificer may SCR l"
         },
         {
           "kind": "submission",
           "page": 3,
-          "text": "The work shall confonn to the drawings contained in P.art III of this contract, all of which fonn a part of these ."
+          "text": "The work shall confonn to the drawings contained in P.art III of this contract, all of which fonn a part of these . specifications and are avetilcble in the office of the District Engineer, u.s. r..rmy Engineer District, Philadelphia, Room 4~2,"
         },
         {
           "kind": "submission",
@@ -1900,18 +1902,13 @@
         },
         {
           "kind": "submission",
-          "page": 3,
-          "text": "The Government shall not be responsible for any interpretation of or conclusion drawn from the data or information by the Contractor."
+          "page": 4,
+          "text": "Allowable cost for construction and marine plant and equipment in sound workable condition owned or controlled and furnished by the Contractor or sub-contractor cot any tier for worlr requiring adj\u2022JStments in contract price shall be based upon actual r.osts, provided both ownership and operating costs for each piece of equipment or equipment groups of similar serial a.~d series are proposed by the Contractor of k.\"low by the Contracting Officer to be available."
         },
         {
           "kind": "submission",
           "page": 4,
-          "text": "Contractor or sub-contractor cot any tier for worlr requiring adj\u2022JStments in contract price shall be based upon actual r.osts, provided both ownership and operating costs for each piece of equipment or equipment groups of similar serial a.~d series are proposed by the Contractor of k.\"low by the Contracting Officer to be available."
-        },
-        {
-          "kind": "submission",
-          "page": 4,
-          "text": "When actual costs are neither proposed nor known to be available, equipment costs shall be based upon the apPlicable provisions of the \"Construction Equipment"
+          "text": "When actual costs are neither proposed nor known to be available, equipment costs shall be based upon the apPlicable provisions of the \"Construction Equipment CM:lership and Operating Expense Schedule,\" Region I."
         },
         {
           "kind": "submission",
@@ -1926,7 +1923,12 @@
         {
           "kind": "submission",
           "page": 4,
-          "text": "For the purpose of determination of the hourly rates to be applied u.~er this contract, working conditions shall be considered to be average unless otherwise determined by the"
+          "text": "For the purpose of determination of the hourly rates to be applied u.~er this contract, working conditions shall be considered to be average unless otherwise determined by the Contracting Officer."
+        },
+        {
+          "kind": "submission",
+          "page": 5,
+          "text": "A copy of the. schedule will Qe provided to the successful bidder upon request."
         },
         {
           "kind": "submission",
@@ -1936,12 +1938,12 @@
         {
           "kind": "submission",
           "page": 5,
-          "text": "Certification shall not be construed as relieving the"
+          "text": "Certification shall not be construed as relieving the Contractor from furnishing satisfactory material, if, after tests are performed on selected samples, the material is fou.'1d not to meet the specific requirema\"lts."
         },
         {
           "kind": "submission",
           "page": 7,
-          "text": "For tpe purposes of paragraphs (b) and (c), the term actual ndverse weather deys shall incl\u2022Jde days impacted by actual adverse weather days."
+          "text": "and (c), the term actual ndverse weather deys shall incl\u2022Jde days impacted by actual adverse weather days."
         },
         {
           "kind": "submission",
@@ -1951,7 +1953,7 @@
         {
           "kind": "submission",
           "page": 7,
-          "text": "ntese subsequently occurring adverse weather days must prevent \"WOtk for 5~ percent or more of the"
+          "text": "Contractor is entitled to a time extension. ntese subsequently occurring adverse weather days must prevent \"WOtk for 5~ percent or more of the Contractor's work day and delay work critical to the timely completion of the project."
         }
       ],
       "matches": [
@@ -2030,18 +2032,12 @@
       "error": null,
       "seconds": 0.0,
       "gold": 14,
-      "found": 11,
-      "recall": 0.7857,
-      "mandatory_found": 10,
+      "found": 12,
+      "recall": 0.8571,
+      "mandatory_found": 11,
       "mandatory_total": 13,
-      "extracted": 11,
+      "extracted": 13,
       "missed": [
-        {
-          "id": "R01",
-          "kind": "deadline",
-          "mandatory": true,
-          "quote": "Sealed bids are due at 11:00 a.m. on July 15, 2026"
-        },
         {
           "id": "R06",
           "kind": "form",
@@ -2057,8 +2053,20 @@
       ],
       "trap_hits": [],
       "local_only": false,
-      "unmatched_extracted": [],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "Bids with missing unit prices will be considered non-responsive."
+        }
+      ],
       "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
         {
           "gold": "R02",
           "kind": "submission",
