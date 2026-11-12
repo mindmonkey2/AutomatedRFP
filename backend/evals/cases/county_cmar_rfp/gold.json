@@ -1,0 +1,213 @@
+{
+  "id": "county_cmar_rfp",
+  "title": "Riverbend County — RFP for Construction Manager at Risk, Public Safety Building",
+  "source": "synthetic",
+  "status": "reviewed",
+  "notes": "Authored for this evaluation to mirror common solicitation structures; not a real procurement.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Deadline for written questions: April 17, 2026, 4:00 p.m."
+    },
+    {
+      "id": "R02",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals due: May 1, 2026, 2:00 p.m."
+    },
+    {
+      "id": "R03",
+      "kind": "format",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals must be submitted electronically through the County's eProcurement portal as a single PDF file"
+    },
+    {
+      "id": "R04",
+      "kind": "page_limit",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals shall not exceed twenty-five (25) pages, excluding the cover letter, resumes, and required forms"
+    },
+    {
+      "id": "R05",
+      "kind": "format",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Pages shall be 8.5 x 11 inches with a minimum font size of 11 points"
+    },
+    {
+      "id": "R06",
+      "kind": "format",
+      "page": 1,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "organized in the order of the tabs in Section 4, with tabs labeled to match"
+    },
+    {
+      "id": "R07",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Provide a cover letter signed by an officer authorized to bind the firm"
+    },
+    {
+      "id": "R08",
+      "kind": "page_limit",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The cover letter shall not exceed two (2) pages"
+    },
+    {
+      "id": "R09",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Describe your firm's experience as CMAR on at least three public safety, justice, or comparable civic facilities completed in the last ten years"
+    },
+    {
+      "id": "R10",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Identify the proposed project executive, project manager, superintendent, and preconstruction manager"
+    },
+    {
+      "id": "R11",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Include a one-page resume for each"
+    },
+    {
+      "id": "R12",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Describe your approach to estimating, value engineering, constructability review, and developing the Guaranteed Maximum Price (GMP)"
+    },
+    {
+      "id": "R13",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Provide your firm's Experience Modification Rate (EMR) for each of the last three years"
+    },
+    {
+      "id": "R14",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Describe your site safety program, including subcontractor safety oversight"
+    },
+    {
+      "id": "R15",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "using Attachment B, Fee Proposal Form, uploaded as a separate file"
+    },
+    {
+      "id": "R16",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "signed Conflict of Interest Disclosure (Attachment C)"
+    },
+    {
+      "id": "R17",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Vendor Registration Certificate (Attachment D)"
+    },
+    {
+      "id": "R18",
+      "kind": "qualification",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposers must hold a current general contractor license issued by the State"
+    },
+    {
+      "id": "R19",
+      "kind": "qualification",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "demonstrate bonding capacity of at least $60 million for a single project, evidenced by a letter from a surety"
+    },
+    {
+      "id": "R20",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Firm qualifications and relevant experience — 30 points"
+    },
+    {
+      "id": "R21",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Key personnel — 25 points"
+    },
+    {
+      "id": "R22",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Preconstruction approach — 20 points"
+    },
+    {
+      "id": "R23",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Safety record — 10 points"
+    },
+    {
+      "id": "R24",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Fee proposal — 15 points"
+    }
+  ],
+  "traps": [
+    {
+      "page": 3,
+      "quote": "The County shall provide the selected firm with design documents at each design phase",
+      "why": "Obligation or right of the owner, not the bidder"
+    },
+    {
+      "page": 3,
+      "quote": "The County may, at its sole discretion, cancel this RFP",
+      "why": "Obligation or right of the owner, not the bidder"
+    }
+  ]
+}

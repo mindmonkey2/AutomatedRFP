@@ -1,0 +1,49 @@
+[Page 1]
+SOLICITATION NO. W000XX-26-R-0042
+DESIGN-BUILD — VEHICLE MAINTENANCE FACILITY
+
+SECTION L — INSTRUCTIONS, CONDITIONS, AND NOTICES TO OFFERORS
+
+L.1 GENERAL
+Offerors shall be registered in the System for Award Management (SAM) at the time of proposal submission and shall maintain registration until contract award.
+This acquisition is a 100% Small Business Set-Aside under NAICS code 236220. Offerors must qualify as a small business under this NAICS code.
+Proposals shall remain valid for 120 calendar days from the closing date of this solicitation.
+
+L.2 SUBMISSION
+Proposals are due no later than 1:00 p.m. Eastern Time on June 9, 2026. Proposals shall be submitted via the PIEE Solicitation Module; proposals submitted by email will not be accepted.
+Questions must be submitted to the Contract Specialist by email no later than May 22, 2026. Questions received after this date may not be answered.
+Offerors shall acknowledge all amendments by signing the SF 30 or by acknowledging them in block 19 of the SF 1442.
+The Government intends to award without discussions but reserves the right to conduct discussions if determined necessary.
+
+L.3 PROPOSAL ORGANIZATION
+The proposal shall consist of four volumes:
+Volume I — Price, including the completed SF 1442 and Bid Schedule.
+Volume II — Technical Approach, not to exceed 30 pages.
+Volume III — Past Performance, not to exceed 15 pages, excluding Past Performance Questionnaires.
+Volume IV — Small Business Participation Plan, not to exceed 5 pages.
+Each volume shall be submitted as a separate, searchable PDF file. Text shall be Times New Roman, 12 point, with one-inch margins. Pages exceeding the stated limits will not be read.
+
+[Page 2]
+L.4 VOLUME II — TECHNICAL APPROACH
+The Offeror shall describe its design-build team organization, including the lead designer of record, and the roles and responsibilities of each team member.
+The Offeror shall provide a preliminary design narrative addressing the facility requirements in the Statement of Work, including sustainability features to achieve LEED Silver certification.
+The Offeror shall provide a summary schedule in Gantt chart format showing design, permitting, construction, and commissioning, with completion within 540 calendar days after award.
+The lead designer shall be a registered architect licensed in any U.S. state.
+
+L.5 VOLUME III — PAST PERFORMANCE
+Submit up to five (5) recent and relevant projects completed within the past six (6) years. A relevant project is a design-build or construction project of at least $10 million involving industrial, maintenance, or vehicle facilities.
+For each project, the Offeror shall have the client complete the Past Performance Questionnaire (Attachment J-3) and return it directly to the Contracting Officer by the proposal due date.
+
+L.6 VOLUME IV — SMALL BUSINESS PARTICIPATION
+The Offeror shall describe the extent of participation of small businesses, including small disadvantaged, women-owned, HUBZone, and service-disabled veteran-owned small businesses, as a percentage of total contract value.
+
+[Page 3]
+SECTION M — EVALUATION FACTORS FOR AWARD
+
+M.1 BASIS FOR AWARD
+Award will be made to the offeror whose proposal represents the best value to the Government, considering price and non-price factors.
+
+M.2 EVALUATION FACTORS
+Factor 1, Technical Approach, is more important than Factor 2, Past Performance. Factor 2 is more important than Factor 3, Small Business Participation. All non-price factors combined are approximately equal to price.
+Past performance will be evaluated for recency, relevancy, and quality; offerors with no record of relevant past performance will receive a neutral rating.
+Price will be evaluated for reasonableness; the Government may also evaluate price for balance.

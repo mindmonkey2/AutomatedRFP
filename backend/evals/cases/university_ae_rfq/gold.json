@@ -1,0 +1,168 @@
+{
+  "id": "university_ae_rfq",
+  "title": "Northfield State University — RFQ for A/E Services, Science Building Renovation",
+  "source": "synthetic",
+  "status": "reviewed",
+  "notes": "Authored for this evaluation to mirror common solicitation structures; not a real procurement.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "submission",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Fee information must not be included in the submittal"
+    },
+    {
+      "id": "R02",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Statements of Qualifications are due by 3:00 p.m. Central Time on September 3, 2026"
+    },
+    {
+      "id": "R03",
+      "kind": "format",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Submit one (1) original and five (5) copies, plus one electronic copy on a USB drive"
+    },
+    {
+      "id": "R04",
+      "kind": "form",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Submittals shall use Standard Form 330, Parts I and II"
+    },
+    {
+      "id": "R05",
+      "kind": "page_limit",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The SF 330 Part I, Section H, shall not exceed ten (10) pages"
+    },
+    {
+      "id": "R06",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Firms must be licensed to practice architecture in the State of Northfield"
+    },
+    {
+      "id": "R07",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The engineer of record for each discipline must hold a Northfield professional engineering license"
+    },
+    {
+      "id": "R08",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "maintain professional liability insurance of at least $2,000,000 per claim"
+    },
+    {
+      "id": "R09",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Provide resumes of key personnel, including the principal-in-charge, project architect, and lead mechanical, electrical, and plumbing engineers"
+    },
+    {
+      "id": "R10",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Provide up to ten example projects; at least three must be renovations of occupied laboratory or science buildings"
+    },
+    {
+      "id": "R11",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Describe your approach to phasing construction in an occupied building"
+    },
+    {
+      "id": "R12",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "describe your quality control process for construction documents"
+    },
+    {
+      "id": "R13",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "disclose any current or pending litigation related to professional services within the last five years"
+    },
+    {
+      "id": "R14",
+      "kind": "form",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Include a completed Disclosure of Lobbying Activities form (SF-LLL), if applicable"
+    },
+    {
+      "id": "R15",
+      "kind": "evaluation",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Specialized experience in laboratory renovations (35%)"
+    },
+    {
+      "id": "R16",
+      "kind": "evaluation",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Qualifications of key personnel (25%)"
+    },
+    {
+      "id": "R17",
+      "kind": "evaluation",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Approach to occupied-building phasing (20%)"
+    },
+    {
+      "id": "R18",
+      "kind": "evaluation",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Past performance on schedule and budget (15%)"
+    },
+    {
+      "id": "R19",
+      "kind": "evaluation",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Familiarity with the University's design standards (5%)"
+    }
+  ],
+  "traps": [
+    {
+      "page": 2,
+      "quote": "The University will provide existing building drawings to the selected firm",
+      "why": "Obligation or right of the owner, not the bidder"
+    }
+  ]
+}

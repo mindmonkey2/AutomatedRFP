@@ -1,0 +1,216 @@
+{
+  "id": "federal_design_build",
+  "title": "Federal Design-Build, Vehicle Maintenance Facility — Sections L and M",
+  "source": "synthetic",
+  "status": "reviewed",
+  "notes": "Authored for this evaluation to mirror common solicitation structures; not a real procurement.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offerors shall be registered in the System for Award Management (SAM) at the time of proposal submission"
+    },
+    {
+      "id": "R02",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offerors must qualify as a small business under this NAICS code"
+    },
+    {
+      "id": "R03",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals shall remain valid for 120 calendar days from the closing date"
+    },
+    {
+      "id": "R04",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals are due no later than 1:00 p.m. Eastern Time on June 9, 2026"
+    },
+    {
+      "id": "R05",
+      "kind": "format",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals shall be submitted via the PIEE Solicitation Module"
+    },
+    {
+      "id": "R06",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Questions must be submitted to the Contract Specialist by email no later than May 22, 2026"
+    },
+    {
+      "id": "R07",
+      "kind": "form",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offerors shall acknowledge all amendments by signing the SF 30 or by acknowledging them in block 19 of the SF 1442"
+    },
+    {
+      "id": "R08",
+      "kind": "form",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Volume I — Price, including the completed SF 1442 and Bid Schedule"
+    },
+    {
+      "id": "R09",
+      "kind": "page_limit",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Volume II — Technical Approach, not to exceed 30 pages"
+    },
+    {
+      "id": "R10",
+      "kind": "page_limit",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Volume III — Past Performance, not to exceed 15 pages"
+    },
+    {
+      "id": "R11",
+      "kind": "page_limit",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Volume IV — Small Business Participation Plan, not to exceed 5 pages"
+    },
+    {
+      "id": "R12",
+      "kind": "format",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Each volume shall be submitted as a separate, searchable PDF file"
+    },
+    {
+      "id": "R13",
+      "kind": "format",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Text shall be Times New Roman, 12 point, with one-inch margins"
+    },
+    {
+      "id": "R14",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "describe its design-build team organization, including the lead designer of record"
+    },
+    {
+      "id": "R15",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "provide a preliminary design narrative addressing the facility requirements in the Statement of Work"
+    },
+    {
+      "id": "R16",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "provide a summary schedule in Gantt chart format showing design, permitting, construction, and commissioning"
+    },
+    {
+      "id": "R17",
+      "kind": "qualification",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The lead designer shall be a registered architect licensed in any U.S. state"
+    },
+    {
+      "id": "R18",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Submit up to five (5) recent and relevant projects completed within the past six (6) years"
+    },
+    {
+      "id": "R19",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "have the client complete the Past Performance Questionnaire (Attachment J-3) and return it directly to the Contracting Officer"
+    },
+    {
+      "id": "R20",
+      "kind": "question",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "describe the extent of participation of small businesses"
+    },
+    {
+      "id": "R21",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Award will be made to the offeror whose proposal represents the best value to the Government"
+    },
+    {
+      "id": "R22",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Factor 1, Technical Approach, is more important than Factor 2, Past Performance"
+    },
+    {
+      "id": "R23",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Past performance will be evaluated for recency, relevancy, and quality"
+    },
+    {
+      "id": "R24",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Factor 3, Small Business Participation"
+    },
+    {
+      "id": "R25",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "Price will be evaluated for reasonableness"
+    }
+  ],
+  "traps": [
+    {
+      "page": 1,
+      "quote": "The Government intends to award without discussions but reserves the right to conduct discussions",
+      "why": "Obligation or right of the owner, not the bidder"
+    }
+  ]
+}

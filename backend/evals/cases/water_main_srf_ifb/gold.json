@@ -1,0 +1,133 @@
+{
+  "id": "water_main_srf_ifb",
+  "title": "City of Westbrook — IFB, Water Main Replacement (State Revolving Fund)",
+  "source": "synthetic",
+  "status": "reviewed",
+  "notes": "Authored for this evaluation to mirror common solicitation structures; not a real procurement.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Sealed bids are due at 11:00 a.m. on July 15, 2026"
+    },
+    {
+      "id": "R02",
+      "kind": "submission",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "all iron and steel products used in the project must be produced in the United States"
+    },
+    {
+      "id": "R03",
+      "kind": "form",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidders shall submit the AIS Certification with the bid"
+    },
+    {
+      "id": "R04",
+      "kind": "submission",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "must pay wages not less than the Davis-Bacon prevailing wage rates"
+    },
+    {
+      "id": "R05",
+      "kind": "submission",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "shall make good faith efforts to meet the DBE fair share objectives of 4% MBE and 6% WBE"
+    },
+    {
+      "id": "R06",
+      "kind": "form",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall submit EPA Forms 6100-3 and 6100-4 with the bid"
+    },
+    {
+      "id": "R07",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidders must not be suspended or debarred from federal programs"
+    },
+    {
+      "id": "R08",
+      "kind": "form",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall submit the Certification Regarding Debarment (Attachment E)"
+    },
+    {
+      "id": "R09",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidders shall submit unit prices for every line item on the Bid Schedule"
+    },
+    {
+      "id": "R10",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "A bid bond of five percent (5%) of the total base bid is required"
+    },
+    {
+      "id": "R11",
+      "kind": "qualification",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "must be prequalified with the Westbrook Public Works Department in the Underground Utilities category prior to bid opening"
+    },
+    {
+      "id": "R12",
+      "kind": "qualification",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "at least five (5) years of experience installing ductile iron water mains of 8-inch diameter or larger"
+    },
+    {
+      "id": "R13",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "All work shall be completed within 180 calendar days of the Notice to Proceed"
+    },
+    {
+      "id": "R14",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "A Traffic Control Plan prepared by a certified traffic control supervisor shall be submitted to the City Engineer"
+    }
+  ],
+  "traps": [
+    {
+      "page": 2,
+      "quote": "In case of a discrepancy between a unit price and the extended total, the unit price will govern",
+      "why": "Owner's rule for reading bids, not a bidder obligation"
+    },
+    {
+      "page": 2,
+      "quote": "The City will provide water for testing and flushing at no charge",
+      "why": "Obligation or right of the owner, not the bidder"
+    }
+  ]
+}

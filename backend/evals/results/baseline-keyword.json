@@ -1,0 +1,812 @@
+{
+  "meta": {
+    "runner": "keyword",
+    "started_at": "2026-11-12 14:46 UTC",
+    "seconds": 0.0
+  },
+  "summary": {
+    "cases": 5,
+    "cases_failed": 0,
+    "gold_requirements": 102,
+    "found": 55,
+    "recall": 0.5392,
+    "mandatory_recall": 0.6296,
+    "kind_accuracy": 0.1455,
+    "page_accuracy": 1.0,
+    "extracted": 62,
+    "unmatched_extracted": 7,
+    "trap_hits": 1,
+    "traps_total": 10,
+    "recall_by_kind": {
+      "deadline": {
+        "found": 5,
+        "total": 11,
+        "recall": 0.4545
+      },
+      "evaluation": {
+        "found": 0,
+        "total": 15,
+        "recall": 0.0
+      },
+      "form": {
+        "found": 11,
+        "total": 22,
+        "recall": 0.5
+      },
+      "format": {
+        "found": 7,
+        "total": 8,
+        "recall": 0.875
+      },
+      "page_limit": {
+        "found": 3,
+        "total": 6,
+        "recall": 0.5
+      },
+      "qualification": {
+        "found": 15,
+        "total": 15,
+        "recall": 1.0
+      },
+      "question": {
+        "found": 6,
+        "total": 15,
+        "recall": 0.4
+      },
+      "submission": {
+        "found": 8,
+        "total": 10,
+        "recall": 0.8
+      }
+    }
+  },
+  "cases": [
+    {
+      "id": "county_cmar_rfp",
+      "title": "Riverbend County \u2014 RFP for Construction Manager at Risk, Public Safety Building",
+      "source": "synthetic",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 24,
+      "found": 7,
+      "recall": 0.2917,
+      "mandatory_found": 6,
+      "mandatory_total": 17,
+      "extracted": 9,
+      "missed": [
+        {
+          "id": "R01",
+          "kind": "deadline",
+          "mandatory": false,
+          "quote": "Deadline for written questions: April 17, 2026, 4:00 p.m."
+        },
+        {
+          "id": "R02",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Proposals due: May 1, 2026, 2:00 p.m."
+        },
+        {
+          "id": "R07",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Provide a cover letter signed by an officer authorized to bind the firm"
+        },
+        {
+          "id": "R09",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Describe your firm's experience as CMAR on at least three public safety, justice, or comparable civic facilities completed in the last ten years"
+        },
+        {
+          "id": "R10",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Identify the proposed project executive, project manager, superintendent, and preconstruction manager"
+        },
+        {
+          "id": "R11",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Include a one-page resume for each"
+        },
+        {
+          "id": "R12",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Describe your approach to estimating, value engineering, constructability review, and developing the Guaranteed Maximum Price (GMP)"
+        },
+        {
+          "id": "R13",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Provide your firm's Experience Modification Rate (EMR) for each of the last three years"
+        },
+        {
+          "id": "R14",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Describe your site safety program, including subcontractor safety oversight"
+        },
+        {
+          "id": "R15",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "using Attachment B, Fee Proposal Form, uploaded as a separate file"
+        },
+        {
+          "id": "R16",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "signed Conflict of Interest Disclosure (Attachment C)"
+        },
+        {
+          "id": "R17",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Vendor Registration Certificate (Attachment D)"
+        },
+        {
+          "id": "R20",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Firm qualifications and relevant experience \u2014 30 points"
+        },
+        {
+          "id": "R21",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Key personnel \u2014 25 points"
+        },
+        {
+          "id": "R22",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Preconstruction approach \u2014 20 points"
+        },
+        {
+          "id": "R23",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Safety record \u2014 10 points"
+        },
+        {
+          "id": "R24",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Fee proposal \u2014 15 points"
+        }
+      ],
+      "trap_hits": [
+        "The County shall provide the selected firm with design documents at each design phase"
+      ],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 1,
+          "text": "Hard-copy or emailed proposals will not be accepted."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "The County shall provide the selected firm with design documents at each design phase for review and cost estimating."
+        }
+      ],
+      "matches": [
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R18",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R19",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "federal_design_build",
+      "title": "Federal Design-Build, Vehicle Maintenance Facility \u2014 Sections L and M",
+      "source": "synthetic",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 25,
+      "found": 14,
+      "recall": 0.56,
+      "mandatory_found": 13,
+      "mandatory_total": 19,
+      "extracted": 16,
+      "missed": [
+        {
+          "id": "R04",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Proposals are due no later than 1:00 p.m. Eastern Time on June 9, 2026"
+        },
+        {
+          "id": "R08",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Volume I \u2014 Price, including the completed SF 1442 and Bid Schedule"
+        },
+        {
+          "id": "R09",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "Volume II \u2014 Technical Approach, not to exceed 30 pages"
+        },
+        {
+          "id": "R10",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "Volume III \u2014 Past Performance, not to exceed 15 pages"
+        },
+        {
+          "id": "R11",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "Volume IV \u2014 Small Business Participation Plan, not to exceed 5 pages"
+        },
+        {
+          "id": "R18",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Submit up to five (5) recent and relevant projects completed within the past six (6) years"
+        },
+        {
+          "id": "R21",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Award will be made to the offeror whose proposal represents the best value to the Government"
+        },
+        {
+          "id": "R22",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Factor 1, Technical Approach, is more important than Factor 2, Past Performance"
+        },
+        {
+          "id": "R23",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Past performance will be evaluated for recency, relevancy, and quality"
+        },
+        {
+          "id": "R24",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Factor 3, Small Business Participation"
+        },
+        {
+          "id": "R25",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Price will be evaluated for reasonableness"
+        }
+      ],
+      "trap_hits": [],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 1,
+          "text": "proposals submitted by email will not be accepted."
+        },
+        {
+          "kind": "submission",
+          "page": 1,
+          "text": "The proposal shall consist of four volumes:"
+        }
+      ],
+      "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R12",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R15",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R19",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R20",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 2,
+          "score": 0.833
+        }
+      ]
+    },
+    {
+      "id": "k12_school_ifb",
+      "title": "Maple Valley USD \u2014 Invitation for Bids, New Classroom Building (K-12)",
+      "source": "synthetic",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 20,
+      "found": 15,
+      "recall": 0.75,
+      "mandatory_found": 14,
+      "mandatory_total": 19,
+      "extracted": 18,
+      "missed": [
+        {
+          "id": "R01",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "no later than 2:00 p.m. local time on Thursday, March 12, 2026"
+        },
+        {
+          "id": "R10",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Designation of Subcontractors"
+        },
+        {
+          "id": "R11",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Non-Collusion Declaration"
+        },
+        {
+          "id": "R12",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Bidder's Certificate Regarding Workers' Compensation"
+        },
+        {
+          "id": "R13",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "Iran Contracting Act Certification"
+        }
+      ],
+      "trap_hits": [],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 1,
+          "text": "Sealed bids must be received at the District Facilities Office, 410 Orchard Way, Maple Valley, no later than 2:00 p.m."
+        },
+        {
+          "kind": "submission",
+          "page": 1,
+          "text": "Bidders who do not attend the mandatory pre-bid conference will be deemed non-responsive."
+        },
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "The following forms shall be completed, signed, and submitted with the bid:"
+        }
+      ],
+      "matches": [
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R15",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R17",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R18",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R19",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R20",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 1,
+          "score": 0.8
+        },
+        {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 1,
+          "score": 0.727
+        }
+      ]
+    },
+    {
+      "id": "university_ae_rfq",
+      "title": "Northfield State University \u2014 RFQ for A/E Services, Science Building Renovation",
+      "source": "synthetic",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 19,
+      "found": 8,
+      "recall": 0.4211,
+      "mandatory_found": 8,
+      "mandatory_total": 13,
+      "extracted": 8,
+      "missed": [
+        {
+          "id": "R02",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Statements of Qualifications are due by 3:00 p.m. Central Time on September 3, 2026"
+        },
+        {
+          "id": "R03",
+          "kind": "format",
+          "mandatory": true,
+          "quote": "Submit one (1) original and five (5) copies, plus one electronic copy on a USB drive"
+        },
+        {
+          "id": "R09",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Provide resumes of key personnel, including the principal-in-charge, project architect, and lead mechanical, electrical, and plumbing engineers"
+        },
+        {
+          "id": "R11",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "Describe your approach to phasing construction in an occupied building"
+        },
+        {
+          "id": "R12",
+          "kind": "question",
+          "mandatory": true,
+          "quote": "describe your quality control process for construction documents"
+        },
+        {
+          "id": "R14",
+          "kind": "form",
+          "mandatory": false,
+          "quote": "Include a completed Disclosure of Lobbying Activities form (SF-LLL), if applicable"
+        },
+        {
+          "id": "R15",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Specialized experience in laboratory renovations (35%)"
+        },
+        {
+          "id": "R16",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Qualifications of key personnel (25%)"
+        },
+        {
+          "id": "R17",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Approach to occupied-building phasing (20%)"
+        },
+        {
+          "id": "R18",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Past performance on schedule and budget (15%)"
+        },
+        {
+          "id": "R19",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "Familiarity with the University's design standards (5%)"
+        }
+      ],
+      "trap_hits": [],
+      "unmatched_extracted": [],
+      "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R10",
+          "kind": "submission",
+          "page": 2,
+          "score": 0.636
+        }
+      ]
+    },
+    {
+      "id": "water_main_srf_ifb",
+      "title": "City of Westbrook \u2014 IFB, Water Main Replacement (State Revolving Fund)",
+      "source": "synthetic",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 14,
+      "found": 11,
+      "recall": 0.7857,
+      "mandatory_found": 10,
+      "mandatory_total": 13,
+      "extracted": 11,
+      "missed": [
+        {
+          "id": "R01",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "Sealed bids are due at 11:00 a.m. on July 15, 2026"
+        },
+        {
+          "id": "R06",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "shall submit EPA Forms 6100-3 and 6100-4 with the bid"
+        },
+        {
+          "id": "R08",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "shall submit the Certification Regarding Debarment (Attachment E)"
+        }
+      ],
+      "trap_hits": [],
+      "unmatched_extracted": [],
+      "matches": [
+        {
+          "gold": "R02",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R05",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 1,
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R10",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R11",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R12",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        }
+      ]
+    }
+  ]
+}

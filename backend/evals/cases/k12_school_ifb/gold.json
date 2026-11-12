@@ -1,0 +1,191 @@
+{
+  "id": "k12_school_ifb",
+  "title": "Maple Valley USD — Invitation for Bids, New Classroom Building (K-12)",
+  "source": "synthetic",
+  "status": "reviewed",
+  "notes": "Authored for this evaluation to mirror common solicitation structures; not a real procurement.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "no later than 2:00 p.m. local time on Thursday, March 12, 2026"
+    },
+    {
+      "id": "R02",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "A mandatory pre-bid conference and site walk will be held at 10:00 a.m. on February 24, 2026"
+    },
+    {
+      "id": "R03",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall possess a valid Class B (General Building Contractor) license"
+    },
+    {
+      "id": "R04",
+      "kind": "qualification",
+      "page": 1,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "must be registered with the Department of Industrial Relations as public works contractors at the time of bid"
+    },
+    {
+      "id": "R05",
+      "kind": "deadline",
+      "page": 1,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "All questions regarding the bid documents must be submitted in writing to purchasing@maplevalleyusd.example no later than 5:00 p.m. on March 3, 2026"
+    },
+    {
+      "id": "R06",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bids shall be submitted on the Bid Form included in these documents"
+    },
+    {
+      "id": "R07",
+      "kind": "format",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "All blanks on the Bid Form shall be completed in ink or typewritten"
+    },
+    {
+      "id": "R08",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "bid security in the form of a cashier's check, certified check, or bid bond in an amount not less than ten percent (10%) of the total bid amount"
+    },
+    {
+      "id": "R09",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Any bid bond shall be issued by an admitted surety insurer authorized to do business in the State"
+    },
+    {
+      "id": "R10",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Designation of Subcontractors"
+    },
+    {
+      "id": "R11",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Non-Collusion Declaration"
+    },
+    {
+      "id": "R12",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidder's Certificate Regarding Workers' Compensation"
+    },
+    {
+      "id": "R13",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Iran Contracting Act Certification"
+    },
+    {
+      "id": "R14",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidders shall acknowledge receipt of all addenda on the Bid Form"
+    },
+    {
+      "id": "R15",
+      "kind": "qualification",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "shall have completed at least two (2) public school construction projects of $5,000,000 or more within the last seven (7) years"
+    },
+    {
+      "id": "R16",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "furnish a Performance Bond and a Payment Bond, each in the amount of one hundred percent (100%) of the contract price"
+    },
+    {
+      "id": "R17",
+      "kind": "qualification",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "commercial general liability coverage of not less than $2,000,000 per occurrence and $4,000,000 aggregate"
+    },
+    {
+      "id": "R18",
+      "kind": "submission",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "achieve substantial completion within 420 calendar days"
+    },
+    {
+      "id": "R19",
+      "kind": "deadline",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bids shall remain valid for sixty (60) days after the bid opening"
+    },
+    {
+      "id": "R20",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Bidders shall submit the DVBE Participation Form with the bid"
+    }
+  ],
+  "traps": [
+    {
+      "page": 1,
+      "quote": "The District will issue any clarifications as written addenda posted on the District website",
+      "why": "Obligation or right of the owner, not the bidder"
+    },
+    {
+      "page": 1,
+      "quote": "The District reserves the right to reject any or all bids",
+      "why": "Obligation or right of the owner, not the bidder"
+    },
+    {
+      "page": 2,
+      "quote": "A bid may be withdrawn by written request received by the District before the bid deadline",
+      "why": "Permission, not an obligation"
+    },
+    {
+      "page": 3,
+      "quote": "The District will award the contract to the lowest responsive, responsible bidder",
+      "why": "Obligation or right of the owner, not the bidder"
+    }
+  ]
+}

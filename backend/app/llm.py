@@ -4,6 +4,7 @@ The pipeline depends on the `LLM` protocol, so tests swap in a fake without touc
 the network.
 """
 
+import threading
 from typing import Literal, Protocol
 
 import anthropic
@@ -139,6 +140,17 @@ class LLM(Protocol):
 class ClaudeLLM:
     def __init__(self, client: anthropic.Anthropic | None = None):
         self.client = client or anthropic.Anthropic(api_key=settings.anthropic_api_key)
+        # Running token totals (used by the evaluation harness to report cost).
+        self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0,
+                      "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0}
+        self._usage_lock = threading.Lock()
+
+    def _record_usage(self, resp) -> None:
+        u = resp.usage
+        with self._usage_lock:
+            self.usage["calls"] += 1
+            for k in ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens"):
+                self.usage[k] += getattr(u, k, None) or 0
 
     def _parse(self, system: str, user: str, schema: type[BaseModel], max_tokens: int = 16000):
         kwargs = dict(
@@ -164,6 +176,7 @@ class ClaudeLLM:
             if "authentication" in str(e).lower():
                 raise LLMError("No Claude API key configured. Set ANTHROPIC_API_KEY in backend/.env.") from e
             raise
+        self._record_usage(resp)
         if resp.stop_reason == "refusal":
             raise LLMError("The model declined this request.")
         if resp.stop_reason == "max_tokens":

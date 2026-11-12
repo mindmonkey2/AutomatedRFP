@@ -155,10 +155,13 @@ def _add_requirement(s: Session, f: SolicitationFile, r: ExtractedRequirement, s
     return req
 
 
-def _extract_base(s: Session, f: SolicitationFile, text: str) -> None:
-    llm = get_llm()
-    bid = s.get(Bid, f.bid_id)
-    seq = _next_sequence(s, f.bid_id)
+def extract_from_text(text: str, llm=None) -> tuple[list[str], list[ExtractedRequirement]]:
+    """Full requirement extraction for page-tagged solicitation text.
+
+    Used by the app and by the evaluation harness (backend/evals), so the eval measures
+    exactly what customers get. Returns (per-window summaries, requirements).
+    """
+    llm = llm or get_llm()
     extracted: list[ExtractedRequirement] = []
     summaries = []
     for w in windows(text, settings.extraction_window_chars):
@@ -168,11 +171,17 @@ def _extract_base(s: Session, f: SolicitationFile, text: str) -> None:
 
     # Second pass: keyword sweep for obligation sentences the model did not capture.
     uncovered = [(p, sent) for p, sent in obligation_sentences(text) if not _covered(sent, extracted)]
-    if uncovered:
-        for i in range(0, len(uncovered), 80):
-            extracted.extend(llm.fill_gaps(uncovered[i : i + 80]).requirements)
+    for i in range(0, len(uncovered), 80):
+        extracted.extend(llm.fill_gaps(uncovered[i : i + 80]).requirements)
 
-    for r in _dedupe(extracted):
+    return summaries, _dedupe(extracted)
+
+
+def _extract_base(s: Session, f: SolicitationFile, text: str) -> None:
+    bid = s.get(Bid, f.bid_id)
+    seq = _next_sequence(s, f.bid_id)
+    summaries, requirements = extract_from_text(text)
+    for r in requirements:
         _add_requirement(s, f, r, seq)
         seq += 1
     if not bid.summary:

@@ -149,6 +149,28 @@ Known limits: the citation check confirms that a quote exists in the source, not
 around it says the same thing. A planned second check will ask a separate model call whether each
 claim is fully supported by its passage.
 
+## Measuring accuracy
+
+A missed requirement is the costliest error, so extraction is measured, not assumed. The evaluation
+harness in [`backend/evals`](backend/evals/README.md) runs the app's real extraction pipeline on
+solicitations with hand-labelled answer keys and reports recall, mandatory recall, type and page
+accuracy, how many owner-obligation "traps" were wrongly extracted, and the API cost of the run.
+
+The starter set has **5 cases and 102 labelled requirements** (school bid, county CM-at-risk RFP, federal
+design-build Sections L/M, state-revolving-fund water main bid, university A/E qualifications). They are
+synthetic, written to mirror real solicitation structures; a tool imports real RFPs as draft cases for
+human review.
+
+| Extractor | Recall | Mandatory recall | Traps extracted |
+| --- | --- | --- | --- |
+| Keyword sweep only (no AI, baseline) | 53.9% (55/102) | 63.0% | 1 of 10 |
+| Claude pipeline (`claude-opus-5-5`) | not yet run | | |
+| **Target** | **95%** | | |
+
+The keyword baseline misses anything phrased as an instruction ("Describe...", "Provide..."), schedule
+lines and scoring tables, which is the gap the AI pass has to close. Run it yourself with
+`../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
+
 ## Security and data isolation
 
 - **Sign-in:** email and password (Argon2id hashing), server-side sessions in an httpOnly cookie,
@@ -179,7 +201,8 @@ claim is fully supported by its passage.
 | Filling the customer's own Excel questionnaire in place; fillable PDF forms | Planned |
 | Email delivery of invites and expiry alerts; password reset; SSO | Planned |
 | Bid/no-bid scoring, SAM.gov monitoring, win/loss learning | Later |
-| Evaluation set of real solicitations to measure requirement recall | Planned (needed before launch) |
+| Requirement-extraction evaluation harness, 5 labelled cases, keyword baseline | Built |
+| Claude score on the eval set; real public solicitations added to it | Next |
 
 ## AI providers
 
@@ -247,7 +270,8 @@ backend/
     pipeline.py    background jobs: ingest, extract, addendum diff, draft, verify, score
     export.py      Word/Excel export, readiness check
   migrations/      Alembic migrations (schema + row-level security policies)
-  tests/           API flow, auth, isolation and unit tests
+  evals/           requirement-extraction evaluation: labelled cases, scoring, reports
+  tests/           API flow, auth, isolation, eval-harness and unit tests
 frontend/
   app/             Next.js pages: bids, bid workspace, library, team, sign-in
   components/      shared UI and session handling
