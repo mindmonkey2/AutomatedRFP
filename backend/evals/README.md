@@ -39,7 +39,20 @@ other three would be missing from the checklist.
 
 ## The cases
 
-| Case | Type | Requirements | Traps |
+8 cases, 187 labelled requirements, 22 traps.
+
+**Real public solicitations** (US federal documents, public domain; source links in each `gold.json`):
+
+| Case | What it is | Requirements | Traps |
+| --- | --- | --- | --- |
+| `doe_nnsa_rfp_section_l` | DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex management and operating contract, 2021), Section L pages 5-10: proposal structure, page limits, formatting, Volume I forms | 56 | 4 |
+| `doe_nnsa_rfp_section_m` | The same RFP's complete Section M: evaluation criteria plus offeror obligations stated only there | 13 | 4 |
+| `usace_1985_ifb_ocr` | US Army Corps of Engineers construction IFB DACW61-85-B-0039 (1985), special contract requirements from a scanned PDF with poor OCR; quotes keep the OCR errors | 16 | 4 |
+
+**Synthetic cases**, written for this evaluation to mirror common construction and public-sector
+solicitations, so they can be labelled precisely:
+
+| Case | What it is | Requirements | Traps |
 | --- | --- | --- | --- |
 | `k12_school_ifb` | School district invitation for bids (bid security, required forms, DVBE) | 20 | 4 |
 | `county_cmar_rfp` | County construction-manager-at-risk RFP (tabbed content, page limits, scored criteria) | 24 | 2 |
@@ -47,11 +60,13 @@ other three would be missing from the checklist.
 | `water_main_srf_ifb` | City water main bid with state revolving fund rules (AIS, Davis-Bacon, DBE forms) | 14 | 2 |
 | `university_ae_rfq` | University A/E qualifications (SF 330, no-fee rule, weighted criteria) | 19 | 1 |
 
-These five are **synthetic**: written for this evaluation to mirror common solicitation structures, so they
-can be labelled precisely and published freely. They deliberately include requirements phrased without
-"shall" or "must" (instructions, schedule tables, scoring tables) and owner obligations as traps. Real
-public solicitations should be added next (see below); results on synthetic cases alone overstate how
-well extraction works on messy real documents.
+Reports show recall separately for real and synthetic cases. Treat the real-case number as the more
+honest one.
+
+**Who labelled them.** All answer keys were labelled by Claude (AI-assisted), line by line against the
+parser output, following the rules below; each `gold.json` records this in `labelled_by`. An independent
+human review of the keys is still pending and would make the numbers more trustworthy. The real cases
+are excerpts, not whole solicitations, to keep labelling precise; page numbers are the original PDF's.
 
 ## Adding a real solicitation
 

@@ -103,12 +103,19 @@ def to_markdown(report: dict) -> str:
         "| --- | --- | --- |",
     ]
     lines += [f"| {k} | {v['found']}/{v['total']} | {v['recall']:.0%} |" for k, v in s["recall_by_kind"].items()]
-    lines += ["", "## By case", "", "| Case | Recall | Mandatory | Extracted | Traps hit |", "| --- | --- | --- | --- | --- |"]
+    lines += ["", "## By source", "", "| Source | Cases | Recall |", "| --- | --- | --- |"]
+    for src in ("real", "synthetic"):
+        cs = [c for c in report["cases"] if c["source"] == src and not c["error"]]
+        if cs:
+            found, gold = sum(c["found"] for c in cs), sum(c["gold"] for c in cs)
+            lines.append(f"| {src} | {len(cs)} | {found / gold:.1%} ({found}/{gold}) |")
+    lines += ["", "## By case", "", "| Case | Source | Recall | Mandatory | Extracted | Traps hit |",
+              "| --- | --- | --- | --- | --- | --- |"]
     for c in report["cases"]:
         if c["error"]:
-            lines.append(f"| {c['id']} | error: {c['error'][:80]} | | | |")
+            lines.append(f"| {c['id']} | {c['source']} | error: {c['error'][:80]} | | | |")
         else:
-            lines.append(f"| {c['id']} | {c['recall']:.0%} ({c['found']}/{c['gold']}) | "
+            lines.append(f"| {c['id']} | {c['source']} | {c['recall']:.0%} ({c['found']}/{c['gold']}) | "
                          f"{c['mandatory_found']}/{c['mandatory_total']} | {c['extracted']} | {len(c['trap_hits'])} |")
     lines += ["", "## Missed requirements", ""]
     any_missed = False

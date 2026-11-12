@@ -37,6 +37,7 @@ class Case:
     requirements: list[GoldRequirement]
     traps: list[Trap] = field(default_factory=list)
     source_url: str | None = None
+    labelled_by: str | None = None
 
 
 def normalize(text: str) -> str:
@@ -49,6 +50,7 @@ def load_case(folder: Path) -> Case:
     return Case(
         id=gold["id"], title=gold["title"], source=gold.get("source", "real"),
         status=gold.get("status", "draft"), document=doc, source_url=gold.get("source_url"),
+        labelled_by=gold.get("labelled_by"),
         requirements=[GoldRequirement(**r) for r in gold["requirements"]],
         traps=[Trap(**t) for t in gold.get("traps", [])],
     )

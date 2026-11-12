@@ -1,0 +1,338 @@
+[Page 5]
+Request for Proposal No. 89233220RNA000002 
+Section L, Page 5 
+entity must be incorporated or otherwise legally established before proposal 
+submission. 
+ 
+(ii) “Team Member” is a member of a “contractor team arrangement”, as defined in 
+FAR 9.601, Contractor Team Arrangement. The Offeror shall not submit the 
+information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past 
+Performance, for team members with a proposed work scope less than $10 
+million over the Base Period. 
+ 
+(3) 
+No classified information shall be included in this solicitation or in the Offeror’s 
+proposal. 
+ 
+(b) Solicitation Questions/ Reading Room Information. Questions or comments regarding this 
+solicitation shall be submitted via email to: SEB8@nnsa.doe.gov. Submission of solicitation 
+questions/comments by other means is not authorized. Questions and responses, if 
+appropriate, will be posted to the FedConnect website at https://www.fedconnect.net. 
+FedConnect will be the primary and official site for posting information about this 
+requirement and amendments to the solicitation. Beta.SAM, the website that has officially 
+replaced Federal Business Opportunities or Fedbizopps (i.e. FBO.gov) and NNSA’s website 
+at https://www.energy.gov/nnsa/y-12-national-security-complex-and-pantex-plant-
+management-and-operating-mo-contract will be secondary locations for information. It may 
+take a few days to post information to these sites. In the event information posted on 
+FedConnect differs from information posted on the secondary websites, the information on 
+FedConnect shall be controlling. All questions on the solicitation should be submitted as 
+soon as possible, but no later than 2:00pm EST November 23, 2020. Questions submitted 
+after this date may not be answered and may not be a basis for amending this solicitation. All 
+questions concerning Amendment 0003 shall be submitted as soon as possible. 
+ 
+ 
+Question Submittal Template: 
+ 
+RFP Vol. X, Section/Part X, Title X, Page No. X: Provide background information or 
+other reference (as needed); and insert question. 
+ 
+ 
+Offeror shall utilize Times New Roman, 12pt font, and provide in Microsoft® Word 
+format for ease of review and consolidation. 
+ 
+The Government has established a reading room for Offerors to retrieve pertinent 
+information pertaining to this solicitation. Information available includes, but is not limited 
+to, the following: documents related to the Uranium Processing Facility (UPF) and Lithium 
+Processing Facility (LPF) projects, information related to carryover funding, and information 
+on Government Furnished Property. Offerors may request access to this information for up to 
+four (4) personnel per potential Offeror via email request to SEB8@nnsa.doe.gov. Only 
+potential Offerors that submit an intent to bid in accordance with L-29 below will be granted 
+access to this reading room information at the discretion of the Contracting Officer. The 
+Government will provide instructions via email on how to set up account information in 
+Max.gov.
+
+[Page 6]
+Request for Proposal No. 89233220RNA000002 
+Section L, Page 6 
+ 
+(c) Submission of Proposals. Submission of final proposal revisions (FPRs) shall consist of new 
+and complete Volumes I, II, and III. Offerors shall submit “clean” copies of Volumes I, II 
+and III along with “line-in/line-out” versions of Volumes I, II and III electronically via 
+FedConnect. The “clean” copies will be used for verification of compliance with formatting 
+instructions, and other requirements such as page limitations, and will be treated as the FPR. 
+The purpose of the “line-in/line-out” copies is to facilitate traceability from initial proposals 
+submitted to the FPR. The content of “line-in/line-out” submissions shall be identical to the 
+“clean” submittal, but it shall fully indicate all edits made to the initial proposal text. The 
+following edit feature settings shall be applied: inserted text--red and underlined; deleted 
+text--struck through in black; changes to formatting--none. A vertical bar in the left margin 
+shall be applied for changed lines. All changes and additional documentation provided within 
+a particular Volume shall be documented via cover page crosswalk. It is the Offeror’s 
+responsibility to ensure that revisions do not create inconsistencies, which may negatively 
+impact its evaluation. Note: The FAR Report (reference Section L-8(c)(4)), SAM Assertions 
+(Section L-8(c)(6)), and Annual Reports (Section L-8(d)) do not require “line-in/line-out” 
+copies, but shall be noted in the crosswalk. 
+ 
+Proposals shall be electronically submitted via FedConnect at https://www.fedconnect.net. 
+The FedConnect submission will be used as the official proposal submission for this 
+requirement and will be used for the Government’s evaluation. Proposals shall be structured 
+in three separate volumes as follows: 
+ 
+(1) 
+Volume I – The Offer - One (1) signed original. 
+ 
+(2) 
+Volume II – Technical and Management Information – One (1) original. 
+ 
+(3) 
+Volume III – Cost Information – One (1) original. 
+ 
+(4) 
+Multiple files may be submitted for each Volume; however, each file must clearly 
+identify the Volume number and the sequence to which it relates. Proposals must 
+be clearly and concisely written, indexed (cross-indexed as appropriate), and 
+logically assembled. Reference(s) to another part or section within the same 
+Volume of the proposal may be appropriate in order to avoid duplication of 
+detailed information. 
+ 
+(5) 
+Each volume shall include the Offeror’s point of contact (name and telephone 
+number) that can assist the Contracting Officer with technical questions/problems, 
+if any, associated with the electronic files. 
+ 
+(6) 
+Team member submissions of proprietary information may provide a password 
+protected document (file) to the prime Offeror. In such instances the team 
+member shall share the password with the Contracting Officer via e-mail to 
+SEB8@nnsa.doe.gov. The e-mail should indicate the name of prime Offeror. 
+Team member submissions must adhere to the proposal due date/time and other
+
+[Page 7]
+Request for Proposal No. 89233220RNA000002 
+Section L, Page 7 
+solicitation requirements. Any passwords required to open password protected 
+documents are subject to the proposal due date/time. 
+ 
+ 
+(7) 
+Each volume shall contain a glossary of all abbreviations and acronyms used, 
+including a definition for each. 
+ 
+(d) 
+Page Limitations and Exceptions. A Transmittal Letter shall be limited to one (1) page 
+and is not considered as part of Volumes I, II, or III. There is no page limitation for the 
+Offer (Volume I) or the Cost Information (Volume III). The Technical and Management 
+Information (Volume II) shall not exceed 25 pages; however, certain pages are excluded 
+from the page count as noted below. An Executive Summary or Overview of Volume II 
+may be provided in Volume II and is subject to the 25-page limitation. Page counting 
+will begin with the first page and continue up to the page limitation. Pages exceeding the 
+page count will not be read or evaluated. This process will be applied to the overall page 
+limit for Volume II as well as page limits for specific documents (e.g., resumes and Past 
+Performance Information Forms (PPIFs), therefore, extraneous pages such as resume 
+cover pages are not required and will count against the page limitation). Material may 
+not be incorporated by reference in Volume II (including any information in Volume I or 
+III) as a means to circumvent the page limitations. The following are excluded from the 
+overall page-count limitation for Volume II: 
+ 
+(1) 
+Section L, Attachment B - Listing of Key Personnel; 
+ 
+(2) 
+Resumes of Key Personnel, which are limited to five (5) pages each, except for 
+the CEO or President’s resume, which is limited to seven (7) pages; 
+ 
+(3) 
+Letters of commitment for Key Personnel; 
+ 
+(4) 
+UPF Interface Management Approach, limited to ten (10) pages; 
+ 
+(5) 
+The Section L, Attachment D - Cross-Reference Matrix; 
+ 
+(6) 
+The Volume II Table of Contents, list of Figures/Glossary of Acronyms used 
+(including a definition for each), dividers, tabs or similar inserts that do not 
+provide any substantive information; 
+ 
+(7) 
+Section L, Attachment E - Past Performance Information Forms (PPIF) and 
+attached additional pages (limited to eight (8) pages per PPIF, including any 
+additional pages); copies of any award fee determinations, performance 
+evaluation reports or other documentation that reflects the formal performance 
+assessments of the Offeror by its customer; and information concerning 
+terminated contracts; and 
+ 
+(8) 
+Section L, Attachment J – Small Business Subcontract Dollars and Percentages.
+
+[Page 8]
+Request for Proposal No. 89233220RNA000002 
+Section L, Page 8 
+(9) 
+Past Performance Addendum - In its FPR, the Offeror may provide the 
+Government additional information with respect to its past performance, including 
+items raised in the Offeror’s Matters for Discussion under Criterion 1: Past 
+Performance. This information shall be submitted as an Addendum to Volume II 
+and shall not exceed eight (8) pages. 
+ 
+(e) 
+Formatting. The following page formatting and restrictions apply: 
+ 
+(1) 
+Page Size. All pages shall be 8.5 x 11 inches, except for those containing large 
+tables, charts, graphs, diagrams, and other schematics (but not for pages of text), 
+which may not exceed 11x17 inches. All proposal pages larger than 8.5 x 11 
+inches will be considered two (2) pages for purposes of determining the number 
+of pages. 
+ 
+(2) 
+Font and Spacing. Text contained in all volumes shall be in Times New Roman 
+text no smaller than size 12 font. At a minimum, all text, including in graphics, 
+shall be single spaced (at least equivalent to Microsoft Word’s “Single” line-
+spacing option). The font size in graphs, figures, charts, and tables may be 
+smaller than size 12 font and in a font other than Times New Roman; however, 
+the font used shall be clearly legible and no smaller than size 8. Attempts to 
+circumvent page count restrictions through excessive use of graphs, figures, 
+charts, and tables may result in unilateral truncation of the proposal by the 
+Government. 
+ 
+(3) 
+Margins. Page margins shall be a minimum of one inch at the top, bottom, and 
+each side. Within the margins, all pages of each Volume shall be appropriately 
+numbered, identified with the name of the Offeror, the date, the solicitation 
+number, and a legend in accordance with the solicitation’s Section L (L-1) 
+provision FAR 52.215-1, Instructions to Offerors—Competitive Acquisition, 
+paragraph (e), Restriction on Disclosure and Use of Data, as appropriate, on each 
+page. Page numbers shall be sequential by Volume (e.g., “Volume I – 1”, 
+“Volume I – 2”, “Volume I – 3”, etc.). For the Volume II Table of Contents and 
+list of Figures/Glossary of Acronyms, the page(s) shall use the following number 
+style: “Volume II – ”, “Volume II – ii”, etc. No information, other than what is 
+referred to in this ¶ (e)(3), shall appear in the page margins. 
+ 
+(4) 
+Searchable Text. To facilitate the Government’s search for key words during 
+proposal evaluation, Offerors shall ensure that tables, diagrams, charts and/or 
+other graphic illustrations are word-searchable using the Adobe Acrobat “Find” 
+function. Inserts that are predominantly artistic illustrations or pictures and do not 
+contain a significant amount of narrative, are excluded from this requirement. 
+ 
+L-9 
+PROPOSAL PREPARATION INSTRUCTIONS – VOLUME I, THE OFFER 
+ 
+Volume I, The Offer, consists of the offer to enter into a contract to perform the desired work 
+and includes the items identified in the following paragraphs in the order listed. The information
+
+[Page 9]
+Request for Proposal No. 89233220RNA000002 
+Section L, Page 9 
+included in Volume I will not be evaluated for purposes of selection. However, failure to include 
+information required in Volume I may result in a proposal being considered materially deficient 
+and not compliant with the solicitation requirements and preclude the proposal from further 
+consideration. 
+ 
+(a) 
+The Offeror shall provide the administrative information, as required by the solicitation’s 
+Section L-1 provision FAR 52.215-1, Instructions to Offerors – Competitive Acquisition, 
+paragraph (c) (2), along with the information requested in Section G-4, Contractor 
+Contact, and Section G-7, Responsible Corporate Official, as the first page of Volume I. 
+ 
+(b) 
+Section A of this solicitation contains an SF 33 for the Contract to be awarded under this 
+solicitation. Offerors must submit one (1) original signed copy of the SF 33 document, 
+which is fully compliant with the requirements of this solicitation provision. 
+ 
+(1) 
+The person signing the SF 33 must have the authority to commit the Offeror to all 
+of the terms and conditions of the resulting Contract (See Section L, L-18, 
+Content of Resulting Contract). Whenever the words “Solicitation No. 
+89233220RNA000002” “Request For Proposal No. 89233220RNA000002” or 
+“RFP No. 89233220RNA000002” appear in the Contract resulting from this 
+solicitation, they shall be deemed to read “Contract No. [insert Contract number]” 
+in the signed Contract for the management and operation of theY-12 National 
+Security Complex (Y-12) in Oak Ridge, TN and the Pantex Plant (PX) near 
+Amarillo, TX. 
+ 
+(2) 
+In Block 14 of each SF 33, the Offeror must acknowledge receipt of all 
+amendments to the solicitation’s Section L provision FAR 52.215-1, Instructions 
+to Offerors – Competitive Acquisition. 
+ 
+(3) 
+By signing and submitting the SF 33, the Offeror commits to accept the resulting 
+Contract (See Section L-18, Content of Resulting Contract) as written and to 
+comply with the other provisions of the solicitation. Any exceptions or deviations 
+by the Offeror to the terms and conditions stated in this solicitation for inclusion 
+in the resulting Contract may make the offer unacceptable for award without 
+discussions. 
+ 
+(c) 
+ Section K, Representations, Certifications, and Other Statements of Offerors: 
+ 
+(1) 
+The Offeror shall submit a fully completed Section K, Representations, 
+Certifications, and Other Statements of Offerors. 
+(2) 
+Each team member shall separately complete, sign, and submit the Section K, 
+Representations, Certifications, and Other Statements of Offerors. 
+(3) 
+The Offeror shall complete and submit Section L, Attachment I - Offeror 
+Information. 
+(4) 
+The Offeror and each team member, shall also submit a copy of their FAR Report 
+under the Representations and Certifications from the System for Award 
+Management (SAM).
+
+[Page 10]
+Request for Proposal No. 89233220RNA000002 
+Section L, Page 10 
+(5) The Offeror and each team member shall submit the Organizational Conflict of 
+Interest (OCI) requirement in Section K. 
+(6) 
+The Offeror and each team member shall submit a copy of its Assertions from the 
+SAM. 
+(7) 
+The Offeror and each team member shall submit required representation, and 
+additional disclosures (if applicable) as set forth under FAR 52.204-25, 
+Prohibition on Contracting for Certain Telecommunications and Video 
+Surveillance Services or Equipment provision. 
+ 
+(d) 
+The Offeror shall submit a fully completed and executed Performance Guarantee 
+Agreement(s) (see Section G-5, Performance Guarantee(s)) for each parent organization 
+of the Offeror. Section L, Attachment A - Performance Guarantee Agreement(s), 
+contains the minimum Performance Guarantee Agreement conditions acceptable to 
+DOE/NNSA. This agreement will become part of the resulting Contract at Section J, 
+Appendix I - Performance Guarantee Agreement(s). The Offeror shall submit the last 
+three annual reports (i.e. business reports) for the parent organization(s) providing the 
+Performance Guarantee Agreement(s). Annual reports shall be submitted electronically 
+through FedConnect. Annual reports may be submitted as an attachment to Volume I, so 
+long as a reference to these attachments appears in the order where the information would 
+have been included. The Offeror shall submit evidence that the “the legal entity 
+submitting the offer” is legally established (see Section L-8(a)(2)). 
+ 
+(e) 
+The Offeror shall submit a Small Business Subcontracting Plan for Government fiscal 
+year 2021 through 2031, which contains all the elements required by Section I clause 
+FAR 52.219-9, Small Business Subcontracting Plan. Section L, Attachment C -
+Instructions for Small Business Subcontracting Plan, provides an outline and instructions 
+for preparing the Plan. The Contracting Officer, must approve the Small Business Plan 
+that will become part of Section J, Appendix E - Small Business Subcontracting Plan. 
+Small Business Subcontracting Plans will be updated annually and shall be incorporated 
+into the Contract by a separate supplemental agreement contract modification. Offerors 
+should consider historical subcontract performance along with the current year 
+subcontracting goals for the Site, as provided on the NNSA website, 
+https://www.energy.gov/nnsa/y-12-national-security-complex-and-pantex-plant-
+management-and-operating-mo-contract. 
+ 
+(f) 
+Offerors are prohibited from submitting multiple offers/proposals as a prime contractor or 
+parent company. If a company is included on multiple offers/proposals as either a prime 
+contractor or parent company, the Offerors will be contacted immediately and both 
+offers/proposals submitted will be deemed ineligible. 
+ 
+L-10 PROPOSAL PREPARATION INSTRUCTIONS – VOLUME II, TECHNICAL 
+AND MANAGEMENT INFORMATION 
+ 
+A Cross Reference Matrix is located at Section L, Attachment D - Cross Reference Matrix. This 
+matrix will provide a crosswalk between the offeror instructions in Section L and evaluation 
+criteria in Section M, with the Offeror’s proposal. The Offeror shall complete the “proposal”

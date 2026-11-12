@@ -1,0 +1,161 @@
+{
+  "id": "usace_1985_ifb_ocr",
+  "title": "US Army Corps of Engineers IFB DACW61-85-B-0039 (1985) — Special Contract Requirements, OCR text",
+  "source": "real",
+  "source_url": "https://semspub.epa.gov/work/02/272844.pdf",
+  "status": "reviewed",
+  "labelled_by": "Claude (AI-assisted), line by line against the parser output; independent human review pending",
+  "notes": "Real federal construction solicitation (US Government work, public domain), 1985, from EPA's public Superfund records. Scanned document with poor OCR; quotes copy the OCR errors exactly as the parser outputs them. Tests extraction on messy scans.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "corrmence work under this contract within lk!l calendar days after the Contractor receives the notice to proc~ed"
+    },
+    {
+      "id": "R02",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "procecute the work diligently"
+    },
+    {
+      "id": "R03",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "complete the entire work ready for use not later than 3k!l days after the contractor receives the notice to proceed"
+    },
+    {
+      "id": "R04",
+      "kind": "form",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall furnish a bid guarantee"
+    },
+    {
+      "id": "R05",
+      "kind": "deadline",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "allow n~ days for acceptance of its bid"
+    },
+    {
+      "id": "R06",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "give bond within 1~ detys after receipt of the forms by the bidder"
+    },
+    {
+      "id": "R07",
+      "kind": "submission",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "The Contractor shall check all drawings furnished him imnediately upon their receipt and shall promptly notify the Contracting Officer of any discrepancies"
+    },
+    {
+      "id": "R08",
+      "kind": "submission",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "The Contractor shall compare all drawings and verify the fig1,1res before layi:lg out the work"
+    },
+    {
+      "id": "R09",
+      "kind": "submission",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "shall satisfy himself as to the hazards likely to arise from weather conditions"
+    },
+    {
+      "id": "R10",
+      "kind": "submission",
+      "page": 4,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall perform on the site, and with its own organization, work eq.Jivalent to at least twenty (2~) percent of the total amount of work"
+    },
+    {
+      "id": "R11",
+      "kind": "format",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "shall be executed in triplicate copies"
+    },
+    {
+      "id": "R12",
+      "kind": "format",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Each certificate shall be signed by an official authorized to certify on behalf of the manufacturing company"
+    },
+    {
+      "id": "R13",
+      "kind": "qualification",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offers are solicited only from small business concerns"
+    },
+    {
+      "id": "R14",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "agrees to use its best efforts to place subcontractors in accorda~ce with this policy"
+    },
+    {
+      "id": "R15",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Contractor Shall observe the following order of preference in a~rding subcontracts"
+    },
+    {
+      "id": "R16",
+      "kind": "submission",
+      "page": 7,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "5chedule must reflect the above ahtic:ipated adverse weather delays on ail weather dependent activities"
+    }
+  ],
+  "traps": [
+    {
+      "page": 3,
+      "quote": "be furnisned the Contractor without charge",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 3,
+      "quote": "The Government shall not be responsible for any interpretation of or conclusion drawn from the data",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 6,
+      "quote": "the Contractor's performance will be evaluated upon final acceptance",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 7,
+      "quote": "The Contracting Officer will convert any delays meeting the above requirements to calendar days",
+      "why": "Obligation or right of the Government, not the offeror"
+    }
+  ]
+}

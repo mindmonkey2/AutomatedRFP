@@ -15,10 +15,18 @@ def req(quote: str, kind: str = "submission", page: int | None = 1, text: str | 
 
 def test_answer_keys_are_valid():
     cases = load_cases()
-    assert len(cases) >= 5
-    assert sum(len(c.requirements) for c in cases) >= 100
+    assert len(cases) >= 8
+    assert sum(len(c.requirements) for c in cases) >= 180
     for c in cases:
         assert validate(c) == [], c.id
+        assert c.labelled_by, f"{c.id}: record who labelled the answer key"
+
+
+def test_real_cases_cite_their_public_source():
+    real = [c for c in load_cases() if c.source == "real"]
+    assert len(real) >= 3
+    for c in real:
+        assert c.source_url and c.source_url.startswith("https://"), c.id
 
 
 def test_perfect_extraction_scores_100_percent():

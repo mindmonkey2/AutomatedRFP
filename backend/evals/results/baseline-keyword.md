@@ -1,38 +1,48 @@
 # Requirement extraction eval: keyword
 
-Run 2026-11-12 14:46 UTC · 5 cases · 102 labelled requirements
+Run 2026-11-12 14:56 UTC · 8 cases · 187 labelled requirements · 0s
 
 | Metric | Value |
 | --- | --- |
-| **Recall** (requirements found) | **53.9%** (55/102) |
-| Mandatory recall | 63.0% |
-| Kind accuracy (of found) | 14.5% |
+| **Recall** (requirements found) | **58.8%** (110/187) |
+| Mandatory recall | 64.2% |
+| Kind accuracy (of found) | 20.9% |
 | Page accuracy (of found) | 100.0% |
-| Traps extracted (owner obligations taken as bidder requirements) | 1 of 10 |
-| Extracted items not in the answer key | 7 of 62 |
+| Traps extracted (owner obligations taken as bidder requirements) | 4 of 22 |
+| Extracted items not in the answer key | 46 of 156 |
 
 ## Recall by requirement kind
 
 | Kind | Found | Recall |
 | --- | --- | --- |
-| deadline | 5/11 | 45% |
-| evaluation | 0/15 | 0% |
-| form | 11/22 | 50% |
-| format | 7/8 | 88% |
-| page_limit | 3/6 | 50% |
-| qualification | 15/15 | 100% |
+| deadline | 6/14 | 43% |
+| evaluation | 0/22 | 0% |
+| form | 27/40 | 68% |
+| format | 24/27 | 89% |
+| page_limit | 6/13 | 46% |
+| qualification | 18/19 | 95% |
 | question | 6/15 | 40% |
-| submission | 8/10 | 80% |
+| submission | 23/37 | 62% |
+
+## By source
+
+| Source | Cases | Recall |
+| --- | --- | --- |
+| real | 3 | 64.7% (55/85) |
+| synthetic | 5 | 53.9% (55/102) |
 
 ## By case
 
-| Case | Recall | Mandatory | Extracted | Traps hit |
-| --- | --- | --- | --- | --- |
-| county_cmar_rfp | 29% (7/24) | 6/17 | 9 | 1 |
-| federal_design_build | 56% (14/25) | 13/19 | 16 | 0 |
-| k12_school_ifb | 75% (15/20) | 14/19 | 18 | 0 |
-| university_ae_rfq | 42% (8/19) | 8/13 | 8 | 0 |
-| water_main_srf_ifb | 79% (11/14) | 10/13 | 11 | 0 |
+| Case | Source | Recall | Mandatory | Extracted | Traps hit |
+| --- | --- | --- | --- | --- | --- |
+| county_cmar_rfp | synthetic | 29% (7/24) | 6/17 | 9 | 1 |
+| doe_nnsa_rfp_section_l | real | 75% (42/56) | 29/39 | 58 | 1 |
+| doe_nnsa_rfp_section_m | real | 15% (2/13) | 2/6 | 6 | 1 |
+| federal_design_build | synthetic | 56% (14/25) | 13/19 | 16 | 0 |
+| k12_school_ifb | synthetic | 75% (15/20) | 14/19 | 18 | 0 |
+| university_ae_rfq | synthetic | 42% (8/19) | 8/13 | 8 | 0 |
+| usace_1985_ifb_ocr | real | 69% (11/16) | 4/8 | 30 | 1 |
+| water_main_srf_ifb | synthetic | 79% (11/14) | 10/13 | 11 | 0 |
 
 ## Missed requirements
 
@@ -53,6 +63,31 @@ Run 2026-11-12 14:46 UTC · 5 cases · 102 labelled requirements
 - `county_cmar_rfp` R22 (evaluation): "Preconstruction approach — 20 points"
 - `county_cmar_rfp` R23 (evaluation): "Safety record — 10 points"
 - `county_cmar_rfp` R24 (evaluation): "Fee proposal — 15 points"
+- `doe_nnsa_rfp_section_l` R02 (submission): "The Offeror shall not submit the information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past Performance, for team members with a proposed work scope less than $10 million"
+- `doe_nnsa_rfp_section_l` R05 (deadline): "no later than 2:00pm EST November 23, 2020"
+- `doe_nnsa_rfp_section_l` R07 (submission): "Only potential Offerors that submit an intent to bid in accordance with L-29 below will be granted access to this reading room information"
+- `doe_nnsa_rfp_section_l` R10 (format): "The following edit feature settings shall be applied: inserted text--red and underlined; deleted text--struck through in black"
+- `doe_nnsa_rfp_section_l` R15 (submission, mandatory): "Volume I – The Offer - One (1) signed original"
+- `doe_nnsa_rfp_section_l` R16 (submission, mandatory): "Volume II – Technical and Management Information – One (1) original"
+- `doe_nnsa_rfp_section_l` R17 (submission, mandatory): "Volume III – Cost Information – One (1) original"
+- `doe_nnsa_rfp_section_l` R25 (format, mandatory): "Material may not be incorporated by reference in Volume II (including any information in Volume I or III) as a means to circumvent the page limitations"
+- `doe_nnsa_rfp_section_l` R26 (page_limit, mandatory): "Resumes of Key Personnel, which are limited to five (5) pages each"
+- `doe_nnsa_rfp_section_l` R27 (page_limit, mandatory): "except for the CEO or President’s resume, which is limited to seven (7) pages"
+- `doe_nnsa_rfp_section_l` R28 (page_limit, mandatory): "UPF Interface Management Approach, limited to ten (10) pages"
+- `doe_nnsa_rfp_section_l` R29 (page_limit, mandatory): "limited to eight (8) pages per PPIF"
+- `doe_nnsa_rfp_section_l` R44 (submission, mandatory): "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation"
+- `doe_nnsa_rfp_section_l` R56 (submission, mandatory): "Offerors are prohibited from submitting multiple offers/proposals as a prime contractor or parent company"
+- `doe_nnsa_rfp_section_m` R01 (submission, mandatory): "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation for inclusion in the resulting contract may make the offer unacceptable for award"
+- `doe_nnsa_rfp_section_m` R02 (submission, mandatory): "requires that the Offeror provide enough information in its statement to allow a meaningful evaluation by the Government"
+- `doe_nnsa_rfp_section_m` R04 (form, mandatory): "A Performance Guarantee Agreement in accordance with the requirements of the Solicitation’s Section L provision L-6"
+- `doe_nnsa_rfp_section_m` R05 (evaluation): "The Government intends to award one contract to the responsible Offeror whose proposal is responsive to the solicitation and is determined to be the best value to the Government"
+- `doe_nnsa_rfp_section_m` R06 (evaluation): "the Technical and Management Criteria, when combined, are significantly more important than the Cost Criterion"
+- `doe_nnsa_rfp_section_m` R07 (evaluation): "The Government will evaluate the Offeror's recent, relevant past performance"
+- `doe_nnsa_rfp_section_m` R08 (evaluation): "The Government will evaluate the Offeror’s Sites Organization, Key Personnel resumes, and information provided by Key Personnel references"
+- `doe_nnsa_rfp_section_m` R10 (qualification, mandatory): "Proposed Key Personnel who are under a service commitment for the performance of another NNSA M&O contract at the projected time of contract award"
+- `doe_nnsa_rfp_section_m` R11 (evaluation): "The Government will evaluate the Offeror’s proposed UPF Interface Management Approach"
+- `doe_nnsa_rfp_section_m` R12 (evaluation): "The Government will evaluate the effectiveness of the Offeror's approach in using small businesses"
+- `doe_nnsa_rfp_section_m` R13 (evaluation): "The total evaluated price will not be rated, but will be used in determining the best value to the Government"
 - `federal_design_build` R04 (deadline, mandatory): "Proposals are due no later than 1:00 p.m. Eastern Time on June 9, 2026"
 - `federal_design_build` R08 (form, mandatory): "Volume I — Price, including the completed SF 1442 and Bid Schedule"
 - `federal_design_build` R09 (page_limit, mandatory): "Volume II — Technical Approach, not to exceed 30 pages"
@@ -80,6 +115,11 @@ Run 2026-11-12 14:46 UTC · 5 cases · 102 labelled requirements
 - `university_ae_rfq` R17 (evaluation): "Approach to occupied-building phasing (20%)"
 - `university_ae_rfq` R18 (evaluation): "Past performance on schedule and budget (15%)"
 - `university_ae_rfq` R19 (evaluation): "Familiarity with the University's design standards (5%)"
+- `usace_1985_ifb_ocr` R02 (submission, mandatory): "procecute the work diligently"
+- `usace_1985_ifb_ocr` R03 (submission, mandatory): "complete the entire work ready for use not later than 3k!l days after the contractor receives the notice to proceed"
+- `usace_1985_ifb_ocr` R05 (deadline, mandatory): "allow n~ days for acceptance of its bid"
+- `usace_1985_ifb_ocr` R06 (form, mandatory): "give bond within 1~ detys after receipt of the forms by the bidder"
+- `usace_1985_ifb_ocr` R14 (submission): "agrees to use its best efforts to place subcontractors in accorda~ce with this policy"
 - `water_main_srf_ifb` R01 (deadline, mandatory): "Sealed bids are due at 11:00 a.m. on July 15, 2026"
 - `water_main_srf_ifb` R06 (form, mandatory): "shall submit EPA Forms 6100-3 and 6100-4 with the bid"
 - `water_main_srf_ifb` R08 (form, mandatory): "shall submit the Certification Regarding Debarment (Attachment E)"

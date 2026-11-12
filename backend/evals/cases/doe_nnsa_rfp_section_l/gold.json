@@ -1,0 +1,481 @@
+{
+  "id": "doe_nnsa_rfp_section_l",
+  "title": "DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex M&O) — Section L, pages 5-10",
+  "source": "real",
+  "source_url": "https://www.energy.gov/sites/default/files/2021-08/Sec%20L%20-%20Instructions%20Conditions%20and%20Notices%20to%20Offeror%20(Amd%200004).pdf",
+  "status": "reviewed",
+  "labelled_by": "Claude (AI-assisted), line by line against the parser output; independent human review pending",
+  "notes": "Real federal solicitation (US Government work, public domain), Amendment 0004, 2021. Excerpt of PDF pages 5-10: general proposal preparation instructions, page limits, formatting, and Volume I contents. Page numbers are the PDF's.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "qualification",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "entity must be incorporated or otherwise legally established before proposal submission"
+    },
+    {
+      "id": "R02",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "The Offeror shall not submit the information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past Performance, for team members with a proposed work scope less than $10 million"
+    },
+    {
+      "id": "R03",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "No classified information shall be included in this solicitation or in the Offeror’s proposal"
+    },
+    {
+      "id": "R04",
+      "kind": "format",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Questions or comments regarding this solicitation shall be submitted via email to: SEB8@nnsa.doe.gov"
+    },
+    {
+      "id": "R05",
+      "kind": "deadline",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "no later than 2:00pm EST November 23, 2020"
+    },
+    {
+      "id": "R06",
+      "kind": "format",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Offeror shall utilize Times New Roman, 12pt font, and provide in Microsoft® Word format"
+    },
+    {
+      "id": "R07",
+      "kind": "submission",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Only potential Offerors that submit an intent to bid in accordance with L-29 below will be granted access to this reading room information"
+    },
+    {
+      "id": "R08",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Submission of final proposal revisions (FPRs) shall consist of new and complete Volumes I, II, and III"
+    },
+    {
+      "id": "R09",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offerors shall submit “clean” copies of Volumes I, II and III along with “line-in/line-out” versions"
+    },
+    {
+      "id": "R10",
+      "kind": "format",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "The following edit feature settings shall be applied: inserted text--red and underlined; deleted text--struck through in black"
+    },
+    {
+      "id": "R11",
+      "kind": "format",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "A vertical bar in the left margin shall be applied for changed lines"
+    },
+    {
+      "id": "R12",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "All changes and additional documentation provided within a particular Volume shall be documented via cover page crosswalk"
+    },
+    {
+      "id": "R13",
+      "kind": "format",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals shall be electronically submitted via FedConnect at https://www.fedconnect.net"
+    },
+    {
+      "id": "R14",
+      "kind": "format",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposals shall be structured in three separate volumes"
+    },
+    {
+      "id": "R15",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Volume I – The Offer - One (1) signed original"
+    },
+    {
+      "id": "R16",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Volume II – Technical and Management Information – One (1) original"
+    },
+    {
+      "id": "R17",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "Volume III – Cost Information – One (1) original"
+    },
+    {
+      "id": "R18",
+      "kind": "format",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "each file must clearly identify the Volume number and the sequence to which it relates"
+    },
+    {
+      "id": "R19",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Each volume shall include the Offeror’s point of contact (name and telephone number)"
+    },
+    {
+      "id": "R20",
+      "kind": "submission",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "the team member shall share the password with the Contracting Officer via e-mail to SEB8@nnsa.doe.gov"
+    },
+    {
+      "id": "R21",
+      "kind": "deadline",
+      "page": 6,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Team member submissions must adhere to the proposal due date/time"
+    },
+    {
+      "id": "R22",
+      "kind": "submission",
+      "page": 7,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Each volume shall contain a glossary of all abbreviations and acronyms used"
+    },
+    {
+      "id": "R23",
+      "kind": "page_limit",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "A Transmittal Letter shall be limited to one (1) page"
+    },
+    {
+      "id": "R24",
+      "kind": "page_limit",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Technical and Management Information (Volume II) shall not exceed 25 pages"
+    },
+    {
+      "id": "R25",
+      "kind": "format",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Material may not be incorporated by reference in Volume II (including any information in Volume I or III) as a means to circumvent the page limitations"
+    },
+    {
+      "id": "R26",
+      "kind": "page_limit",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Resumes of Key Personnel, which are limited to five (5) pages each"
+    },
+    {
+      "id": "R27",
+      "kind": "page_limit",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "except for the CEO or President’s resume, which is limited to seven (7) pages"
+    },
+    {
+      "id": "R28",
+      "kind": "page_limit",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "UPF Interface Management Approach, limited to ten (10) pages"
+    },
+    {
+      "id": "R29",
+      "kind": "page_limit",
+      "page": 7,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "limited to eight (8) pages per PPIF"
+    },
+    {
+      "id": "R30",
+      "kind": "page_limit",
+      "page": 8,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "This information shall be submitted as an Addendum to Volume II and shall not exceed eight (8) pages"
+    },
+    {
+      "id": "R31",
+      "kind": "format",
+      "page": 8,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "All pages shall be 8.5 x 11 inches"
+    },
+    {
+      "id": "R32",
+      "kind": "format",
+      "page": 8,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Text contained in all volumes shall be in Times New Roman text no smaller than size 12 font"
+    },
+    {
+      "id": "R33",
+      "kind": "format",
+      "page": 8,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "all text, including in graphics, shall be single spaced"
+    },
+    {
+      "id": "R34",
+      "kind": "format",
+      "page": 8,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "the font used shall be clearly legible and no smaller than size 8"
+    },
+    {
+      "id": "R35",
+      "kind": "format",
+      "page": 8,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Page margins shall be a minimum of one inch at the top, bottom, and each side"
+    },
+    {
+      "id": "R36",
+      "kind": "format",
+      "page": 8,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "all pages of each Volume shall be appropriately numbered, identified with the name of the Offeror, the date, the solicitation number, and a legend"
+    },
+    {
+      "id": "R37",
+      "kind": "format",
+      "page": 8,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Page numbers shall be sequential by Volume"
+    },
+    {
+      "id": "R38",
+      "kind": "format",
+      "page": 8,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "No information, other than what is referred to in this ¶ (e)(3), shall appear in the page margins"
+    },
+    {
+      "id": "R39",
+      "kind": "format",
+      "page": 8,
+      "mandatory": false,
+      "needs_response": false,
+      "quote": "Offerors shall ensure that tables, diagrams, charts and/or other graphic illustrations are word-searchable"
+    },
+    {
+      "id": "R40",
+      "kind": "submission",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "The Offeror shall provide the administrative information"
+    },
+    {
+      "id": "R41",
+      "kind": "form",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offerors must submit one (1) original signed copy of the SF 33 document"
+    },
+    {
+      "id": "R42",
+      "kind": "qualification",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The person signing the SF 33 must have the authority to commit the Offeror"
+    },
+    {
+      "id": "R43",
+      "kind": "form",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "In Block 14 of each SF 33, the Offeror must acknowledge receipt of all amendments"
+    },
+    {
+      "id": "R44",
+      "kind": "submission",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation"
+    },
+    {
+      "id": "R45",
+      "kind": "form",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror shall submit a fully completed Section K, Representations, Certifications, and Other Statements of Offerors"
+    },
+    {
+      "id": "R46",
+      "kind": "form",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Each team member shall separately complete, sign, and submit the Section K"
+    },
+    {
+      "id": "R47",
+      "kind": "form",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror shall complete and submit Section L, Attachment I - Offeror Information"
+    },
+    {
+      "id": "R48",
+      "kind": "form",
+      "page": 9,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "submit a copy of their FAR Report under the Representations and Certifications from the System for Award Management (SAM)"
+    },
+    {
+      "id": "R49",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror and each team member shall submit the Organizational Conflict of Interest (OCI) requirement in Section K"
+    },
+    {
+      "id": "R50",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror and each team member shall submit a copy of its Assertions from the SAM"
+    },
+    {
+      "id": "R51",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "shall submit required representation, and additional disclosures (if applicable) as set forth under FAR 52.204-25"
+    },
+    {
+      "id": "R52",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror shall submit a fully completed and executed Performance Guarantee Agreement(s)"
+    },
+    {
+      "id": "R53",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror shall submit the last three annual reports (i.e. business reports) for the parent organization(s)"
+    },
+    {
+      "id": "R54",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "The Offeror shall submit evidence that the “the legal entity submitting the offer” is legally established"
+    },
+    {
+      "id": "R55",
+      "kind": "form",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": true,
+      "quote": "The Offeror shall submit a Small Business Subcontracting Plan for Government fiscal year 2021 through 2031"
+    },
+    {
+      "id": "R56",
+      "kind": "submission",
+      "page": 10,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Offerors are prohibited from submitting multiple offers/proposals as a prime contractor or parent company"
+    }
+  ],
+  "traps": [
+    {
+      "page": 5,
+      "quote": "Questions and responses, if appropriate, will be posted to the FedConnect website",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 5,
+      "quote": "The Government will provide instructions via email on how to set up account information in Max.gov",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 6,
+      "quote": "The “clean” copies will be used for verification of compliance with formatting instructions",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 10,
+      "quote": "The Contracting Officer, must approve the Small Business Plan",
+      "why": "Obligation or right of the Government, not the offeror"
+    }
+  ]
+}

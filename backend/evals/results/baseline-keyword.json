@@ -1,52 +1,52 @@
 {
   "meta": {
     "runner": "keyword",
-    "started_at": "2026-11-12 14:46 UTC",
-    "seconds": 0.0
+    "started_at": "2026-11-12 14:56 UTC",
+    "seconds": 0.2
   },
   "summary": {
-    "cases": 5,
+    "cases": 8,
     "cases_failed": 0,
-    "gold_requirements": 102,
-    "found": 55,
-    "recall": 0.5392,
-    "mandatory_recall": 0.6296,
-    "kind_accuracy": 0.1455,
+    "gold_requirements": 187,
+    "found": 110,
+    "recall": 0.5882,
+    "mandatory_recall": 0.6418,
+    "kind_accuracy": 0.2091,
     "page_accuracy": 1.0,
-    "extracted": 62,
-    "unmatched_extracted": 7,
-    "trap_hits": 1,
-    "traps_total": 10,
+    "extracted": 156,
+    "unmatched_extracted": 46,
+    "trap_hits": 4,
+    "traps_total": 22,
     "recall_by_kind": {
       "deadline": {
-        "found": 5,
-        "total": 11,
-        "recall": 0.4545
+        "found": 6,
+        "total": 14,
+        "recall": 0.4286
       },
       "evaluation": {
         "found": 0,
-        "total": 15,
+        "total": 22,
         "recall": 0.0
       },
       "form": {
-        "found": 11,
-        "total": 22,
-        "recall": 0.5
+        "found": 27,
+        "total": 40,
+        "recall": 0.675
       },
       "format": {
-        "found": 7,
-        "total": 8,
-        "recall": 0.875
+        "found": 24,
+        "total": 27,
+        "recall": 0.8889
       },
       "page_limit": {
-        "found": 3,
-        "total": 6,
-        "recall": 0.5
+        "found": 6,
+        "total": 13,
+        "recall": 0.4615
       },
       "qualification": {
-        "found": 15,
-        "total": 15,
-        "recall": 1.0
+        "found": 18,
+        "total": 19,
+        "recall": 0.9474
       },
       "question": {
         "found": 6,
@@ -54,9 +54,9 @@
         "recall": 0.4
       },
       "submission": {
-        "found": 8,
-        "total": 10,
-        "recall": 0.8
+        "found": 23,
+        "total": 37,
+        "recall": 0.6216
       }
     }
   },
@@ -234,6 +234,564 @@
           "kind": "submission",
           "page": 3,
           "score": 1.0
+        }
+      ]
+    },
+    {
+      "id": "doe_nnsa_rfp_section_l",
+      "title": "DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex M&O) \u2014 Section L, pages 5-10",
+      "source": "real",
+      "error": null,
+      "seconds": 0.2,
+      "gold": 56,
+      "found": 42,
+      "recall": 0.75,
+      "mandatory_found": 29,
+      "mandatory_total": 39,
+      "extracted": 58,
+      "missed": [
+        {
+          "id": "R02",
+          "kind": "submission",
+          "mandatory": false,
+          "quote": "The Offeror shall not submit the information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past Performance, for team members with a proposed work scope less than $10 million"
+        },
+        {
+          "id": "R05",
+          "kind": "deadline",
+          "mandatory": false,
+          "quote": "no later than 2:00pm EST November 23, 2020"
+        },
+        {
+          "id": "R07",
+          "kind": "submission",
+          "mandatory": false,
+          "quote": "Only potential Offerors that submit an intent to bid in accordance with L-29 below will be granted access to this reading room information"
+        },
+        {
+          "id": "R10",
+          "kind": "format",
+          "mandatory": false,
+          "quote": "The following edit feature settings shall be applied: inserted text--red and underlined; deleted text--struck through in black"
+        },
+        {
+          "id": "R15",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Volume I \u2013 The Offer - One (1) signed original"
+        },
+        {
+          "id": "R16",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Volume II \u2013 Technical and Management Information \u2013 One (1) original"
+        },
+        {
+          "id": "R17",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Volume III \u2013 Cost Information \u2013 One (1) original"
+        },
+        {
+          "id": "R25",
+          "kind": "format",
+          "mandatory": true,
+          "quote": "Material may not be incorporated by reference in Volume II (including any information in Volume I or III) as a means to circumvent the page limitations"
+        },
+        {
+          "id": "R26",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "Resumes of Key Personnel, which are limited to five (5) pages each"
+        },
+        {
+          "id": "R27",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "except for the CEO or President\u2019s resume, which is limited to seven (7) pages"
+        },
+        {
+          "id": "R28",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "UPF Interface Management Approach, limited to ten (10) pages"
+        },
+        {
+          "id": "R29",
+          "kind": "page_limit",
+          "mandatory": true,
+          "quote": "limited to eight (8) pages per PPIF"
+        },
+        {
+          "id": "R44",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation"
+        },
+        {
+          "id": "R56",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Offerors are prohibited from submitting multiple offers/proposals as a prime contractor or parent company"
+        }
+      ],
+      "trap_hits": [
+        "The Contracting Officer, must approve the Small Business Plan"
+      ],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 5,
+          "text": "The Offeror shall not submit the information required at Sections L-9(c), L-9(d), and L-10 (a), Criterion 1, Past"
+        },
+        {
+          "kind": "submission",
+          "page": 5,
+          "text": "FedConnect shall be controlling."
+        },
+        {
+          "kind": "submission",
+          "page": 5,
+          "text": "All questions concerning Amendment 0003 shall be submitted as soon as possible."
+        },
+        {
+          "kind": "submission",
+          "page": 6,
+          "text": "The content of \u201cline-in/line-out\u201d submissions shall be identical to the \u201cclean\u201d submittal, but it shall fully indicate all edits made to the initial proposal text."
+        },
+        {
+          "kind": "submission",
+          "page": 6,
+          "text": "The following edit feature settings shall be applied:"
+        },
+        {
+          "kind": "submission",
+          "page": 6,
+          "text": "The FAR Report (reference Section L-8(c)(4)), SAM Assertions (Section L-8(c)(6)), and Annual Reports (Section L-8(d)) do not require \u201cline-in/line-out\u201d copies, but shall be noted in the crosswalk."
+        },
+        {
+          "kind": "submission",
+          "page": 6,
+          "text": "Proposals must be clearly and concisely written, indexed (cross-indexed as appropriate), and logically assembled."
+        },
+        {
+          "kind": "submission",
+          "page": 7,
+          "text": "Any passwords required to open password protected documents are subject to the proposal due date/time."
+        },
+        {
+          "kind": "submission",
+          "page": 7,
+          "text": "Performance Information Forms (PPIFs), therefore, extraneous pages such as resume cover pages are not required and will count against the page limitation)."
+        },
+        {
+          "kind": "submission",
+          "page": 8,
+          "text": "For the Volume II Table of Contents and list of Figures/Glossary of Acronyms, the page(s) shall use the following number style:"
+        },
+        {
+          "kind": "submission",
+          "page": 9,
+          "text": "However, failure to include information required in Volume I may result in a proposal being considered materially deficient and not compliant with the solicitation requirements and preclude the proposal from further consideration."
+        },
+        {
+          "kind": "submission",
+          "page": 9,
+          "text": "89233220RNA000002\u201d appear in the Contract resulting from this solicitation, they shall be deemed to read \u201cContract No."
+        },
+        {
+          "kind": "submission",
+          "page": 10,
+          "text": "Annual reports shall be submitted electronically through FedConnect."
+        },
+        {
+          "kind": "submission",
+          "page": 10,
+          "text": "The Contracting Officer, must approve the Small Business Plan that will become part of Section J, Appendix E - Small Business Subcontracting Plan."
+        },
+        {
+          "kind": "submission",
+          "page": 10,
+          "text": "Small Business Subcontracting Plans will be updated annually and shall be incorporated into the Contract by a separate supplemental agreement contract modification."
+        },
+        {
+          "kind": "submission",
+          "page": 10,
+          "text": "The Offeror shall complete the \u201cproposal\u201d"
+        }
+      ],
+      "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R06",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R11",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R12",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R14",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R18",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R19",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R21",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R22",
+          "kind": "submission",
+          "page": 7,
+          "score": 1.0
+        },
+        {
+          "gold": "R23",
+          "kind": "submission",
+          "page": 7,
+          "score": 1.0
+        },
+        {
+          "gold": "R30",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R31",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R32",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R33",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R34",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R35",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R36",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R37",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R38",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R39",
+          "kind": "submission",
+          "page": 8,
+          "score": 1.0
+        },
+        {
+          "gold": "R40",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R41",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R42",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R43",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R46",
+          "kind": "submission",
+          "page": 9,
+          "score": 1.0
+        },
+        {
+          "gold": "R51",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
+          "gold": "R54",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
+          "gold": "R55",
+          "kind": "submission",
+          "page": 10,
+          "score": 1.0
+        },
+        {
+          "gold": "R52",
+          "kind": "submission",
+          "page": 10,
+          "score": 0.875
+        },
+        {
+          "gold": "R50",
+          "kind": "submission",
+          "page": 10,
+          "score": 0.857
+        },
+        {
+          "gold": "R47",
+          "kind": "submission",
+          "page": 9,
+          "score": 0.833
+        },
+        {
+          "gold": "R48",
+          "kind": "submission",
+          "page": 9,
+          "score": 0.818
+        },
+        {
+          "gold": "R24",
+          "kind": "submission",
+          "page": 7,
+          "score": 0.714
+        },
+        {
+          "gold": "R49",
+          "kind": "submission",
+          "page": 10,
+          "score": 0.7
+        },
+        {
+          "gold": "R20",
+          "kind": "submission",
+          "page": 6,
+          "score": 0.667
+        },
+        {
+          "gold": "R53",
+          "kind": "submission",
+          "page": 10,
+          "score": 0.667
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 5,
+          "score": 0.636
+        },
+        {
+          "gold": "R45",
+          "kind": "submission",
+          "page": 9,
+          "score": 0.6
+        }
+      ]
+    },
+    {
+      "id": "doe_nnsa_rfp_section_m",
+      "title": "DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex M&O) \u2014 Section M, Evaluation Factors for Award",
+      "source": "real",
+      "error": null,
+      "seconds": 0.0,
+      "gold": 13,
+      "found": 2,
+      "recall": 0.1538,
+      "mandatory_found": 2,
+      "mandatory_total": 6,
+      "extracted": 6,
+      "missed": [
+        {
+          "id": "R01",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation for inclusion in the resulting contract may make the offer unacceptable for award"
+        },
+        {
+          "id": "R02",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "requires that the Offeror provide enough information in its statement to allow a meaningful evaluation by the Government"
+        },
+        {
+          "id": "R04",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "A Performance Guarantee Agreement in accordance with the requirements of the Solicitation\u2019s Section L provision L-6"
+        },
+        {
+          "id": "R05",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The Government intends to award one contract to the responsible Offeror whose proposal is responsive to the solicitation and is determined to be the best value to the Government"
+        },
+        {
+          "id": "R06",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "the Technical and Management Criteria, when combined, are significantly more important than the Cost Criterion"
+        },
+        {
+          "id": "R07",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The Government will evaluate the Offeror's recent, relevant past performance"
+        },
+        {
+          "id": "R08",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The Government will evaluate the Offeror\u2019s Sites Organization, Key Personnel resumes, and information provided by Key Personnel references"
+        },
+        {
+          "id": "R10",
+          "kind": "qualification",
+          "mandatory": true,
+          "quote": "Proposed Key Personnel who are under a service commitment for the performance of another NNSA M&O contract at the projected time of contract award"
+        },
+        {
+          "id": "R11",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The Government will evaluate the Offeror\u2019s proposed UPF Interface Management Approach"
+        },
+        {
+          "id": "R12",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The Government will evaluate the effectiveness of the Offeror's approach in using small businesses"
+        },
+        {
+          "id": "R13",
+          "kind": "evaluation",
+          "mandatory": false,
+          "quote": "The total evaluated price will not be rated, but will be used in determining the best value to the Government"
+        }
+      ],
+      "trap_hits": [
+        "the contracting officer is not required to discuss every area where the proposal could be improved"
+      ],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "Offeror must furnish comprehensive and specific information in its response."
+        },
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "However, the contracting officer is not required to discuss every area where the proposal could be improved."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "In making this determination, the Contracting Officer will consider the Offeror\u2019s representation and disclosure statement required by DEAR 952.209-8, Organizational Conflicts Of Interest"
+        },
+        {
+          "kind": "submission",
+          "page": 4,
+          "text": "In order to be considered recent, a contract or subcontract must have at least nine months of performance within the five years preceding the RFP release date."
+        }
+      ],
+      "matches": [
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R03",
+          "kind": "submission",
+          "page": 3,
+          "score": 0.7
         }
       ]
     },
@@ -702,6 +1260,219 @@
           "kind": "submission",
           "page": 2,
           "score": 0.636
+        }
+      ]
+    },
+    {
+      "id": "usace_1985_ifb_ocr",
+      "title": "US Army Corps of Engineers IFB DACW61-85-B-0039 (1985) \u2014 Special Contract Requirements, OCR text",
+      "source": "real",
+      "error": null,
+      "seconds": 0.1,
+      "gold": 16,
+      "found": 11,
+      "recall": 0.6875,
+      "mandatory_found": 4,
+      "mandatory_total": 8,
+      "extracted": 30,
+      "missed": [
+        {
+          "id": "R02",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "procecute the work diligently"
+        },
+        {
+          "id": "R03",
+          "kind": "submission",
+          "mandatory": true,
+          "quote": "complete the entire work ready for use not later than 3k!l days after the contractor receives the notice to proceed"
+        },
+        {
+          "id": "R05",
+          "kind": "deadline",
+          "mandatory": true,
+          "quote": "allow n~ days for acceptance of its bid"
+        },
+        {
+          "id": "R06",
+          "kind": "form",
+          "mandatory": true,
+          "quote": "give bond within 1~ detys after receipt of the forms by the bidder"
+        },
+        {
+          "id": "R14",
+          "kind": "submission",
+          "mandatory": false,
+          "quote": "agrees to use its best efforts to place subcontractors in accorda~ce with this policy"
+        }
+      ],
+      "trap_hits": [
+        "The Government shall not be responsible for any interpretation of or conclusion drawn from the data"
+      ],
+      "unmatched_extracted": [
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "The time stated for completion shall include final cleanup of the premises."
+        },
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "If the Contractor fails to complete the work within the time specified in the contract, or any extensions thereof, the Contractor shall pay to the Governme~t CIS liquidatt.'Cl damages, the sum of"
+        },
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "If the Government terminates the Contractor's right to proceed, the resulti~g demage will consist of liquidated damages ~~til such reasonable time as mny ~ required tor fi~al completion of the work together with a:ty increased costs occassioned the Govet:unent in completing the work \u2022 c."
+        },
+        {
+          "kind": "submission",
+          "page": 2,
+          "text": "the peri\"d specified for acceptance, fails to execute all contract'Jai doc1.1ne~ts or give a bond (s) as required by the solicitatio!\"l withi:'l the time specified, the Contracting Oificer may"
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "The work shall confonn to the drawings contained in P.art III of this contract, all of which fonn a part of these ."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "Omissions from the drawings or specifications or the misdescription of details of work which are ma~ifestly necessary to carry out the intent of the drawings and specifications, or which are customarily performed, shall not relieve the Contractor from performing such omitted or misdescribed details of the work but they shall be performed as if fully and correctly set forth and described in the drawings and specifications."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "Figures marked on drawings shall in general be followed in preference to scale measurements."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "Large sccle drawings shall in general govern Small scale drawings."
+        },
+        {
+          "kind": "submission",
+          "page": 3,
+          "text": "The Government shall not be responsible for any interpretation of or conclusion drawn from the data or information by the Contractor."
+        },
+        {
+          "kind": "submission",
+          "page": 4,
+          "text": "Contractor or sub-contractor cot any tier for worlr requiring adj\u2022JStments in contract price shall be based upon actual r.osts, provided both ownership and operating costs for each piece of equipment or equipment groups of similar serial a.~d series are proposed by the Contractor of k.\"low by the Contracting Officer to be available."
+        },
+        {
+          "kind": "submission",
+          "page": 4,
+          "text": "When actual costs are neither proposed nor known to be available, equipment costs shall be based upon the apPlicable provisions of the \"Construction Equipment"
+        },
+        {
+          "kind": "submission",
+          "page": 4,
+          "text": "For forward prici~g, the schedule in effect at the time of negotiations shall apply."
+        },
+        {
+          "kind": "submission",
+          "page": 4,
+          "text": "For retrospective pricing, the schedule in effect as of the time work was performed shall apply."
+        },
+        {
+          "kind": "submission",
+          "page": 4,
+          "text": "For the purpose of determination of the hourly rates to be applied u.~er this contract, working conditions shall be considered to be average unless otherwise determined by the"
+        },
+        {
+          "kind": "submission",
+          "page": 5,
+          "text": "Copies of laboratory test reports suanitted with certificates shall contain the name and address of the testing laboratory and the date or dates of the tests to which the report applies."
+        },
+        {
+          "kind": "submission",
+          "page": 5,
+          "text": "Certification shall not be construed as relieving the"
+        },
+        {
+          "kind": "submission",
+          "page": 7,
+          "text": "For tpe purposes of paragraphs (b) and (c), the term actual ndverse weather deys shall incl\u2022Jde days impacted by actual adverse weather days."
+        },
+        {
+          "kind": "submission",
+          "page": 7,
+          "text": "'nle nl.lnbet of actual adverse weather days shall be calculated chronologically from the first to the last day in each month."
+        },
+        {
+          "kind": "submission",
+          "page": 7,
+          "text": "ntese subsequently occurring adverse weather days must prevent \"WOtk for 5~ percent or more of the"
+        }
+      ],
+      "matches": [
+        {
+          "gold": "R01",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R04",
+          "kind": "submission",
+          "page": 2,
+          "score": 1.0
+        },
+        {
+          "gold": "R07",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R08",
+          "kind": "submission",
+          "page": 3,
+          "score": 1.0
+        },
+        {
+          "gold": "R09",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R10",
+          "kind": "submission",
+          "page": 4,
+          "score": 1.0
+        },
+        {
+          "gold": "R11",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R12",
+          "kind": "submission",
+          "page": 5,
+          "score": 1.0
+        },
+        {
+          "gold": "R15",
+          "kind": "submission",
+          "page": 6,
+          "score": 1.0
+        },
+        {
+          "gold": "R16",
+          "kind": "submission",
+          "page": 7,
+          "score": 1.0
+        },
+        {
+          "gold": "R13",
+          "kind": "submission",
+          "page": 5,
+          "score": 0.667
         }
       ]
     },

@@ -1,0 +1,137 @@
+{
+  "id": "doe_nnsa_rfp_section_m",
+  "title": "DOE/NNSA RFP 89233220RNA000002 (Y-12 and Pantex M&O) — Section M, Evaluation Factors for Award",
+  "source": "real",
+  "source_url": "https://www.energy.gov/sites/default/files/2020/11/f80/Sec%20M%20-%20Evaluation%20Factors%20for%20Award.pdf",
+  "status": "reviewed",
+  "labelled_by": "Claude (AI-assisted), line by line against the parser output; independent human review pending",
+  "notes": "Real federal solicitation (US Government work, public domain), 2020. Complete Section M (6 PDF pages). Evaluation criteria, plus offeror obligations stated only in Section M.",
+  "requirements": [
+    {
+      "id": "R01",
+      "kind": "submission",
+      "page": 2,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Any exceptions or deviations by the Offeror to the terms and conditions stated in this solicitation for inclusion in the resulting contract may make the offer unacceptable for award"
+    },
+    {
+      "id": "R02",
+      "kind": "submission",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "requires that the Offeror provide enough information in its statement to allow a meaningful evaluation by the Government"
+    },
+    {
+      "id": "R03",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "the Offeror’s certification required by the contract’s Section K provision, Certificate Pertaining to Foreign Interests"
+    },
+    {
+      "id": "R04",
+      "kind": "form",
+      "page": 3,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "A Performance Guarantee Agreement in accordance with the requirements of the Solicitation’s Section L provision L-6"
+    },
+    {
+      "id": "R05",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The Government intends to award one contract to the responsible Offeror whose proposal is responsive to the solicitation and is determined to be the best value to the Government"
+    },
+    {
+      "id": "R06",
+      "kind": "evaluation",
+      "page": 3,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "the Technical and Management Criteria, when combined, are significantly more important than the Cost Criterion"
+    },
+    {
+      "id": "R07",
+      "kind": "evaluation",
+      "page": 4,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The Government will evaluate the Offeror's recent, relevant past performance"
+    },
+    {
+      "id": "R08",
+      "kind": "evaluation",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The Government will evaluate the Offeror’s Sites Organization, Key Personnel resumes, and information provided by Key Personnel references"
+    },
+    {
+      "id": "R09",
+      "kind": "form",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Failure to submit the required letters of commitment may result in the Key Person not being evaluated"
+    },
+    {
+      "id": "R10",
+      "kind": "qualification",
+      "page": 5,
+      "mandatory": true,
+      "needs_response": false,
+      "quote": "Proposed Key Personnel who are under a service commitment for the performance of another NNSA M&O contract at the projected time of contract award"
+    },
+    {
+      "id": "R11",
+      "kind": "evaluation",
+      "page": 5,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The Government will evaluate the Offeror’s proposed UPF Interface Management Approach"
+    },
+    {
+      "id": "R12",
+      "kind": "evaluation",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The Government will evaluate the effectiveness of the Offeror's approach in using small businesses"
+    },
+    {
+      "id": "R13",
+      "kind": "evaluation",
+      "page": 6,
+      "mandatory": false,
+      "needs_response": true,
+      "quote": "The total evaluated price will not be rated, but will be used in determining the best value to the Government"
+    }
+  ],
+  "traps": [
+    {
+      "page": 2,
+      "quote": "the contracting officer is not required to discuss every area where the proposal could be improved",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 3,
+      "quote": "the Government may elect to award the contract notwithstanding an OCI",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 5,
+      "quote": "the Government is under no obligation to obtain additional information",
+      "why": "Obligation or right of the Government, not the offeror"
+    },
+    {
+      "page": 6,
+      "quote": "CLIN 0004 (Capital Construction Projects) will not be evaluated prior to award of the contract",
+      "why": "Obligation or right of the Government, not the offeror"
+    }
+  ]
+}

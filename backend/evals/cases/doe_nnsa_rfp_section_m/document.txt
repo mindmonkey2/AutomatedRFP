@@ -1,0 +1,284 @@
+[Page 1]
+Request for Proposal No. 89233220RNA000002 
+Page i 
+ 
+PART IV – REPRESENTATIONS AND INSTRUCTIONS 
+ 
+SECTION M 
+EVALUATION FACTORS FOR AWARD 
+ 
+TABLE OF CONTENTS 
+SECTION M – EVALUATION FACTORS FOR AWARD ....................................................................................... 1 
+M-1 
+FAR 52.217-5 EVALUATION OF OPTIONS (JUL 1990)........................................................................ 1 
+M-2 
+EVALUATION OF PROPOSALS................................................................................................................ 1 
+M-3 
+BASIS FOR CONTRACT AWARD ............................................................................................................. 2 
+M-4 
+TECHNICAL AND MANAGEMENT CRITERIA .................................................................................. 3 
+M-5 
+COST CRITERION ....................................................................................................................................... 5
+
+[Page 2]
+Request for Proposal No. 89233220RNA000002 
+ 
+ 
+Section M, Page 1 
+SECTION M – EVALUATION FACTORS FOR AWARD 
+ 
+M-1 
+FAR 52.217-5 EVALUATION OF OPTIONS (JUL 1990) 
+ 
+Except when it is determined in accordance with FAR 17.206(b) not to be in the Government’s 
+best interests, the Government will evaluate offers for award purposes by summing the total 
+derived fee amounts, based on the proposed fee rates applied to the forecasted annual fee bases, 
+for all options to the derived evaluated fee (see, M-5) for the basic requirement and total 
+proposed firm fixed price for transition. Evaluation of options will not obligate the Government 
+to exercise the option(s). 
+ 
+M-2 
+EVALUATION OF PROPOSALS 
+ 
+(a) 
+This acquisition will be conducted pursuant to the Federal Acquisition Regulation (FAR) 
+Part 15, Department of Energy Acquisition Regulation (DEAR) Part 915 and the 
+provisions of this solicitation. 
+ 
+(b) 
+Proposal evaluation is an assessment of the proposal and the Offeror’s ability to perform 
+the prospective contract successfully. Proposals will be evaluated solely on the factors 
+specified in the solicitation against the evaluation factors in this Section M to determine 
+the Offeror’s ability to perform the contract. The Source Selection Authority (SSA) will 
+select an Offeror for contract award using the best value analysis described in this Section 
+M. 
+ 
+(c) 
+The instructions set forth in Section L are designed to provide requirements and guidance 
+to the Offeror concerning documentation that will be evaluated by the Government. The 
+Offeror must furnish comprehensive and specific information in its response. A proposal 
+will be eliminated from further consideration before the initial ratings if the proposal is so 
+grossly and obviously deficient as to be unacceptable on its face. For example, a 
+proposal will be deemed unacceptable if it does not represent a reasonable initial effort to 
+address the essential requirements of the solicitation, or if it clearly demonstrates that the 
+Offeror does not understand the requirements of the solicitation. An overall rating of 
+“Less Than Satisfactory” in one evaluation criterion may also result in elimination of the 
+proposal from further consideration regardless of the ratings of the other criteria. In the 
+event a proposal is rejected, a notice will be sent to the Offeror stating the reason(s) the 
+proposal will not be considered for further evaluation under this solicitation. 
+ 
+(d) 
+The Government intends to evaluate proposals and award a contract in accordance with 
+FAR Part 15.306(d), Exchanges with offerors after the establishment of the competitive 
+range. However, the contracting officer is not required to discuss every area where the 
+proposal could be improved. Any exceptions or deviations by the Offeror to the terms 
+and conditions stated in this solicitation for inclusion in the resulting contract may make 
+the offer unacceptable for award, and the Government is not obligated to hold discussions 
+to allow the Offeror to remedy its exceptions or deviations. If an Offeror proposes 
+exceptions to the terms and conditions of the Contract, the Government may make an 
+award to another Offeror that did not take exception to the terms and conditions of the
+
+[Page 3]
+Request for Proposal No. 89233220RNA000002 
+ 
+ 
+Section M, Page 2 
+Contract. The scope and extent of discussions are solely a matter of Contracting Officer 
+judgment. If the Government requires clarifications or revisions to an Organizational 
+Conflict Of Interest Disclosure, including any mitigation plan, (paragraph (e) below) 
+these will be considered clarifications rather than discussions in accordance with FAR 
+15.306(a). 
+ 
+(e) 
+Prior to selection for award by the SSA, the Contracting Officer will make a 
+determination as to whether any likely, foreseeable Organizational Conflict of Interest 
+(OCI) exists with respect to the apparent successful Offeror. In making this 
+determination, the Contracting Officer will consider the Offeror’s representation and 
+disclosure statement required by DEAR 952.209-8, Organizational Conflicts Of Interest 
+Disclosure-Advisory and Assistance Services, and, if appropriate, information from other 
+sources. The Offeror should note that DEAR 952.209-8 requires that the Offeror provide 
+enough information in its statement to allow a meaningful evaluation by the Government 
+of the potential effect of the interest on the performance of the Statement of Work. The 
+Government will award the contract to the apparent successful offeror unless the 
+Government determines that an OCI exists that cannot be avoided or mitigated. 
+However, the Government may elect to award the contract notwithstanding an OCI if the 
+Government finds the award is in the best interest of the United States and a waiver is 
+approved in accordance with FAR 9.503. 
+ 
+(f) 
+Federal Law prohibits the award of a contract under a national security program to a 
+company owned by an entity controlled by a foreign government unless the Secretary of 
+Energy grants a waiver. In making this determination, the Government will consider the 
+Offeror’s certification required by the contract’s Section K provision, Certificate 
+Pertaining to Foreign Interests. 
+ 
+(g) 
+A Performance Guarantee Agreement in accordance with the requirements of the 
+Solicitation’s Section L provision L-6, Requirement for Guarantee of Performance (Dec 
+2000), will be a condition of the award of this Contract, if applicable. 
+ 
+M-3 
+BASIS FOR CONTRACT AWARD 
+ 
+The Government intends to award one contract to the responsible Offeror whose proposal is 
+responsive to the solicitation and is determined to be the best value to the Government. 
+Selection of the best value to the Government will be achieved through a process of evaluating 
+each Offeror’s proposal against the evaluation criteria described below. The Technical and 
+Management Criteria in M-4 will be adjectivally rated. The Cost Criterion in M-5 will not be 
+adjectivally rated, but will be used in determining the best-value to the Government. In 
+determining the best value to the Government, the Technical and Management Criteria, when 
+combined, are significantly more important than the Cost Criterion. Nevertheless, price is 
+considered a substantial factor in source selection consistent with FAR Part 15.403-1(c)(1). The 
+Government is more concerned with obtaining a superior Technical and Management proposal 
+than making an award at the lowest evaluated cost/price. However, the Government will not 
+make an award at a cost/price premium it considers disproportionate to the benefits associated 
+with the evaluated superiority of one Technical and Management proposal over another. Thus,
+
+[Page 4]
+Request for Proposal No. 89233220RNA000002 
+ 
+ 
+Section M, Page 3 
+to the extent that Offerors’ Technical and Management proposals are evaluated as close or 
+similar in merit, the evaluated cost/price is more likely to be a determining factor. 
+ 
+M-4 
+TECHNICAL AND MANAGEMENT CRITERIA 
+ 
+Criterion 1 is more important than either Criterion 2 or Criterion 3. Criterion 2 and 3 are equally 
+important, and each is significantly more important than Criterion 4. The individual items or 
+evaluation considerations within a Technical and Management Criterion are not listed in order of 
+importance and will not be individually weighted, but rather will be considered as a whole in 
+developing an overall adjectival rating for each criterion. These individual items or evaluation 
+considerations are not "sub-factors" as described in FAR 15.304. 
+ 
+(a) 
+Criterion 1: PAST PERFORMANCE 
+ 
+The Government will evaluate the Offeror's recent, relevant past performance to determine the 
+extent to which it demonstrates the Offeror’s ability to successfully perform the Statement of 
+Work (SOW). Past performance that is not both recent and relevant (as those terms are defined 
+in (i) and (ii) below) will not be considered. To the extent it is recent and relevant, the 
+Government will consider past performance information submitted by the Offeror (e.g., Past 
+Performance Information Forms and related records, such as performance assessments, small 
+business achievements; and list of terminated contracts), Past Performance Questionnaires, as 
+well as past performance information that the Government obtains from other sources. The 
+evaluation may also consider the source of the information, context of the data, and general 
+trends in the contractor’s performance. The Government will not apportion past performance 
+under a DOE, NNSA, or other contract differently among parent companies that have teamed for 
+the purposes of said contract. Rather, all parent companies under a contract will be equally 
+credited (positively and negatively) for past performance for that contract. In the case of an 
+Offeror without a meaningful record of relevant past performance or for whom information on 
+relevant past performance is not available, the Offeror will be evaluated neither favorably nor 
+unfavorably in this criterion, and will be assigned a neutral rating. 
+ 
+(i) 
+Recent Past Performance. In order to be considered recent, a contract or 
+subcontract must have at least nine months of performance within the five years 
+preceding the RFP release date. To the extent that performance evaluations are 
+divisible, the Government will only evaluate performance that occurred within the 
+five-year period preceding the RFP release date. 
+ 
+(ii) 
+Relevant Past Performance. Relevant past performance is performance that is 
+similar in size, scope and complexity to the requirements in the Statement of 
+Work. Where an Offeror has proposed a Subcontractor to perform only specific 
+sections of the SOW, the relevance of that Subcontractor’s past performance 
+contracts will be determined based on consideration of the specific sections of the 
+SOW the Subcontractor is proposed to perform, as opposed to the entire SOW. 
+The Offeror and each of the Team Members that make up the Offeror, are 
+responsible for the entire SOW, regardless of the specific sections they are 
+proposed to perform, and, accordingly past performance that may not correlate
+
+[Page 5]
+Request for Proposal No. 89233220RNA000002 
+ 
+ 
+Section M, Page 4 
+with its proposed role under this solicitation may still be considered if it is 
+relevant to the SOW. With respect to tasks within the Statement of Work for 
+which only the incumbent contractor would have direct past performance, the 
+Government will evaluate the relevance of analogous past performance such as: 
+(i) work on other major weapons systems; (ii) work relating to nonproliferation of 
+nuclear, radiological, chemical or biological weapons and related programs 
+around the world; (iii) work relating to safeguards and security technology 
+programs involving high hazard nuclear materials or other high hazard materials; 
+(iv) work relating to Capital Asset Projects, Line Item Projects including Military 
+Construction, Major Items of Equipment, and transitioning capital asset 
+construction projects to full operations; and (v) work related to managing large 
+scale production and assembly operations. 
+ 
+ 
+(b) 
+Criterion 2: SITES ORGANIZATION AND KEY PERSONNEL 
+ 
+The Government will evaluate the Offeror’s Sites Organization, Key Personnel resumes, and 
+information provided by Key Personnel references to consider the extent to which the Offeror 
+demonstrates: 
+ 
+(1) 
+An effective organizational structure to (i) manage and operate the Y-12 National 
+Security Complex and the Pantex Plant to successfully perform the Statement of Work; 
+and (ii) implement organizational culture change as described in clause H-20; and 
+ 
+(2) 
+Each Key Person’s expertise and experience in: (i) leading and/or managing work of 
+similar size, scope, and complexity; and (ii) leading and implementing organizational 
+culture change as described in clause H-20. 
+ 
+ 
+ 
+In addition to the references provided in the Key Personnel resumes (see Section L-10(b)(2)), the 
+Government may use any information received from other sources, and references or third 
+parties as part of its evaluation of Key Personnel. However, the Government is under no 
+obligation to obtain additional information and may do so at its sole discretion. Failure to submit 
+the required letters of commitment may result in the Key Person not being evaluated, negatively 
+affecting the evaluation results for this criterion. Proposed Key Personnel who are under a 
+service commitment for the performance of another NNSA M&O contract at the projected time 
+of contract award (i.e. 3rd Quarter, FY21) will not be considered, which may negatively impact 
+the Offeror’s evaluation or make the proposal unacceptable. 
+ 
+(c) 
+Criterion 3: UPF INTERFACE MANAGEMENT APPROACH 
+ 
+The Government will evaluate the Offeror’s proposed UPF Interface Management Approach to 
+determine the extent to which the Offeror’s approach demonstrates its ability to successfully 
+support the UPF Project (i) as the Design Authority, (ii) throughout construction, and (iii) in 
+transition to full operations; while minimizing cost and schedule risk to the UPF Project.
+
+[Page 6]
+Request for Proposal No. 89233220RNA000002 
+ 
+ 
+Section M, Page 5 
+(d) 
+Criterion 4: SMALL BUSINESS PARTICIPATION 
+ 
+The Government will evaluate the effectiveness of the Offeror's approach in using small 
+businesses and the extent of small business concern participation, including veteran-owned small 
+business concerns, service-disabled veteran-owned small business concerns, HUBZone small 
+business concerns, small disadvantaged business concerns, and women-owned small business 
+concerns in performance of the contract. As part of this evaluation, the Government will 
+evaluate the extent that small businesses are proposed to be used in terms of total planned 
+subcontracted dollars and percentages, and as percentage of total contract value. Evaluation of 
+this criterion is separate and distinct from the small business subcontracting plan or small 
+business past performance assessments; however, if the information in the Offeror’s narrative or 
+Section L - Attachment J, contradicts the Offeror’s Small Business Subcontracting Plan 
+referenced in Section L-9(e), it may negatively affect the rating of the Offeror under this 
+criterion. 
+ 
+M-5 
+COST CRITERION 
+ 
+The total evaluated price will not be rated, but will be used in determining the best value to the 
+Government. The total evaluated price includes the Transition price, the derived fee amounts for 
+the Management and Operation of the NPO (all periods including options), and the derived fee 
+amounts for the Strategic Partnership Projects (all periods including options). The derived fee 
+represents the proposed fee rates applied to the forecasted annual fee bases. The Government 
+may use any of the price analysis techniques specified in FAR 15.404-1(b) to determine 
+reasonableness. 
+ 
+CLIN 0004 (Capital Construction Projects) will not be evaluated prior to award of the contract. 
+Rather, the Government will separately select individual Capital Construction Projects for 
+inclusion under this CLIN, and negotiate the associated scope, cost/price, and fee (if applicable), 
+based on project risk and complexity, after award of the Contract resulting from this solicitation.

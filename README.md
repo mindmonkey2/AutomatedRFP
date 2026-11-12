@@ -156,20 +156,21 @@ harness in [`backend/evals`](backend/evals/README.md) runs the app's real extrac
 solicitations with hand-labelled answer keys and reports recall, mandatory recall, type and page
 accuracy, how many owner-obligation "traps" were wrongly extracted, and the API cost of the run.
 
-The starter set has **5 cases and 102 labelled requirements** (school bid, county CM-at-risk RFP, federal
-design-build Sections L/M, state-revolving-fund water main bid, university A/E qualifications). They are
-synthetic, written to mirror real solicitation structures; a tool imports real RFPs as draft cases for
-human review.
+The test set has **8 cases and 187 labelled requirements**: 3 real federal solicitations (a 2021 DOE/NNSA
+RFP's Section L and Section M, and a scanned 1985 Army Corps of Engineers construction bid with messy
+OCR), plus 5 synthetic construction and public-sector solicitations. A tool imports more real RFPs as
+draft cases for review.
 
-| Extractor | Recall | Mandatory recall | Traps extracted |
-| --- | --- | --- | --- |
-| Keyword sweep only (no AI, baseline) | 53.9% (55/102) | 63.0% | 1 of 10 |
-| Claude pipeline (`claude-opus-5-5`) | not yet run | | |
-| **Target** | **95%** | | |
+| Extractor | Recall, all cases | Recall, real cases | Mandatory recall | Traps extracted |
+| --- | --- | --- | --- | --- |
+| Keyword sweep only (no AI, baseline) | 58.8% (110/187) | 64.7% (55/85) | 64.2% | 4 of 22 |
+| Claude pipeline (`claude-opus-5-5`) | not yet run | | | |
+| **Target** | **95%** | | | |
 
 The keyword baseline misses anything phrased as an instruction ("Describe...", "Provide..."), schedule
-lines and scoring tables, which is the gap the AI pass has to close. Run it yourself with
-`../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
+lines and evaluation criteria (0 of 22 found), which is the gap the AI pass has to close. Run it
+yourself with `../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
+Answer keys were labelled with AI assistance; independent human review is pending.
 
 ## Security and data isolation
 
@@ -201,8 +202,8 @@ lines and scoring tables, which is the gap the AI pass has to close. Run it your
 | Filling the customer's own Excel questionnaire in place; fillable PDF forms | Planned |
 | Email delivery of invites and expiry alerts; password reset; SSO | Planned |
 | Bid/no-bid scoring, SAM.gov monitoring, win/loss learning | Later |
-| Requirement-extraction evaluation harness, 5 labelled cases, keyword baseline | Built |
-| Claude score on the eval set; real public solicitations added to it | Next |
+| Requirement-extraction evaluation: 8 labelled cases (3 real, 5 synthetic), keyword baseline | Built |
+| Claude score on the eval set; human review of answer keys; more real solicitations | Next |
 
 ## AI providers
 
