@@ -146,6 +146,7 @@ solicitation itself, section by section, and returns structured data.
 | Verbatim requirements | Each extracted requirement carries the exact quote and page, so a reviewer can check it at a glance | `ExtractedRequirement` |
 | Recall safety net | A keyword sweep re-checks what the first extraction missed: obligation wording (US "shall/must", Indian "should/to be enclosed"), document checklists, and deadline rows, with PDF line wrapping undone | `parsing.obligation_sentences` |
 | Human approval | Nothing is approved or exported as final without a person | review screen, readiness check |
+| No lost work | Every background job is a Postgres row saved with the upload that created it; a worker that crashes or restarts mid-job loses nothing (heartbeat lease), and temporary AI failures are retried with backoff | `jobs.py` |
 
 Known limits: the citation check confirms that a quote exists in the source, not that the sentence
 around it says the same thing. A planned second check will ask a separate model call whether each
@@ -226,7 +227,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Postgres with migrations, full-text search, row-level security | Built |
 | Choice of AI provider: Claude or self-hosted models via any OpenAI-compatible server | Built |
 | Semantic search (pgvector) alongside full-text search | Planned |
-| Durable job queue (jobs currently run inside the API process) | Planned |
+| Durable job queue in Postgres: survives restarts, retries temporary failures, live progress | Built |
 | OCR for scanned PDFs | Planned |
 | Filling the customer's own Excel questionnaire in place; fillable PDF forms | Planned |
 | Email delivery of invites and expiry alerts; password reset; SSO | Planned |
@@ -258,7 +259,7 @@ OLLAMA_CONTEXT_LENGTH=32768 ollama serve    # long RFP sections need a long cont
 RFP_LLM_PROVIDER=openai_compatible
 RFP_OPENAI_BASE_URL=http://localhost:11434/v1
 RFP_OPENAI_MODEL=qwen3:32b
-RFP_DRAFT_WORKERS=1                         # one answer at a time on a single GPU
+RFP_WORKER_THREADS=1                        # one job at a time on a single GPU
 ```
 
 **Will it work the same?** The workflow does; accuracy depends on the model. To make smaller models
@@ -305,6 +306,14 @@ cd backend
 ../.venv/bin/uvicorn app.main:app --reload
 ```
 
+The API also runs the background jobs (reading documents, extracting requirements, drafting). To run
+them in separate processes instead, for example on a GPU machine or several at once, set
+`RFP_EMBEDDED_WORKER=false` and start as many workers as you need:
+
+```bash
+../.venv/bin/python -m app.worker            # --threads 1 for a single local GPU; --once to drain and exit
+```
+
 **3. Frontend** (http://localhost:3000), in a second terminal:
 
 ```bash
@@ -338,7 +347,9 @@ backend/
     retrieval.py   Postgres full-text search
     llm.py         AI tasks, prompts, schemas, Claude provider
     llm_openai.py  self-hosted / OpenAI-compatible provider (Ollama, vLLM, llama.cpp, LM Studio)
-    pipeline.py    background jobs: ingest, extract, addendum diff, draft, verify, score
+    pipeline.py    job handlers: ingest, extract, addendum diff, draft, verify, score
+    jobs.py        durable job queue in Postgres (claim, retry, heartbeat, crash recovery)
+    worker.py      `python -m app.worker`: run jobs in separate processes
     export.py      Word/Excel export, readiness check
   migrations/      Alembic migrations (schema + row-level security policies)
   evals/           requirement-extraction evaluation: labelled cases, scoring, reports
@@ -368,7 +379,9 @@ All backend settings are environment variables (or `backend/.env`); see
 | `RFP_ALLOW_SIGNUP` | `true` | Allow new companies to sign up |
 | `RFP_COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
 | `RFP_FORWARDED_HOPS` | `0` | Number of reverse proxies (nginx, Caddy, a load balancer) in front of the app that append to `X-Forwarded-For`; set to `1` behind one so failed logins are also limited per visitor address. Keep the API port private when this is above 0 |
-| `RFP_DRAFT_WORKERS` | `4` | Answers drafted in parallel; 1-2 for a single local GPU |
+| `RFP_EMBEDDED_WORKER` | `true` | Run background jobs inside the API; set `false` when running `python -m app.worker` separately |
+| `RFP_WORKER_THREADS` | `4` | Jobs run at once per worker (answers drafted in parallel); 1-2 for a single local GPU |
+| `RFP_JOB_MAX_ATTEMPTS` | `3` | Tries for a job that hits temporary errors (model server down, timeouts, rate limits) |
 | `RFP_MAX_PDF_PAGES` / `RFP_MAX_SHEET_ROWS` / `RFP_MAX_UNZIPPED_MB` | `2000` / `100000` / `300` | Largest document the parser accepts |
 | `FRONTEND_HTTPS` (frontend) | unset | Set `true` when the site is served over HTTPS to send HSTS |
 

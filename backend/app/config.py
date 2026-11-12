@@ -52,16 +52,22 @@ class Settings(BaseSettings):
     # Retrieval / drafting
     chunk_chars: int = 2000
     retrieve_k: int = 12
-    draft_workers: int = 4  # answers drafted in parallel; 1-2 suits a single local GPU
     review_threshold: float = 0.6  # answers below this confidence go to "needs_review"
     extraction_window_chars: int = 40_000
+    # Background jobs (Postgres-backed queue: see app/jobs.py and app/worker.py)
+    # true = the API process also runs the jobs (simplest; fine for one server). Set false and run
+    # `python -m app.worker` (one or more) to process jobs in separate worker processes.
+    embedded_worker: bool = True
+    worker_threads: int = 4  # jobs run at once per worker process; 1-2 suits a single local GPU
+    job_max_attempts: int = 3  # temporary failures (model server down, timeouts) are retried
+    job_retry_base_s: float = 30  # wait before retry n: base * 4^(n-1) -> 30 s, 2 min, 8 min
+    job_lease_s: float = 120  # a running job with no heartbeat for this long is taken over
+    job_poll_s: float = 1.0  # idle workers check for new jobs this often
+
     # Limits on what one uploaded file may expand to, so a hostile file cannot exhaust the server.
     max_pdf_pages: int = 2000
     max_sheet_rows: int = 100_000  # rows across all sheets of a spreadsheet
     max_unzipped_mb: int = 300  # DOCX/XLSX are zip files; total uncompressed size
-    # A file still queued/processing after this long was lost in a restart and no longer
-    # holds up later files of the same bid (until the durable job queue lands).
-    job_stale_hours: float = 6
 
 
 settings = Settings()

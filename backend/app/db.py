@@ -27,6 +27,7 @@ engine = create_engine(settings.database_url, pool_pre_ping=True)
 SessionLocal = sessionmaker(bind=engine, expire_on_commit=False)
 
 _SET_ORG = text("SELECT set_config('app.org_id', :org, true)")
+_SET_WORKER = text("SELECT set_config('app.worker', 'on', true)")
 
 
 @event.listens_for(Session, "after_begin")
@@ -35,6 +36,8 @@ def _apply_org(session: Session, _transaction, connection) -> None:
     org = session.info.get("org_id")
     if org is not None:
         connection.execute(_SET_ORG, {"org": str(org)})
+    if session.info.get("worker"):
+        connection.execute(_SET_WORKER)
 
 
 def bind_org(session: Session, org_id: int) -> None:
@@ -48,6 +51,15 @@ def org_session(org_id: int) -> Iterator[Session]:
     """Session for background jobs, scoped to one organization."""
     with SessionLocal() as s:
         bind_org(s, org_id)
+        yield s
+
+
+@contextmanager
+def worker_session() -> Iterator[Session]:
+    """Session for the job queue itself: sees the jobs of every organization (and nothing else
+    extra: customer tables still need an organization bound). Only app.jobs uses it."""
+    with SessionLocal() as s:
+        s.info["worker"] = True
         yield s
 
 

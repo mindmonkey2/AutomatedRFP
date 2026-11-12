@@ -1,19 +1,19 @@
 """Background jobs: ingest library files, build the compliance matrix, diff addenda, draft answers.
 
-Each job opens its own DB session, so it can run in a worker thread after the HTTP
-response has been sent.
+The API enqueues these as durable jobs (app/jobs.py) and a worker runs them. Each handler opens
+its own session bound to the job's organization, and records the outcome on the customer's row:
+"retrying" (temporary failure, the queue will run it again), "failed" (needs a person) or done.
 """
 
 import logging
 import re
-from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime, timedelta, timezone
+from collections.abc import Callable
 from pathlib import Path
 
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import db
+from . import db, jobs
 from .config import settings
 from .llm import ExtractedRequirement, attr, get_llm, neutralize
 from .models import (
@@ -38,7 +38,12 @@ REVIEWED = {"accepted", "approved"}
 # ---------------------------------------------------------------- library
 
 
-def ingest_document(org_id: int, doc_id: int) -> None:
+def _retry_note(job: "jobs.JobRun", e: Exception) -> str:
+    return (f"Attempt {job.attempt} of {job.max_attempts} hit a temporary problem ({str(e)[:300]}). "
+            f"Trying again in about {job.retry_delay():.0f} s.")
+
+
+def ingest_document(org_id: int, doc_id: int, job: "jobs.JobRun | None" = None) -> None:
     with db.org_session(org_id) as s:
         doc = s.get(LibraryDocument, doc_id)
         if doc is None:
@@ -63,12 +68,23 @@ def ingest_document(org_id: int, doc_id: int) -> None:
             doc.chunk_count = n
             doc.status = "ready" if n else "failed"
             doc.error = None if n else "No text found. Scanned PDFs need OCR, which is not supported yet."
-        except Exception as e:  # noqa: BLE001 - record any parse failure on the row
-            log.exception("ingest failed for document %s", doc_id)
+            s.commit()
+        except Exception as e:
             s.rollback()
             doc = s.get(LibraryDocument, doc_id)
-            doc.status, doc.error = "failed", str(e)[:2000]
-        s.commit()
+            if job and job.will_retry(e):
+                doc.status, doc.error = "queued", _retry_note(job, e)
+            else:
+                doc.status, doc.error = "failed", str(e)[:2000]
+            s.commit()
+            raise
+
+
+def _abandon_document(org_id: int, doc_id: int, message: str) -> None:
+    with db.org_session(org_id) as s:
+        if doc := s.get(LibraryDocument, doc_id):
+            doc.status, doc.error = "failed", message
+            s.commit()
 
 
 def index_project(s: Session, p: ProjectRecord) -> None:
@@ -114,73 +130,67 @@ def index_approved_answer(s: Session, a: Answer) -> None:
 PENDING = ("queued", "processing")
 
 
-def process_solicitation_file(org_id: int, file_id: int) -> None:
-    """Process one uploaded solicitation file, then any later files of the bid that waited for it.
+def process_solicitation_file(org_id: int, file_id: int, job: "jobs.JobRun | None" = None) -> None:
+    """Read one uploaded solicitation file: extract the compliance matrix, or apply an addendum.
 
     Files of a bid are processed strictly in upload order: an addendum is compared against the
-    requirements of the files before it, so it must not start while those are still being read.
+    requirements of the files before it, so while an earlier file is still pending this job is
+    deferred (jobs.Defer) and runs again a few seconds later.
     """
-    next_id: int | None = file_id
-    while next_id is not None:
-        bid_id = _process_one(org_id, next_id)
-        next_id = _next_waiting_file(org_id, bid_id) if bid_id is not None else None
-
-
-def _claim(s: Session, f: SolicitationFile) -> bool:
-    """Mark the file as processing if every earlier file of its bid is done. The bid row lock
-    makes this check-and-set atomic against other files finishing or starting at the same time."""
-    s.get(Bid, f.bid_id, with_for_update=True)
-    s.refresh(f)
-    if f.status != "queued":
-        return False  # already taken by another worker
-    stale_before = datetime.now(timezone.utc) - timedelta(hours=settings.job_stale_hours)
-    earlier_pending = s.scalar(
-        select(func.count()).select_from(SolicitationFile).where(
-            SolicitationFile.bid_id == f.bid_id, SolicitationFile.sequence < f.sequence,
-            SolicitationFile.status.in_(PENDING),
-            SolicitationFile.created_at > stale_before,  # ignore jobs lost in a server restart
-        )
-    )
-    if earlier_pending:
-        s.commit()  # stays queued; the earlier file starts it when it finishes
-        return False
-    f.status = "processing"
-    s.commit()
-    return True
-
-
-def _process_one(org_id: int, file_id: int) -> int | None:
-    """Returns the bid id if the file was processed (so waiting files can start), else None."""
     with db.org_session(org_id) as s:
         f = s.get(SolicitationFile, file_id)
-        if f is None or not _claim(s, f):
-            return None
+        if f is None or f.status not in PENDING:
+            return  # deleted, or already done
+        # The bid row lock makes "is anything earlier still pending?" atomic against other files.
+        s.get(Bid, f.bid_id, with_for_update=True)
+        earlier_pending = s.scalar(
+            select(func.count()).select_from(SolicitationFile).where(
+                SolicitationFile.bid_id == f.bid_id, SolicitationFile.sequence < f.sequence,
+                SolicitationFile.status.in_(PENDING),
+            )
+        )
+        if earlier_pending:
+            f.progress = "Waiting for the files uploaded before it."
+            s.commit()
+            raise jobs.Defer(5)
+        f.status, f.progress, f.error = "processing", "Reading the document", None
+        s.commit()
         try:
             parsed = parse_file(Path(f.storage_path))
             text = parsed.tagged_text()
             if not text.strip():
                 raise ValueError("No text found in this file. Scanned PDFs need OCR, which is not supported yet.")
             if f.kind == "addendum" and _has_requirements(s, f.bid_id):
+                _set_progress(org_id, file_id, "Comparing the addendum with the current requirements")
                 _apply_addendum(s, f, text)
             else:
-                _extract_base(s, f, text)
-            f.status = "ready"
-            f.error = None
-        except Exception as e:  # noqa: BLE001 - includes LLMError
-            log.exception("solicitation processing failed for file %s", file_id)
+                _extract_base(s, f, text, lambda msg: _set_progress(org_id, file_id, msg))
+            f.status, f.error, f.progress = "ready", None, None
+            s.commit()
+        except Exception as e:
             s.rollback()
             f = s.get(SolicitationFile, file_id)
-            f.status, f.error = "failed", str(e)[:2000]
-        s.commit()
-        return f.bid_id
+            if job and job.will_retry(e):
+                f.status, f.progress = "queued", _retry_note(job, e)
+            else:
+                f.status, f.error, f.progress = "failed", str(e)[:2000], None
+            s.commit()
+            raise
 
 
-def _next_waiting_file(org_id: int, bid_id: int) -> int | None:
+def _set_progress(org_id: int, file_id: int, message: str) -> None:
+    """Record progress in its own short transaction, so the page shows it while the job runs."""
     with db.org_session(org_id) as s:
-        return s.scalar(
-            select(SolicitationFile.id).where(SolicitationFile.bid_id == bid_id, SolicitationFile.status == "queued")
-            .order_by(SolicitationFile.sequence).limit(1)
-        )
+        if f := s.get(SolicitationFile, file_id):
+            f.progress = message[:200]
+            s.commit()
+
+
+def _abandon_file(org_id: int, file_id: int, message: str) -> None:
+    with db.org_session(org_id) as s:
+        if f := s.get(SolicitationFile, file_id):
+            f.status, f.error, f.progress = "failed", message, None
+            s.commit()
 
 
 def _has_requirements(s: Session, bid_id: int) -> bool:
@@ -202,32 +212,39 @@ def _add_requirement(s: Session, f: SolicitationFile, r: ExtractedRequirement, s
     return req
 
 
-def extract_from_text(text: str, llm=None) -> tuple[list[str], list[ExtractedRequirement]]:
+def extract_from_text(
+    text: str, llm=None, progress: Callable[[str], None] | None = None,
+) -> tuple[list[str], list[ExtractedRequirement]]:
     """Full requirement extraction for page-tagged solicitation text.
 
     Used by the app and by the evaluation harness (backend/evals), so the eval measures
     exactly what customers get. Returns (per-window summaries, requirements).
     """
     llm = llm or get_llm()
+    progress = progress or (lambda _msg: None)
     extracted: list[ExtractedRequirement] = []
     summaries = []
-    for w in windows(text, settings.extraction_window_chars):
+    parts = windows(text, settings.extraction_window_chars)
+    for i, w in enumerate(parts, start=1):
+        progress(f"Extracting requirements: part {i} of {len(parts)}" if len(parts) > 1 else "Extracting requirements")
         result = llm.extract_requirements(w)
         summaries.append(result.summary)
         extracted.extend(result.requirements)
 
     # Second pass: keyword sweep for obligation sentences the model did not capture.
     uncovered = [(p, sent) for p, sent in obligation_sentences(text) if not _covered(sent, extracted)]
+    if uncovered:
+        progress(f"Double-checking {len(uncovered)} sentence(s) the first pass did not cover")
     for i in range(0, len(uncovered), 80):
         extracted.extend(llm.fill_gaps(uncovered[i : i + 80]).requirements)
 
     return summaries, _dedupe(extracted)
 
 
-def _extract_base(s: Session, f: SolicitationFile, text: str) -> None:
+def _extract_base(s: Session, f: SolicitationFile, text: str, progress=None) -> None:
     bid = s.get(Bid, f.bid_id)
     seq = _next_sequence(s, f.bid_id)
-    summaries, requirements = extract_from_text(text)
+    summaries, requirements = extract_from_text(text, progress=progress)
     for r in requirements:
         _add_requirement(s, f, r, seq)
         seq += 1
@@ -297,25 +314,8 @@ def _apply_addendum(s: Session, f: SolicitationFile, text: str) -> None:
 # ---------------------------------------------------------------- drafting
 
 
-def draft_bid(org_id: int, bid_id: int, requirement_ids: list[int] | None = None, workers: int | None = None) -> None:
-    workers = workers or settings.draft_workers
-    with db.org_session(org_id) as s:
-        q = select(Requirement.id).where(
-            Requirement.bid_id == bid_id, Requirement.needs_response.is_(True), Requirement.status != "removed"
-        )
-        if requirement_ids:
-            q = q.where(Requirement.id.in_(requirement_ids))
-        ids = s.scalars(q.order_by(Requirement.sequence)).all()
-    if workers <= 1:
-        for rid in ids:
-            draft_requirement(org_id, rid)
-        return
-    with ThreadPoolExecutor(max_workers=workers) as pool:
-        list(pool.map(lambda rid: draft_requirement(org_id, rid), ids))
-
-
 def queue_answers(s: Session, bid_id: int, requirement_ids: list[int] | None, force: bool) -> list[int]:
-    """Create/flag Answer rows as queued; returns requirement ids that will be drafted."""
+    """Mark answers queued and enqueue a draft job for each; returns the requirement ids."""
     q = select(Requirement).where(
         Requirement.bid_id == bid_id, Requirement.needs_response.is_(True), Requirement.status != "removed"
     )
@@ -329,31 +329,51 @@ def queue_answers(s: Session, bid_id: int, requirement_ids: list[int] | None, fo
         if a is None:
             a = Answer(org_id=r.org_id, requirement=r)
             s.add(a)
-        a.status = "queued"
+        a.status, a.error = "queued", None
+        jobs.enqueue(s, r.org_id, "draft_answer", r.id)
         out.append(r.id)
-    s.commit()
+    s.commit()  # answers and their jobs together
     return out
 
 
-def draft_requirement(org_id: int, req_id: int) -> None:
+def draft_requirement(org_id: int, req_id: int, job: "jobs.JobRun | None" = None) -> None:
     with db.org_session(org_id) as s:
         req = s.get(Requirement, req_id)
         if req is None:
             return
         ans = req.answer or Answer(org_id=req.org_id, requirement=req)
+        if ans.id is not None and ans.status not in ("queued", "drafting"):
+            return  # someone edited or accepted it since it was queued: leave their work alone
         s.add(ans)
         ans.status = "drafting"
         s.commit()
         try:
             _draft(s, req, ans)
-        except Exception as e:  # noqa: BLE001
-            log.exception("draft failed for requirement %s", req_id)
+            s.commit()
+        except Exception as e:
             s.rollback()
             req = s.get(Requirement, req_id)
             ans = req.answer or Answer(org_id=req.org_id, requirement=req)
             s.add(ans)
-            ans.status, ans.error = "failed", str(e)[:2000]
-        s.commit()
+            if job and job.will_retry(e):
+                ans.status, ans.error = "queued", _retry_note(job, e)
+            else:
+                ans.status, ans.error = "failed", str(e)[:2000]
+            s.commit()
+            raise
+
+
+def _abandon_answer(org_id: int, req_id: int, message: str) -> None:
+    with db.org_session(org_id) as s:
+        req = s.get(Requirement, req_id)
+        if req and req.answer:
+            req.answer.status, req.answer.error = "failed", message
+            s.commit()
+
+
+jobs.register("ingest_document", ingest_document, _abandon_document)
+jobs.register("process_file", process_solicitation_file, _abandon_file)
+jobs.register("draft_answer", draft_requirement, _abandon_answer)
 
 
 def _draft(s: Session, req: Requirement, ans: Answer) -> None:

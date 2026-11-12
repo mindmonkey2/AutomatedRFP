@@ -15,12 +15,14 @@ import pytest
 TEST_DB = os.environ.get("TEST_DATABASE_URL", "postgresql+psycopg://rfp:rfp@localhost:5432/rfp_test")
 os.environ["RFP_DATABASE_URL"] = TEST_DB
 os.environ["RFP_STORAGE_DIR"] = tempfile.mkdtemp(prefix="rfp-test-files-")
+os.environ["RFP_EMBEDDED_WORKER"] = "false"  # tests run queued jobs themselves (see _run_jobs_after)
 
 from alembic import command  # noqa: E402
 from alembic.config import Config  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
 from sqlalchemy import create_engine, text  # noqa: E402
 
+from app import jobs  # noqa: E402
 from app import llm as llm_mod  # noqa: E402
 from app.auth import login_limiter  # noqa: E402
 from app.config import BACKEND_DIR  # noqa: E402
@@ -128,15 +130,29 @@ def signup(c: TestClient, org: str = "Acme Builders") -> dict:
     return r.json()
 
 
+def _run_jobs_after(c: TestClient) -> TestClient:
+    """After every request, run the jobs it queued, as a worker would, so a test can upload a file
+    and read the result on the next line. Set `c.run_jobs = False` to leave jobs queued."""
+    c.run_jobs = True
+
+    def hook(_response):
+        if c.run_jobs:
+            jobs.run_until_idle()
+
+    c.event_hooks = {"request": [], "response": [hook]}
+    return c
+
+
 @pytest.fixture
 def anon(fake_llm):
     with TestClient(app) as c:
-        yield c
+        yield _run_jobs_after(c)
 
 
 @pytest.fixture
 def client(fake_llm):
     """A client signed in as the admin of a fresh organization."""
     with TestClient(app) as c:
+        _run_jobs_after(c)
         c.user = signup(c)
         yield c

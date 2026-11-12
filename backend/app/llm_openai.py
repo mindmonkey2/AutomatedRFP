@@ -94,9 +94,11 @@ class OpenAICompatibleLLM(PromptedLLM):
             r = self.client.post("/chat/completions", json=body)
         except httpx.TimeoutException as e:
             raise LLMError(f"The model server did not answer within {settings.openai_timeout_s:.0f}s "
-                           "(raise RFP_OPENAI_TIMEOUT_S or use a smaller model / faster hardware).") from e
+                           "(raise RFP_OPENAI_TIMEOUT_S or use a smaller model / faster hardware).",
+                           retryable=True) from e
         except httpx.HTTPError as e:
-            raise LLMError(f"Could not reach the model server at {settings.openai_base_url}: {e}") from e
+            raise LLMError(f"Could not reach the model server at {settings.openai_base_url}: {e}",
+                           retryable=True) from e
         unsupported = any(w in r.text.lower() for w in ("response_format", "json_schema", "schema", "format"))
         if r.status_code == 400 and self.mode != "prompt" and unsupported:
             # Server does not support this structured-output mode: degrade one step and retry.
@@ -109,7 +111,8 @@ class OpenAICompatibleLLM(PromptedLLM):
             raise LLMError(f"Model {settings.openai_model!r} or endpoint not found at {settings.openai_base_url}. "
                            "For Ollama, run `ollama pull <model>` first.")
         if r.status_code >= 400:
-            raise LLMError(f"Model server error {r.status_code}: {r.text[:300]}")
+            temporary = r.status_code in (408, 429) or r.status_code >= 500  # overloaded, restarting
+            raise LLMError(f"Model server error {r.status_code}: {r.text[:300]}", retryable=temporary)
         return r.json()
 
     def _system_prompt(self, system: str, schema: type[BaseModel]) -> str:

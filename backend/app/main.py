@@ -7,13 +7,13 @@ from pathlib import Path
 from typing import Annotated
 from urllib.parse import quote
 
-from fastapi import BackgroundTasks, Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
+from fastapi import Depends, FastAPI, File, Form, HTTPException, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import auth, export, pipeline, retrieval
+from . import auth, export, jobs, pipeline, retrieval
 from .auth import current_org
 from .config import settings
 from .db import check_role, get_session
@@ -57,7 +57,12 @@ log = logging.getLogger(__name__)
 async def lifespan(_app: FastAPI):
     settings.storage_dir.mkdir(parents=True, exist_ok=True)
     check_role()
+    # Simple deployments run the job worker inside the API process; larger ones set
+    # RFP_EMBEDDED_WORKER=false and run `python -m app.worker` separately (as many as needed).
+    worker = jobs.Worker().start() if settings.embedded_worker else None
     yield
+    if worker:
+        worker.stop(wait_s=5)  # unfinished jobs are taken over after a restart (heartbeat lease)
 
 
 app = FastAPI(title="Automated RFP Response Engine", version="0.1.0", lifespan=lifespan)
@@ -158,14 +163,15 @@ def health():
 
 @app.post("/library/documents", response_model=LibraryDocumentOut, status_code=201)
 async def upload_library_document(
-    s: DB, org: Org, bg: BackgroundTasks,
+    s: DB, org: Org,
     file: UploadFile = File(...), doc_type: str = Form("other"),
 ):
     path = await _save_upload(file, org)
     doc = LibraryDocument(org_id=org, filename=Path(file.filename).name, doc_type=doc_type, storage_path=str(path))
     s.add(doc)
-    s.commit()
-    bg.add_task(pipeline.ingest_document, org, doc.id)
+    s.flush()
+    jobs.enqueue(s, org, "ingest_document", doc.id)
+    s.commit()  # the document and its job are saved together
     return doc
 
 
@@ -364,7 +370,7 @@ def delete_bid(bid_id: int, s: DB, org: Org):
 
 @app.post("/bids/{bid_id}/files", response_model=SolicitationFileOut, status_code=201)
 async def upload_solicitation_file(
-    bid_id: int, s: DB, org: Org, bg: BackgroundTasks,
+    bid_id: int, s: DB, org: Org,
     file: UploadFile = File(...), kind: str = Form("base"),
 ):
     if kind not in ("base", "addendum"):
@@ -377,8 +383,9 @@ async def upload_solicitation_file(
     f = SolicitationFile(org_id=org, bid_id=bid.id, filename=Path(file.filename).name, kind=kind,
                          sequence=seq, storage_path=str(path))
     s.add(f)
+    s.flush()
+    jobs.enqueue(s, org, "process_file", f.id)
     s.commit()
-    bg.add_task(pipeline.process_solicitation_file, org, f.id)
     return f
 
 
@@ -409,12 +416,9 @@ def update_requirement(rid: int, body: RequirementPatch, s: DB, org: Org):
 
 
 @app.post("/bids/{bid_id}/draft", response_model=DraftQueued, status_code=202)
-def draft_answers(bid_id: int, body: DraftRequest, s: DB, org: Org, bg: BackgroundTasks):
+def draft_answers(bid_id: int, body: DraftRequest, s: DB, org: Org):
     _owned(s, Bid, bid_id, org)
-    ids = pipeline.queue_answers(s, bid_id, body.requirement_ids, body.force)
-    if ids:
-        bg.add_task(pipeline.draft_bid, org, bid_id, ids)
-    return DraftQueued(queued=ids)
+    return DraftQueued(queued=pipeline.queue_answers(s, bid_id, body.requirement_ids, body.force))
 
 
 @app.patch("/answers/{aid}", response_model=AnswerOut)

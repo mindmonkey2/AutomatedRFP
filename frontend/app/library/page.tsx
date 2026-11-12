@@ -74,7 +74,7 @@ export default function LibraryPage() {
                 <tr key={d.id}>
                   <td className="py-2 pr-3">
                     <p className="font-medium text-slate-900">{d.filename}</p>
-                    {d.error && <p className="text-xs text-red-600">{d.error}</p>}
+                    {d.error && <p className={`text-xs ${d.status === "failed" ? "text-red-600" : "text-amber-700"}`}>{d.error}</p>}
                     {d.empty_pages.length > 0 && (
                       <p className="text-xs text-amber-700">{d.empty_pages.length} page(s) had no text (scanned?) and were skipped.</p>
                     )}

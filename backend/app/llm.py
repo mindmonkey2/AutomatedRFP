@@ -161,7 +161,12 @@ requirement fields and kind definitions as the original extraction: """ + ", ".j
 
 
 class LLMError(RuntimeError):
-    pass
+    """An AI call failed. `retryable` marks temporary failures (server down, timeout, overload,
+    rate limit) that the job queue should try again later; the rest need a person to fix."""
+
+    def __init__(self, message: str, retryable: bool = False):
+        super().__init__(message)
+        self.retryable = retryable
 
 
 class LLM(Protocol):
@@ -249,9 +254,10 @@ class ClaudeLLM(PromptedLLM):
         except anthropic.AuthenticationError as e:
             raise LLMError("Claude API key was rejected. Check ANTHROPIC_API_KEY in backend/.env.") from e
         except anthropic.APIStatusError as e:
-            raise LLMError(f"Claude API error {e.status_code}: {e.message}") from e
-        except anthropic.APIConnectionError as e:
-            raise LLMError(f"Could not reach the Claude API: {e}") from e
+            temporary = e.status_code in (408, 409, 429) or e.status_code >= 500
+            raise LLMError(f"Claude API error {e.status_code}: {e.message}", retryable=temporary) from e
+        except anthropic.APIConnectionError as e:  # includes timeouts
+            raise LLMError(f"Could not reach the Claude API: {e}", retryable=True) from e
         except TypeError as e:
             if "authentication" in str(e).lower():
                 raise LLMError("No Claude API key configured. Set ANTHROPIC_API_KEY in backend/.env.") from e

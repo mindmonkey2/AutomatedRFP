@@ -7,7 +7,7 @@ invites are auth tables, read before the tenant is known, so they have no RLS po
 
 from datetime import date, datetime, timezone
 
-from sqlalchemy import JSON, Computed, Date, DateTime, Float, ForeignKey, Index, Integer, String, Text
+from sqlalchemy import JSON, Computed, Date, DateTime, Float, ForeignKey, Index, Integer, String, Text, text
 from sqlalchemy.dialects.postgresql import TSVECTOR
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -149,6 +149,32 @@ class Bid(Base):
     )
 
 
+class Job(Base):
+    """A unit of background work (see app/jobs.py). Holds only ids and status, never document text."""
+
+    __tablename__ = "jobs"
+    id: Mapped[int] = mapped_column(primary_key=True)
+    org_id: Mapped[int] = mapped_column(ForeignKey("organizations.id", ondelete="CASCADE"), index=True)
+    kind: Mapped[str] = mapped_column(String(40))  # ingest_document | process_file | draft_answer
+    target_id: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(String(20), default="queued")  # queued|running|done|failed
+    attempts: Mapped[int] = mapped_column(Integer, default=0)
+    max_attempts: Mapped[int] = mapped_column(Integer, default=3)
+    run_after: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    locked_by: Mapped[str | None] = mapped_column(String(100))
+    heartbeat_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    last_error: Mapped[str | None] = mapped_column(Text)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    finished_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+
+    __table_args__ = (
+        Index("ix_jobs_claim", "status", "run_after"),
+        # At most one live job per target, so a double click cannot draft the same answer twice.
+        Index("uq_jobs_live_target", "kind", "target_id", unique=True,
+              postgresql_where=text("status IN ('queued', 'running')")),
+    )
+
+
 class SolicitationFile(Base):
     __tablename__ = "solicitation_files"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -161,6 +187,7 @@ class SolicitationFile(Base):
     status: Mapped[str] = mapped_column(String(20), default="queued")
     error: Mapped[str | None] = mapped_column(Text)
     change_summary: Mapped[str | None] = mapped_column(Text)  # addenda: what changed
+    progress: Mapped[str | None] = mapped_column(String(200))  # e.g. "Reading part 2 of 5"
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
     bid: Mapped[Bid] = relationship(back_populates="files")

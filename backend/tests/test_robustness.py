@@ -5,11 +5,14 @@ import io
 from pathlib import Path
 
 import docx
+from sqlalchemy import select, text
 from starlette.requests import Request
 
-from app import pipeline
+from app import jobs, pipeline
 from app.auth import _RateLimiter, client_ip
 from app.config import settings
+from app.db import worker_session
+from app.models import Job
 from app.parsing import parse_file, windows
 
 BASE = b"[Page 1]\nThe bidder shall submit three hard copies.\nThe bidder shall describe its K-12 experience.\n"
@@ -121,31 +124,41 @@ def test_windows_starting_mid_page_carry_the_page_marker():
 # ---------------------------------------------------------------- processing order
 
 
-def test_addendum_waits_for_the_base_file(client, monkeypatch):
-    org = client.user["org_id"]
+def test_addendum_waits_for_the_base_file(client):
     bid = client.post("/bids", json={"title": "Order"}).json()
-    started: list[int] = []
-    monkeypatch.setattr(pipeline, "process_solicitation_file", lambda org_id, fid: started.append(fid))
+    client.run_jobs = False  # leave both jobs queued
     base = _upload(client, bid["id"], "rfp.txt", BASE, "base")
     add = _upload(client, bid["id"], "add1.txt", ADDENDUM, "addendum")
     assert add["sequence"] == base["sequence"] + 1
-    monkeypatch.undo()
 
-    # The addendum's job runs first (as when the base is still being read): it must wait.
-    pipeline.process_solicitation_file(org, add["id"])
+    # Hold the base file's job back, so a worker picks up the addendum first: it must wait.
+    with worker_session() as s:
+        s.execute(text("UPDATE jobs SET run_after = now() + interval '1 hour' "
+                       "WHERE kind = 'process_file' AND target_id = :id"), {"id": base["id"]})
+        s.commit()
+    assert jobs.run_until_idle() == 1  # the addendum ran, and deferred itself
     files = client.get(f"/bids/{bid['id']}").json()["files"]
     assert [f["status"] for f in files] == ["queued", "queued"]
+    assert "Waiting" in files[1]["progress"]
+    with worker_session() as s:
+        add_job = s.scalar(select(Job).where(Job.kind == "process_file", Job.target_id == add["id"]))
+        assert add_job.status == "queued" and add_job.attempts == 0  # waiting does not use up an attempt
 
-    # When the base finishes it starts the waiting addendum, which is applied as an addendum.
-    pipeline.process_solicitation_file(org, base["id"])
+    # Release the base job: it runs now; the addendum's retry is due a few seconds later.
+    with worker_session() as s:
+        s.execute(text("UPDATE jobs SET run_after = now() WHERE kind = 'process_file' AND target_id = :id"),
+                  {"id": base["id"]})
+        s.commit()
+    assert jobs.run_until_idle() == 1  # only the base is due
+    assert jobs.run_until_idle(ahead_s=30) == 1  # then the addendum, applied as an addendum
     files = client.get(f"/bids/{bid['id']}").json()["files"]
     assert [f["status"] for f in files] == ["ready", "ready"]
-    assert files[1]["change_summary"]
+    assert files[1]["change_summary"] and files[1]["progress"] is None
     reqs = client.get(f"/bids/{bid['id']}/requirements").json()
     assert len(reqs) == 3 and {r["change_type"] for r in reqs} >= {"added", "modified"}
 
-    # A late duplicate run of the addendum's own job does nothing.
-    pipeline.process_solicitation_file(org, add["id"])
+    # Running the addendum's handler again (a duplicate delivery) changes nothing.
+    pipeline.process_solicitation_file(client.user["org_id"], add["id"])
     assert len(client.get(f"/bids/{bid['id']}/requirements").json()) == 3
 
 

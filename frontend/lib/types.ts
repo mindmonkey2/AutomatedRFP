@@ -62,6 +62,7 @@ export interface SolicitationFile {
   sequence: number;
   status: JobStatus;
   error: string | null;
+  progress: string | null; // what its background job is doing, or why it is waiting / retrying
   change_summary: string | null;
   created_at: string;
 }

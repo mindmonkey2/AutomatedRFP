@@ -93,6 +93,7 @@ class SolicitationFileOut(ORM):
     sequence: int
     status: str
     error: str | None
+    progress: str | None  # what the job is doing now, or why it is waiting / retrying
     change_summary: str | None
     created_at: datetime
 
