@@ -12,6 +12,6 @@ python-multipart>=0.0.20
 pymupdf>=2.1
 python-docx>=1.2
 openpyxl>=3.1
+httpx>=0.28        # OpenAI-compatible / self-hosted model provider
 # tests
 pytest>=8
-httpx>=0.28

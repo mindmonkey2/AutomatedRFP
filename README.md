@@ -171,6 +171,7 @@ rebuilds the documents locally from the official sites.
 | --- | --- | --- | --- | --- |
 | Keyword sweep only (no AI, baseline) | 49.2% (131/266) | 46.3% (76/164) | 52.7% | 8 of 32 |
 | Claude pipeline (`claude-opus-5-5`) | not yet run | | | |
+| Self-hosted model (any OpenAI-compatible server) | not yet run | | | |
 | **Target** | **95%** | | | |
 
 The keyword baseline misses anything phrased as an instruction ("Describe...", "Provide..."), schedule
@@ -187,8 +188,9 @@ Answer keys were labelled with AI assistance; independent human review is pendin
   Postgres row-level security hides other organizations' rows even if a query forgets the filter. With
   no organization bound, customer tables return nothing (fail closed). Tests verify both layers.
 - **Cross-site request protection:** SameSite cookies plus an Origin check on every write.
-- **Your data and the AI:** documents are sent to the AI provider only to process your own bids.
-  The Claude API does not train on API data by default.
+- **Your data and the AI:** documents are sent to the configured AI provider only to process your own
+  bids. With Claude, the API does not train on API data by default. With a self-hosted model, nothing
+  leaves your servers.
 
 ## What's built and what's next
 
@@ -202,7 +204,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Word and Excel export, readiness check | Built |
 | Sign-in, organizations, invites, roles | Built |
 | Postgres with migrations, full-text search, row-level security | Built |
-| Choice of AI provider (OpenAI-compatible, local models) | Planned, see below |
+| Choice of AI provider: Claude or self-hosted models via any OpenAI-compatible server | Built |
 | Semantic search (pgvector) alongside full-text search | Planned |
 | Durable job queue (jobs currently run inside the API process) | Planned |
 | OCR for scanned PDFs | Planned |
@@ -212,19 +214,57 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Requirement-extraction evaluation: 11 labelled cases (3 US federal, 3 Indian, 5 synthetic), keyword baseline | Built |
 | Claude score on the eval set; human review of answer keys; more real solicitations | Next |
 
-## AI providers
+## AI providers: Claude or your own models
 
-Today every AI call goes to **Claude** (`claude-opus-5-5` by default, configurable). All AI work goes
-through one small interface in [`backend/app/llm.py`](backend/app/llm.py): extract requirements, fill
-gaps, draft an answer, diff an addendum. The rest of the system (parsing, search, citation checks,
-scoring, review, export) does not depend on the provider.
+RFP Engine runs on either of two providers, chosen per deployment with `RFP_LLM_PROVIDER`:
 
-The plan is to add an **OpenAI-compatible adapter**. That one adapter covers most cloud providers and
-the common local servers (Ollama, vLLM, LM Studio, llama.cpp), so a company can keep bid data on its
-own hardware. Any model would have to pass the requirement-extraction test set before a customer relies
-on it, because smaller models tend to miss requirements and produce less reliable structured output.
-Citation verification works the same with any model, so a weaker model's mistakes land in the review
-queue instead of the final response.
+| Provider | Setting | Where documents go | Best for |
+| --- | --- | --- | --- |
+| **Claude** (default) | `RFP_LLM_PROVIDER=claude` + `ANTHROPIC_API_KEY` | Anthropic's API | Highest accuracy with no hardware to run |
+| **Your own models** | `RFP_LLM_PROVIDER=openai_compatible` + `RFP_OPENAI_BASE_URL` + `RFP_OPENAI_MODEL` | Your server only | Companies that cannot send bid data to a cloud AI (defence, government contractors, strict client NDAs), or that already run models in-house |
+
+The second option works with any server that speaks the OpenAI-compatible chat API: **Ollama, vLLM,
+llama.cpp server, LM Studio**, or hosted endpoints. Both providers run the same prompts and output schemas
+(`backend/app/llm.py`); only the transport differs (`backend/app/llm_openai.py`). Everything else (parsing,
+search, citation checks, scoring, review, export) is identical.
+
+Example with Ollama on the same machine:
+
+```bash
+ollama pull qwen3:32b                       # pick a model your hardware can run
+OLLAMA_CONTEXT_LENGTH=32768 ollama serve    # long RFP sections need a long context
+
+# backend/.env
+RFP_LLM_PROVIDER=openai_compatible
+RFP_OPENAI_BASE_URL=http://localhost:11434/v1
+RFP_OPENAI_MODEL=qwen3:32b
+RFP_DRAFT_WORKERS=1                         # one answer at a time on a single GPU
+```
+
+**Will it work the same?** The workflow does; accuracy depends on the model. To make smaller models
+dependable, the adapter:
+
+- asks the server to force output into the exact JSON schema (constrained decoding), and falls back to
+  plain JSON mode or schema-in-the-prompt if the server does not support it;
+- strips `<think>` reasoning that some models print before the answer;
+- validates every reply and retries with the validation error, up to `RFP_OPENAI_RETRIES` times;
+- refuses silently truncated prompts: Ollama cuts long input to the model's context length without an
+  error, which would otherwise look like missed requirements. You get a clear error telling you to raise
+  the context length or lower `RFP_EXTRACTION_WINDOW_CHARS`.
+
+Citation verification is model-independent, so a weaker model's unsupported claims still land in the
+review queue. But a model that misses requirements is a real risk, so **measure before you trust it**:
+
+```bash
+cd backend
+../.venv/bin/python -m evals.extraction --provider openai_compatible --model qwen3:32b
+```
+
+This reports recall on the labelled test set (see [Measuring accuracy](#measuring-accuracy)) so you can
+compare models, quantizations and context settings on your own hardware. Rough sizing: a model needs about
+its parameter count in GB of GPU memory at 8-bit, or roughly half that at 4-bit, plus room for a long
+context; models around 30B parameters and up are the realistic starting point for this kind of
+extraction, and small (1-8B) models are best treated as a fallback until the eval says otherwise.
 
 ## Run it locally
 
@@ -274,7 +314,8 @@ backend/
     models.py      database tables
     parsing.py     file parsing, chunking, obligation sweep
     retrieval.py   Postgres full-text search
-    llm.py         AI calls, prompts, structured output schemas
+    llm.py         AI tasks, prompts, schemas, Claude provider
+    llm_openai.py  self-hosted / OpenAI-compatible provider (Ollama, vLLM, llama.cpp, LM Studio)
     pipeline.py    background jobs: ingest, extract, addendum diff, draft, verify, score
     export.py      Word/Excel export, readiness check
   migrations/      Alembic migrations (schema + row-level security policies)
@@ -295,7 +336,9 @@ All backend settings are environment variables (or `backend/.env`); see
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
+| `RFP_LLM_PROVIDER` | `claude` | `claude` or `openai_compatible` (self-hosted / local models) |
 | `ANTHROPIC_API_KEY` | none | Claude API key |
+| `RFP_OPENAI_BASE_URL` / `RFP_OPENAI_MODEL` | `http://localhost:11434/v1` / none | Self-hosted model server and model name |
 | `RFP_DATABASE_URL` | `postgresql+psycopg://rfp:rfp@localhost:5432/rfp` | App database connection (regular role) |
 | `RFP_MODEL` / `RFP_EFFORT` | `claude-opus-5-5` / `high` | Model and reasoning effort |
 | `RFP_REVIEW_THRESHOLD` | `0.6` | Answers below this confidence go to review |

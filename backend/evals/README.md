@@ -12,8 +12,10 @@ sweep and gap-filling pass), so the score reflects what users get.
 From `backend/`:
 
 ```bash
-../.venv/bin/python -m evals.extraction                      # Claude, using RFP_MODEL / RFP_EFFORT
-../.venv/bin/python -m evals.extraction --model claude-sonnet-5-5 --effort medium
+../.venv/bin/python -m evals.extraction                      # the configured provider (RFP_LLM_PROVIDER)
+../.venv/bin/python -m evals.extraction --provider claude --model claude-sonnet-5-5 --effort medium
+../.venv/bin/python -m evals.extraction --provider openai_compatible --model qwen3:32b \
+    --base-url http://localhost:11434/v1                     # a self-hosted model (Ollama, vLLM, ...)
 ../.venv/bin/python -m evals.extraction --runner keyword     # no-AI baseline, free
 ../.venv/bin/python -m evals.extraction --min-recall 0.95    # exits 1 below 95% (use as a CI gate)
 ```

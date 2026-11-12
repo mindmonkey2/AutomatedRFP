@@ -253,7 +253,8 @@ def _apply_addendum(s: Session, f: SolicitationFile, text: str) -> None:
 # ---------------------------------------------------------------- drafting
 
 
-def draft_bid(org_id: int, bid_id: int, requirement_ids: list[int] | None = None, workers: int = 4) -> None:
+def draft_bid(org_id: int, bid_id: int, requirement_ids: list[int] | None = None, workers: int | None = None) -> None:
+    workers = workers or settings.draft_workers
     with db.org_session(org_id) as s:
         q = select(Requirement.id).where(
             Requirement.bid_id == bid_id, Requirement.needs_response.is_(True), Requirement.status != "removed"

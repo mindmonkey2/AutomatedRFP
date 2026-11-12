@@ -137,20 +137,64 @@ class LLM(Protocol):
     def diff_addendum(self, requirements: str, addendum_text: str) -> AddendumResult: ...
 
 
-class ClaudeLLM:
-    def __init__(self, client: anthropic.Anthropic | None = None):
-        self.client = client or anthropic.Anthropic(api_key=settings.anthropic_api_key)
-        # Running token totals (used by the evaluation harness to report cost).
+class PromptedLLM:
+    """The four AI tasks, written once. Providers only implement `_parse`:
+    send a system + user prompt and return a validated instance of `schema`."""
+
+    provider = "base"
+
+    def __init__(self):
+        # Running token totals (the evaluation harness reports them, with cost where known).
         self.usage = {"calls": 0, "input_tokens": 0, "output_tokens": 0,
                       "cache_read_input_tokens": 0, "cache_creation_input_tokens": 0}
         self._usage_lock = threading.Lock()
 
-    def _record_usage(self, resp) -> None:
-        u = resp.usage
+    @property
+    def model_name(self) -> str:
+        raise NotImplementedError
+
+    def _add_usage(self, **tokens: int) -> None:
         with self._usage_lock:
             self.usage["calls"] += 1
-            for k in ("input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens"):
-                self.usage[k] += getattr(u, k, None) or 0
+            for k, v in tokens.items():
+                self.usage[k] += v or 0
+
+    def _parse(self, system: str, user: str, schema: type[BaseModel], max_tokens: int = 16000):
+        raise NotImplementedError
+
+    def extract_requirements(self, text: str) -> ExtractionResult:
+        return self._parse(EXTRACT_SYSTEM, f"<solicitation_text>\n{text}\n</solicitation_text>", ExtractionResult)
+
+    def fill_gaps(self, sentences):
+        lines = "\n".join(f"- (page {p if p else '?'}) {s}" for p, s in sentences)
+        return self._parse(GAP_SYSTEM, f"<unmatched_sentences>\n{lines}\n</unmatched_sentences>", ExtractionResult)
+
+    def draft_answer(self, context: str, sources: str) -> DraftResult:
+        return self._parse(DRAFT_SYSTEM, f"{context}\n\n<sources>\n{sources}\n</sources>", DraftResult)
+
+    def diff_addendum(self, requirements: str, addendum_text: str) -> AddendumResult:
+        user = (
+            f"<current_requirements>\n{requirements}\n</current_requirements>\n\n"
+            f"<addendum>\n{addendum_text}\n</addendum>"
+        )
+        return self._parse(ADDENDUM_SYSTEM, user, AddendumResult)
+
+
+class ClaudeLLM(PromptedLLM):
+    provider = "claude"
+
+    def __init__(self, client: anthropic.Anthropic | None = None):
+        super().__init__()
+        self.client = client or anthropic.Anthropic(api_key=settings.anthropic_api_key)
+
+    @property
+    def model_name(self) -> str:
+        return settings.model
+
+    def _record_usage(self, resp) -> None:
+        u = resp.usage
+        self._add_usage(**{k: getattr(u, k, None) or 0 for k in (
+            "input_tokens", "output_tokens", "cache_read_input_tokens", "cache_creation_input_tokens")})
 
     def _parse(self, system: str, user: str, schema: type[BaseModel], max_tokens: int = 16000):
         kwargs = dict(
@@ -185,31 +229,27 @@ class ClaudeLLM:
             raise LLMError("The model returned no structured output.")
         return resp.parsed_output
 
-    def extract_requirements(self, text: str) -> ExtractionResult:
-        return self._parse(EXTRACT_SYSTEM, f"<solicitation_text>\n{text}\n</solicitation_text>", ExtractionResult)
-
-    def fill_gaps(self, sentences):
-        lines = "\n".join(f"- (page {p if p else '?'}) {s}" for p, s in sentences)
-        return self._parse(GAP_SYSTEM, f"<unmatched_sentences>\n{lines}\n</unmatched_sentences>", ExtractionResult)
-
-    def draft_answer(self, context: str, sources: str) -> DraftResult:
-        return self._parse(DRAFT_SYSTEM, f"{context}\n\n<sources>\n{sources}\n</sources>", DraftResult)
-
-    def diff_addendum(self, requirements: str, addendum_text: str) -> AddendumResult:
-        user = (
-            f"<current_requirements>\n{requirements}\n</current_requirements>\n\n"
-            f"<addendum>\n{addendum_text}\n</addendum>"
-        )
-        return self._parse(ADDENDUM_SYSTEM, user, AddendumResult)
-
 
 _llm: LLM | None = None
+
+
+def make_llm(provider: str | None = None) -> PromptedLLM:
+    """Build the configured provider: "claude" (default) or "openai_compatible" (local models
+    via Ollama, vLLM, llama.cpp, LM Studio, or any OpenAI-compatible endpoint)."""
+    provider = (provider or settings.llm_provider).lower()
+    if provider == "claude":
+        return ClaudeLLM()
+    if provider in ("openai_compatible", "local", "openai"):
+        from .llm_openai import OpenAICompatibleLLM
+
+        return OpenAICompatibleLLM()
+    raise ValueError(f"Unknown RFP_LLM_PROVIDER {provider!r}; use 'claude' or 'openai_compatible'")
 
 
 def get_llm() -> LLM:
     global _llm
     if _llm is None:
-        _llm = ClaudeLLM()
+        _llm = make_llm()
     return _llm
 
 

@@ -86,9 +86,10 @@ def test_claude_runner_path_with_stand_in_model(tmp_path, monkeypatch):
     from app.pipeline import extract_from_text
 
     fake = _GoldEchoLLM()
-    monkeypatch.setattr(extraction, "make_claude_runner",
-                        lambda: ((lambda case: extract_from_text(case.document, fake)[1]), fake))
-    code = extraction.main(["--model", "claude-opus-5-5", "--out", str(tmp_path), "--min-recall", "0.95"])
+    fake.provider, fake.model_name = "claude", "claude-opus-5-5"
+    monkeypatch.setattr(extraction, "make_model_runner",
+                        lambda provider: ((lambda case: extract_from_text(case.document, fake)[1]), fake))
+    code = extraction.main(["--provider", "claude", "--out", str(tmp_path), "--min-recall", "0.95"])
     assert code == 0
     report = json.loads(next(tmp_path.glob("*.json")).read_text())
     assert report["summary"]["recall"] == 1.0

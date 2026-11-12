@@ -107,7 +107,9 @@ async def _save_upload(upload: UploadFile, org: int) -> Path:
 
 @app.get("/health")
 def health():
-    return {"ok": True, "model": settings.model}
+    provider = settings.llm_provider
+    model = settings.model if provider == "claude" else settings.openai_model
+    return {"ok": True, "llm_provider": provider, "model": model}
 
 
 # ------------------------------------------------------------------ library

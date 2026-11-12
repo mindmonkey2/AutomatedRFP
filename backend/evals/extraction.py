@@ -4,14 +4,17 @@ Runs the app's real extraction pipeline (app.pipeline.extract_from_text) on ever
 reviewed case and scores it against the hand-labelled answer key.
 
 Usage (from backend/):
-    ../.venv/bin/python -m evals.extraction                       # Claude, settings from .env
-    ../.venv/bin/python -m evals.extraction --model claude-sonnet-5-5 --effort medium
+    ../.venv/bin/python -m evals.extraction                       # configured provider (RFP_LLM_PROVIDER)
+    ../.venv/bin/python -m evals.extraction --provider claude --model claude-sonnet-5-5 --effort medium
+    ../.venv/bin/python -m evals.extraction --provider openai_compatible --model qwen3:32b \
+        --base-url http://localhost:11434/v1                      # local model via Ollama
     ../.venv/bin/python -m evals.extraction --runner keyword      # no-AI baseline, free
     ../.venv/bin/python -m evals.extraction --min-recall 0.95     # exit 1 below the bar (CI gate)
 """
 
 import argparse
 import json
+import re
 import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
@@ -45,11 +48,11 @@ def keyword_runner(case: Case) -> list[ExtractedRequirement]:
     ]
 
 
-def make_claude_runner():
-    from app.llm import ClaudeLLM
+def make_model_runner(provider: str):
+    from app.llm import make_llm
     from app.pipeline import extract_from_text
 
-    llm = ClaudeLLM()
+    llm = make_llm(provider)
 
     def run(case: Case) -> list[ExtractedRequirement]:
         return extract_from_text(case.document, llm)[1]
@@ -82,7 +85,9 @@ def run_case(case: Case, runner) -> tuple[CaseResult, list[ExtractedRequirement]
 def to_markdown(report: dict) -> str:
     s, m = report["summary"], report["meta"]
     lines = [
-        f"# Requirement extraction eval: {m['runner']}" + (f" ({m['model']}, effort {m['effort']})" if m["runner"] == "claude" else ""),
+        f"# Requirement extraction eval: {m['runner']}"
+        + (f" ({m['provider']}: {m['model']}" + (f", effort {m['effort']}" if m.get("effort") else "") + ")"
+           if m["runner"] == "model" else ""),
         "",
         f"Run {m['started_at']} · {s['cases']} cases · {s['gold_requirements']} labelled requirements"
         + (f" · {m['seconds']:.0f}s" if m.get("seconds") else "")
@@ -130,9 +135,13 @@ def to_markdown(report: dict) -> str:
 
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--runner", choices=["claude", "keyword"], default="claude")
-    ap.add_argument("--model", help="Claude model (default: RFP_MODEL setting)")
-    ap.add_argument("--effort", help="low|medium|high|xhigh|max (default: RFP_EFFORT setting)")
+    ap.add_argument("--runner", choices=["model", "keyword", "claude"], default="model",
+                    help="model = the configured AI pipeline; keyword = no-AI baseline ('claude' is an alias of model)")
+    ap.add_argument("--provider", choices=["claude", "openai_compatible"],
+                    help="AI provider (default: RFP_LLM_PROVIDER setting)")
+    ap.add_argument("--model", help="model name for the chosen provider")
+    ap.add_argument("--effort", help="Claude only: low|medium|high|xhigh|max (default: RFP_EFFORT)")
+    ap.add_argument("--base-url", help="OpenAI-compatible server URL (default: RFP_OPENAI_BASE_URL)")
     ap.add_argument("--cases", help="comma-separated case ids (default: all reviewed cases)")
     ap.add_argument("--include-drafts", action="store_true", help="also run cases whose answer key is not reviewed")
     ap.add_argument("--workers", type=int, default=3)
@@ -154,11 +163,16 @@ def main(argv: list[str] | None = None) -> int:
 
     llm = None
     if args.runner == "claude":
-        if args.model:
-            settings.model = args.model
-        if args.effort:
-            settings.effort = args.effort
-        runner, llm = make_claude_runner()
+        args.runner, args.provider = "model", args.provider or "claude"
+    if args.runner == "model":
+        provider = args.provider or settings.llm_provider
+        if provider == "claude":
+            settings.model = args.model or settings.model
+            settings.effort = args.effort or settings.effort
+        else:
+            settings.openai_model = args.model or settings.openai_model
+            settings.openai_base_url = args.base_url or settings.openai_base_url
+        runner, llm = make_model_runner(provider)
     else:
         runner = keyword_runner
 
@@ -172,8 +186,12 @@ def main(argv: list[str] | None = None) -> int:
     summary = summarize(results, sum(len(c.traps) for c in cases))
     meta = {"runner": args.runner, "started_at": started.strftime("%Y-%m-%d %H:%M UTC"), "seconds": round(seconds, 1)}
     if llm is not None:
-        meta.update(model=settings.model, effort=settings.effort, usage=llm.usage,
-                    cost_usd=estimate_cost(settings.model, llm.usage))
+        meta.update(provider=llm.provider, model=llm.model_name, usage=llm.usage,
+                    cost_usd=estimate_cost(llm.model_name, llm.usage))
+        if llm.provider == "claude":
+            meta["effort"] = settings.effort
+        else:
+            meta["base_url"] = settings.openai_base_url  # where the model ran (local or hosted)
 
     case_reports = []
     for case, (res, extracted, secs) in zip(cases, outcomes):
@@ -197,7 +215,8 @@ def main(argv: list[str] | None = None) -> int:
 
     report = {"meta": meta, "summary": summary, "cases": case_reports}
     args.out.mkdir(parents=True, exist_ok=True)
-    stem = started.strftime("%Y%m%d-%H%M%S") + f"-{args.runner}" + (f"-{settings.model}" if llm else "")
+    model_tag = re.sub(r"[^A-Za-z0-9._-]+", "_", llm.model_name) if llm else ""
+    stem = started.strftime("%Y%m%d-%H%M%S") + f"-{args.runner}" + (f"-{llm.provider}-{model_tag}" if llm else "")
     (args.out / f"{stem}.json").write_text(json.dumps(report, indent=2) + "\n")
     md = to_markdown(report)
     (args.out / f"{stem}.md").write_text(md)
