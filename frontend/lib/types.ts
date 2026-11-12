@@ -100,6 +100,14 @@ export interface Citation {
 export type AnswerStatus =
   | "queued" | "drafting" | "drafted" | "needs_review" | "accepted" | "approved" | "stale" | "failed";
 
+/** A figure or name in an answer that its sources do not contain (deterministic check). */
+export interface FactIssue {
+  kind: "amount" | "percent" | "date" | "year" | "number" | "id" | "name";
+  text: string;
+  problem: "not_in_sources" | "wrong_citation";
+  detail: string;
+}
+
 export interface Answer {
   id: number;
   draft_text: string | null;
@@ -107,6 +115,7 @@ export interface Answer {
   confidence: number | null;
   confidence_reasons: string[];
   unsupported_claims: string[];
+  fact_issues: FactIssue[];
   status: AnswerStatus;
   error: string | null;
   assignee: string | null;
@@ -134,6 +143,7 @@ export interface Requirement {
 export interface Readiness {
   ready: boolean;
   issues: string[];
+  warnings: string[];
   requirements_total: number;
   response_items: number;
   estimated_pages: number;

@@ -229,6 +229,8 @@ class Answer(Base):
     confidence: Mapped[float | None] = mapped_column(Float)
     confidence_reasons: Mapped[list] = mapped_column(JSON, default=list)
     unsupported_claims: Mapped[list] = mapped_column(JSON, default=list)
+    # Figures and names in the text that the sources do not contain (app/factcheck.py)
+    fact_issues: Mapped[list] = mapped_column(JSON, default=list)
     # queued|drafting|drafted|needs_review|accepted|approved|stale|failed
     status: Mapped[str] = mapped_column(String(20), default="queued")
     error: Mapped[str | None] = mapped_column(Text)

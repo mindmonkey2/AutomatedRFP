@@ -424,8 +424,11 @@ def draft_answers(bid_id: int, body: DraftRequest, s: DB, org: Org):
 @app.patch("/answers/{aid}", response_model=AnswerOut)
 def update_answer(aid: int, body: AnswerPatch, s: DB, org: Org):
     a = _owned(s, Answer, aid, org)
-    for k, v in body.model_dump(exclude_unset=True).items():
+    changes = body.model_dump(exclude_unset=True)
+    for k, v in changes.items():
         setattr(a, k, v)
+    if "final_text" in changes:
+        pipeline.recheck_facts(s, a)  # a person's edits are checked against the sources too
     s.commit()
     return a
 

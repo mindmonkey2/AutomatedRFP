@@ -7,7 +7,7 @@ import {
   Badge, Button, Card, Confidence, ErrorNote, Field, FilePicker, StatusBadge, inputCls, useLoad, usePoll,
 } from "@/components/ui";
 import { api, download } from "@/lib/api";
-import type { Answer, Bid, Readiness, Requirement } from "@/lib/types";
+import type { Answer, Bid, FactIssue, Readiness, Requirement } from "@/lib/types";
 
 type Filter = "all" | "response" | "mandatory" | "review" | "changed";
 
@@ -20,6 +20,9 @@ const FILTERS: { key: Filter; label: string; test: (r: Requirement) => boolean }
 ];
 
 const BUSY = new Set(["queued", "processing", "drafting"]);
+const FACT_KIND: Record<FactIssue["kind"], string> = {
+  amount: "amount", percent: "percentage", date: "date", year: "year", number: "number", id: "ID or number", name: "name",
+};
 
 export default function BidPage() {
   const { id } = useParams<{ id: string }>();
@@ -129,6 +132,11 @@ export default function BidPage() {
               <ul className="list-disc space-y-1 pl-5 text-slate-700">
                 {readiness.issues.map((i) => <li key={i}>{i}</li>)}
               </ul>
+              {readiness.warnings.length > 0 && (
+                <ul className="list-disc space-y-1 pl-5 text-amber-800">
+                  {readiness.warnings.map((w) => <li key={w}>{w}</li>)}
+                </ul>
+              )}
               <p className="text-xs text-slate-500">
                 {readiness.requirements_total} requirements · {readiness.response_items} need a written response · ~{readiness.estimated_pages} pages
                 {readiness.page_limit ? ` of ${readiness.page_limit} allowed` : ""}
@@ -276,6 +284,20 @@ function RequirementPanel({ req, bidId, onChange, onError }: {
                 {a.unsupported_claims.length > 0 && (
                   <ul className="mt-1 list-disc pl-4">{a.unsupported_claims.map((c) => <li key={c}>Missing: {c}</li>)}</ul>
                 )}
+              </div>
+            )}
+
+            {a.fact_issues.length > 0 && (
+              <div className="rounded-md bg-red-50 p-3 text-xs text-red-900 ring-1 ring-red-200">
+                <p className="font-medium">Check these against your records before approving:</p>
+                <ul className="mt-1 space-y-1">
+                  {a.fact_issues.map((f) => (
+                    <li key={`${f.problem}-${f.text}`}>
+                      <span className="font-mono font-semibold">{f.text}</span>{" "}
+                      <span className="text-red-800">({FACT_KIND[f.kind]}): {f.detail}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 

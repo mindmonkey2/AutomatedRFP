@@ -128,6 +128,13 @@ class CitationOut(ORM):
     page: int | None
 
 
+class FactIssueOut(BaseModel):
+    kind: str  # amount | percent | date | year | number | id | name
+    text: str
+    problem: str  # not_in_sources | wrong_citation
+    detail: str
+
+
 class AnswerOut(ORM):
     id: int
     draft_text: str | None
@@ -135,6 +142,7 @@ class AnswerOut(ORM):
     confidence: float | None
     confidence_reasons: list[str]
     unsupported_claims: list[str]
+    fact_issues: list[FactIssueOut]
     status: str
     error: str | None
     assignee: str | None

@@ -36,7 +36,7 @@ IFBs). Responding is slow, repetitive and risky:
 | Handle addenda | Re-read and compare by hand | Each addendum is compared with the matrix: requirements are marked added, changed or removed, and affected answers are flagged for review |
 | Find past answers | Search shared drives and email; ask colleagues | The library is searched automatically for the most relevant passages from past proposals, project records and credentials |
 | Write the first draft | Copy, paste and rewrite for hours | A first draft of each section, written against the evaluation criteria, with a citation on every claim |
-| Check facts | Hope nothing is out of date | Each citation is checked against its source text. Low-confidence answers and gaps are flagged, with `[[TBD]]` placeholders instead of invented facts |
+| Check facts | Hope nothing is out of date | Each citation is checked against its source text, and every amount, date, ID number and name in an answer must appear in the source it cites. Low-confidence answers and gaps are flagged, with `[[TBD]]` placeholders instead of invented facts |
 | Track certificates | Spreadsheet, if anyone remembers | Licenses, bonds, insurance and certifications with a warning 30 days before expiry |
 | Final check | Manual checklist | A readiness report lists unanswered items, unreviewed answers, leftover placeholders, unmet mandatory items and length against the page limit |
 | Submit | Assemble documents by hand | Export the response as Word and the compliance matrix as Excel |
@@ -142,15 +142,20 @@ solicitation itself, section by section, and returns structured data.
 | Structured output | Responses must match a schema (answer, citations with quotes, unsupported items, confidence) | `llm.py` schemas |
 | Explicit gaps | Missing facts become `[[TBD: ...]]` placeholders, listed as unsupported, never invented | `llm.DRAFT_SYSTEM` |
 | Citation check | Each cited quote must appear in the passage it points to, or it is marked "not found in source" | `pipeline.quote_in` |
+| Fact check | Every amount, percentage, date, number, ID (license, contract, form) and proper name in the answer must appear in the source its sentence cites. Formats are normalised ($18.5 million = $18,500,000; Rs. 46.29 lakh = 4,629,000; 12.03.2026 = March 12, 2026). Anything not found, or found only in another source, is listed for the reviewer, and edits are re-checked | `factcheck.py` |
 | Confidence routing | Unverified citations, placeholders or low confidence send the answer to review | `pipeline.score` |
 | Verbatim requirements | Each extracted requirement carries the exact quote and page, so a reviewer can check it at a glance | `ExtractedRequirement` |
 | Recall safety net | A keyword sweep re-checks what the first extraction missed: obligation wording (US "shall/must", Indian "should/to be enclosed"), document checklists, and deadline rows, with PDF line wrapping undone | `parsing.obligation_sentences` |
 | Human approval | Nothing is approved or exported as final without a person | review screen, readiness check |
 | No lost work | Every background job is a Postgres row saved with the upload that created it; a worker that crashes or restarts mid-job loses nothing (heartbeat lease), and temporary AI failures are retried with backoff | `jobs.py` |
 
-Known limits: the citation check confirms that a quote exists in the source, not that the sentence
-around it says the same thing. A planned second check will ask a separate model call whether each
-claim is fully supported by its passage.
+Known limits: the citation and fact checks confirm that quotes, figures and names exist in the
+source, not that the sentence uses them correctly ("completed in 2023" when the source says 2023 was
+the start). A planned second check will ask a separate model call whether each claim is fully
+supported by its passage. The fact check is tested on 15 labelled drafts (US and Indian formats, 17
+planted errors such as a changed contract value, a swapped licence digit, an invented project or
+person, or a wrong date). It catches all 17 with no false alarms on the 48 facts checked, but these
+drafts were written together with the checker, so expect some misses and false alarms on real drafts.
 
 ## Measuring accuracy
 
@@ -221,6 +226,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Compliance matrix extraction with gap-filling pass | Built |
 | Addendum diffing and stale-answer flags | Built |
 | Cited drafting, citation verification, confidence scoring, review queue | Built |
+| Fact check of amounts, dates, IDs and names in drafts and edits (no AI) | Built |
 | Review, assignment, approval back into the library (saved answers can be viewed and removed) | Built |
 | Word and Excel export, readiness check | Built |
 | Sign-in, organizations, invites, roles | Built |
@@ -366,6 +372,7 @@ backend/
     pipeline.py    job handlers: ingest, extract, addendum diff, draft, verify, score
     jobs.py        durable job queue in Postgres (claim, retry, heartbeat, crash recovery)
     worker.py      `python -m app.worker`: run jobs in separate processes
+    factcheck.py   fact check: figures, dates, IDs and names in answers vs their sources
     export.py      Word/Excel export, readiness check
   migrations/      Alembic migrations (schema + row-level security policies)
   evals/           requirement-extraction evaluation: labelled cases, scoring, reports

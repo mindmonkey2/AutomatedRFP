@@ -31,6 +31,8 @@ def readiness(bid: Bid) -> dict:
     ]
     open_mandatory = [r for r in active if r.mandatory and r.status in ("open", "drafted") and not r.needs_response]
     placeholders = [r for r in resp if (t := answer_text(r)) and "[[TBD" in t]
+    unverified_facts = [r for r in resp if r.answer and any(
+        f["problem"] == "not_in_sources" for f in (r.answer.fact_issues or []))]
     words = sum(len((answer_text(r) or "").split()) for r in resp)
     est_pages = math.ceil(words / WORDS_PER_PAGE) if words else 0
     limits = [r.page_limit for r in active if r.kind == "page_limit" and r.page_limit]
@@ -45,6 +47,11 @@ def readiness(bid: Bid) -> dict:
         issues.append(f"{len(placeholders)} answer(s) still contain [[TBD]] placeholders.")
     if open_mandatory:
         issues.append(f"{len(open_mandatory)} mandatory item(s) (forms, format, deadlines) are not marked met.")
+    # A warning, not a blocker: a reviewer may knowingly add a fact the library does not hold yet.
+    warnings = []
+    if unverified_facts:
+        warnings.append(f"{len(unverified_facts)} answer(s) state figures or names that are not in any cited "
+                        "source. Check them before submitting.")
     if overall_limit and est_pages > overall_limit:
         issues.append(f"Estimated length {est_pages} pages exceeds the {overall_limit}-page limit.")
 
@@ -54,6 +61,8 @@ def readiness(bid: Bid) -> dict:
     return {
         "ready": not issues,
         "issues": issues,
+        "warnings": warnings,
+        "unverified_fact_ids": ids(unverified_facts),
         "requirements_total": len(active),
         "response_items": len(resp),
         "missing_answer_ids": ids(missing_answers),

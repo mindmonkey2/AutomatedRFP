@@ -13,7 +13,7 @@ from pathlib import Path
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import db, jobs
+from . import db, factcheck, jobs
 from .config import settings
 from .llm import ExtractedRequirement, attr, get_llm, neutralize
 from .models import (
@@ -427,19 +427,46 @@ def _draft(s: Session, req: Requirement, ans: Answer) -> None:
             label=hit.chunk.label if hit else "Unknown source", page=hit.chunk.page if hit else None,
         ))
 
-    conf, reasons = score(result.confidence, len(result.citations), verified, result.unsupported_claims, len(hits))
+    cited_text = {c.marker: hits[c.source_number - 1].chunk.text
+                  for c in result.citations if 1 <= c.source_number <= len(hits)}
+    issues = factcheck.check_answer(result.answer, cited_text, [h.chunk.text for h in hits], fact_context(req))
+    ans.fact_issues = [i.as_dict() for i in issues]
+
+    conf, reasons = score(result.confidence, len(result.citations), verified, result.unsupported_claims, len(hits),
+                          ans.fact_issues)
     ans.draft_text = result.answer
     ans.unsupported_claims = result.unsupported_claims
     ans.confidence = conf
     ans.confidence_reasons = reasons
     ans.error = None
-    needs_review = conf < settings.review_threshold or result.unsupported_claims or verified < len(result.citations)
+    needs_review = (conf < settings.review_threshold or result.unsupported_claims
+                    or verified < len(result.citations) or issues)
     ans.status = "needs_review" if needs_review else "drafted"
     if req.status == "open":
         req.status = "drafted"
 
 
-def score(model_conf: float, n_cites: int, verified: int, unsupported: list[str], n_hits: int):
+def fact_context(req: Requirement) -> str:
+    """The solicitation's own words for this item: an answer may repeat its numbers and names."""
+    bid = req.bid
+    parts = [bid.title, bid.agency or "", bid.summary or "", req.text, req.source_quote or "", req.section or ""]
+    parts += [r.text for r in bid.requirements if r.kind in ("evaluation", "page_limit") and r.status != "removed"]
+    return "\n".join(parts)
+
+
+def recheck_facts(s: Session, ans: Answer) -> None:
+    """Re-run the fact check on the answer's current text (after a person edits it), against the
+    passages its citations point to."""
+    text = ans.final_text or ans.draft_text or ""
+    chunk_ids = {c.chunk_id for c in ans.citations if c.chunk_id}
+    chunks = {c.id: c.text for c in s.scalars(select(Chunk).where(Chunk.id.in_(chunk_ids)))} if chunk_ids else {}
+    cited = {c.marker: chunks[c.chunk_id] for c in ans.citations if c.chunk_id in chunks}
+    issues = factcheck.check_answer(text, cited, list(chunks.values()), fact_context(ans.requirement))
+    ans.fact_issues = [i.as_dict() for i in issues]
+
+
+def score(model_conf: float, n_cites: int, verified: int, unsupported: list[str], n_hits: int,
+          fact_issues: list[dict] = ()):
     reasons = []
     model_conf = min(max(model_conf, 0.0), 1.0)
     cite_ratio = verified / n_cites if n_cites else 0.0
@@ -450,6 +477,15 @@ def score(model_conf: float, n_cites: int, verified: int, unsupported: list[str]
     penalty = min(0.15 * len(unsupported), 0.45)
     if unsupported:
         reasons.append(f"{len(unsupported)} item(s) not supported by the library; placeholders inserted.")
+    invented = [f for f in fact_issues if f["problem"] == "not_in_sources"]
+    miscited = [f for f in fact_issues if f["problem"] == "wrong_citation"]
+    if invented:
+        reasons.append(f"{len(invented)} figure(s) or name(s) not found in any source: "
+                       + ", ".join(f["text"] for f in invented[:5]) + ("..." if len(invented) > 5 else ""))
+        penalty += min(0.15 * len(invented), 0.45)
+    if miscited:
+        reasons.append(f"{len(miscited)} figure(s) or name(s) cite the wrong source.")
+        penalty += min(0.05 * len(miscited), 0.15)
     conf = 0.4 * model_conf + 0.6 * cite_ratio - penalty
     if n_hits == 0:
         reasons.append("No matching passages found in the library.")
