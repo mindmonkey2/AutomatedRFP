@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse, Response
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import auth, export, jobs, pipeline, retrieval
+from . import auth, embeddings, export, jobs, pipeline, retrieval
 from .auth import current_org
 from .config import settings
 from .db import check_role, get_session
@@ -57,6 +57,11 @@ log = logging.getLogger(__name__)
 async def lifespan(_app: FastAPI):
     settings.storage_dir.mkdir(parents=True, exist_ok=True)
     check_role()
+    if settings.embedding_provider.lower() != "none":
+        try:
+            embeddings.ensure_schema()
+        except embeddings.EmbeddingsUnavailable as e:  # keep serving with keyword search
+            logging.getLogger(__name__).error("%s", e)
     # Simple deployments run the job worker inside the API process; larger ones set
     # RFP_EMBEDDED_WORKER=false and run `python -m app.worker` separately (as many as needed).
     worker = jobs.Worker().start() if settings.embedded_worker else None

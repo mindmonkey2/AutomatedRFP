@@ -10,6 +10,15 @@ from app.db import Base
 if context.config.config_file_name:
     fileConfig(context.config.config_file_name)
 
+# Managed outside the ORM models (needs the optional pgvector extension; see app/embeddings.py).
+UNMANAGED_TABLES = {"chunk_embeddings"}
+
+
+def include_object(obj, name, type_, reflected, compare_to) -> bool:
+    table = name if type_ == "table" else getattr(getattr(obj, "table", None), "name", None)
+    return table not in UNMANAGED_TABLES
+
+
 url = context.config.get_main_option("sqlalchemy.url") or settings.migration_database_url or settings.database_url
 
 
@@ -22,7 +31,7 @@ def run_migrations_offline() -> None:
 def run_migrations_online() -> None:
     engine = create_engine(url)
     with engine.connect() as connection:
-        context.configure(connection=connection, target_metadata=Base.metadata)
+        context.configure(connection=connection, target_metadata=Base.metadata, include_object=include_object)
         with context.begin_transaction():
             context.run_migrations()
 

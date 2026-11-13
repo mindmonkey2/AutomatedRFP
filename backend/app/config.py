@@ -53,6 +53,17 @@ class Settings(BaseSettings):
     # Server-side refusal fallback (beta). Set RFP_USE_FALLBACKS=false to disable.
     use_fallbacks: bool = True
 
+    # Search by meaning (app/embeddings.py): "none" (keyword search only), "local" (a small model
+    # in the app, CPU) or "openai_compatible" (a /v1/embeddings server such as Ollama).
+    embedding_provider: str = "none"
+    embedding_model: str | None = None  # local: BAAI/bge-small-en-v1.5; Ollama: e.g. nomic-embed-text
+    embedding_base_url: str | None = None  # default: RFP_OPENAI_BASE_URL
+    embedding_api_key: str | None = None
+    embedding_cache_dir: Path | None = None  # where the local model is downloaded to
+    embedding_threads: int | None = None
+    vector_candidates: int = 50  # passages taken from each ranking before fusing them
+    rrf_k: int = 60  # reciprocal rank fusion constant
+
     # Retrieval / drafting
     chunk_chars: int = 2000
     retrieve_k: int = 12

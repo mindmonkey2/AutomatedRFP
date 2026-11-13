@@ -31,6 +31,11 @@ x-backend: &backend
     RFP_INTERNAL_PROXY_CIDRS: '["0.0.0.0/0", "::/0"]'
     RFP_EMBEDDED_WORKER: "false"  # the worker service runs the jobs
     RFP_WORKER_THREADS: ${WORKER_THREADS:-4}
+    # Search by meaning: a small model in the app (downloaded once into the files volume), or
+    # openai_compatible with RFP_EMBEDDING_MODEL (e.g. nomic-embed-text on Ollama), or none.
+    RFP_EMBEDDING_PROVIDER: ${RFP_EMBEDDING_PROVIDER:-local}
+    RFP_EMBEDDING_MODEL: ${RFP_EMBEDDING_MODEL:-}
+    RFP_EMBEDDING_BASE_URL: ${RFP_EMBEDDING_BASE_URL:-}
   volumes:
     - files:/data
   depends_on:
@@ -41,7 +46,7 @@ x-backend: &backend
 
 services:
   postgres:
-    image: postgres:18
+    image: pgvector/pgvector:pg18  # Postgres 18 with the pgvector extension (search by meaning)
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run ./deploy/setup.sh first}

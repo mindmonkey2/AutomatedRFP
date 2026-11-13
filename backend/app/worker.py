@@ -26,6 +26,13 @@ def main(argv: list[str] | None = None) -> int:
     args = ap.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
     check_role()
+    if settings.embedding_provider.lower() != "none":
+        from .embeddings import EmbeddingsUnavailable, ensure_schema
+
+        try:
+            ensure_schema()
+        except EmbeddingsUnavailable as e:  # documents are still processed; search stays keyword-only
+            logging.error("%s", e)
 
     if args.once:
         n = jobs.run_until_idle()

@@ -55,6 +55,32 @@ README's "AI providers" section). To use a model server you already run elsewher
 Open http://localhost:3000 and create your company account. Then set `RFP_ALLOW_SIGNUP=false`
 in `.env` and run `docker compose up -d`, so new people can join only by invite.
 
+## Search by meaning
+
+By default the stack also searches the library by meaning, not only by keyword, so a question
+worded differently from your past proposals still finds them. It uses a small model that runs on the
+CPU inside the app. The model is downloaded once (about 65 MB) into the `files` volume, and nothing
+is sent anywhere after that. Alternatives in `.env`:
+
+- `RFP_EMBEDDING_PROVIDER=openai_compatible` and `RFP_EMBEDDING_MODEL=nomic-embed-text` to use Ollama
+  (`docker compose exec ollama ollama pull nomic-embed-text`), or any other embeddings server via
+  `RFP_EMBEDDING_BASE_URL`.
+- `RFP_EMBEDDING_PROVIDER=none` for keyword search only.
+
+Changing the model re-embeds the library in the background. Search keeps working meanwhile.
+
+**Upgrading from a version before search by meaning:** the database image is now
+`pgvector/pgvector:pg18` (the same Postgres 18, plus the extension). Existing databases need the
+extension enabled once:
+
+```bash
+docker compose up -d --build
+docker compose exec postgres psql -U postgres -d rfp -c 'CREATE EXTENSION IF NOT EXISTS vector'
+docker compose restart api worker   # they create the search table at startup
+```
+
+Until then the app logs this instruction and uses keyword search.
+
 ## Serve it on your domain with HTTPS
 
 1. Point your domain's DNS (an A/AAAA record) at the server, and open ports 80 and 443.

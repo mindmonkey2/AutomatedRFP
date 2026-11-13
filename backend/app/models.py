@@ -169,9 +169,10 @@ class Job(Base):
 
     __table_args__ = (
         Index("ix_jobs_claim", "status", "run_after"),
-        # At most one live job per target, so a double click cannot draft the same answer twice.
-        Index("uq_jobs_live_target", "kind", "target_id", unique=True,
-              postgresql_where=text("status IN ('queued', 'running')")),
+        # At most one waiting job per target, so a double click cannot queue the same work twice.
+        # (A running job does not block a new one: work added while it runs must not be missed.)
+        Index("uq_jobs_queued_target", "kind", "target_id", unique=True,
+              postgresql_where=text("status = 'queued'")),
     )
 
 

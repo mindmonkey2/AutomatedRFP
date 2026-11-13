@@ -29,7 +29,7 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import text
+from sqlalchemy import select, text
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session
@@ -100,13 +100,12 @@ def _now() -> datetime:
 
 def enqueue(s: Session, org_id: int, kind: str, target_id: int) -> None:
     """Add a job in the caller's transaction (commits with it). A job for the same target that
-    is already queued or running is not duplicated."""
+    is already waiting in the queue is not duplicated."""
     s.execute(
         insert(Job)
         .values(org_id=org_id, kind=kind, target_id=target_id, status="queued", attempts=0,
                 max_attempts=settings.job_max_attempts, run_after=_now(), created_at=_now())
-        .on_conflict_do_nothing(index_elements=["kind", "target_id"],
-                                index_where=text("status IN ('queued', 'running')"))
+        .on_conflict_do_nothing(index_elements=["kind", "target_id"], index_where=text("status = 'queued'"))
     )
 
 
@@ -139,6 +138,10 @@ def _finish(job: JobRun, status: str, error: str | None = None, delay: float = 0
         j = s.get(Job, job.id)
         if j is None:
             return
+        if status == "queued" and s.scalar(select(Job.id).where(
+                Job.kind == job.kind, Job.target_id == job.target_id, Job.status == "queued", Job.id != job.id)):
+            # A newer job for the same target is already waiting and will do this work.
+            status, error = "done", "Superseded by a newer queued job."
         j.status = status
         j.last_error = error[:2000] if error else j.last_error
         j.locked_by = None
@@ -195,13 +198,23 @@ def run(job: JobRun) -> str:
 
 
 _REAP = text("""
+    WITH lost AS (
+        SELECT id,
+               CASE WHEN EXISTS (SELECT 1 FROM jobs q WHERE q.kind = j.kind AND q.target_id = j.target_id
+                                 AND q.status = 'queued') THEN 'done'      -- a newer queued job covers it
+                    WHEN attempts >= max_attempts THEN 'failed'
+                    ELSE 'queued' END AS new_status
+        FROM jobs j
+        WHERE status = 'running' AND heartbeat_at < now() - make_interval(secs => :lease)
+        FOR UPDATE SKIP LOCKED
+    )
     UPDATE jobs SET
-        status = CASE WHEN attempts >= max_attempts THEN 'failed' ELSE 'queued' END,
-        finished_at = CASE WHEN attempts >= max_attempts THEN now() END,
+        status = lost.new_status,
+        finished_at = CASE WHEN lost.new_status = 'queued' THEN NULL ELSE now() END,
         locked_by = NULL, run_after = now(),
         last_error = 'The worker running this job stopped (restart or crash).'
-    WHERE status = 'running' AND heartbeat_at < now() - make_interval(secs => :lease)
-    RETURNING id, org_id, kind, target_id, status
+    FROM lost WHERE jobs.id = lost.id
+    RETURNING jobs.id, jobs.org_id, jobs.kind, jobs.target_id, jobs.status
 """)
 
 

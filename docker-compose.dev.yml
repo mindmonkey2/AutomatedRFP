@@ -2,7 +2,7 @@
 # (the full self-hosted stack is docker-compose.yml)
 services:
   postgres:
-    image: postgres:18
+    image: pgvector/pgvector:pg18  # Postgres 18 + pgvector
     environment:
       POSTGRES_PASSWORD: postgres   # superuser, for admin only (dev); the app uses the "rfp" role
     ports:

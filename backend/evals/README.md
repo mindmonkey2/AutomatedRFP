@@ -23,6 +23,17 @@ From `backend/`:
 Each run writes a JSON and a Markdown report to `evals/results/`, including every missed requirement,
 every trap the model fell for, and the estimated API cost of the run.
 
+**Retrieval** (does the right library passage reach the drafting model?) has its own small eval:
+
+```bash
+pip install -r requirements-embeddings.txt
+../.venv/bin/python -m evals.retrieval --database-url postgresql+psycopg://rfp:rfp@localhost:5432/rfp_test
+../.venv/bin/python -m evals.retrieval --provider openai_compatible --model nomic-embed-text  # via Ollama
+```
+
+It loads `retrieval_cases.json` (26 passages, 28 questions, half worded differently from their answer)
+into a temporary organization and compares keyword search with hybrid search (recall@1/3/5, MRR).
+
 ## What is measured
 
 | Metric | Meaning |

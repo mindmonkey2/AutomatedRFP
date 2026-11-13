@@ -13,7 +13,7 @@ from pathlib import Path
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from . import db, factcheck, jobs
+from . import db, embeddings, factcheck, jobs
 from .config import settings
 from .llm import ExtractedRequirement, attr, get_llm, neutralize
 from .models import (
@@ -68,6 +68,8 @@ def ingest_document(org_id: int, doc_id: int, job: "jobs.JobRun | None" = None) 
             doc.chunk_count = n
             doc.status = "ready" if n else "failed"
             doc.error = None if n else "No text found. Scanned PDFs need OCR, which is not supported yet."
+            if n:
+                embeddings.enqueue_embedding(s, doc.org_id)  # search by meaning, in the background
             s.commit()
         except Exception as e:
             s.rollback()
@@ -100,6 +102,7 @@ def index_project(s: Session, p: ProjectRecord) -> None:
     ]
     add_chunk(s, Chunk(org_id=p.org_id, source_type="project", source_id=p.id,
                        text="\n".join(x for x in parts if x), label=f"Project record: {p.name}"))
+    embeddings.enqueue_embedding(s, p.org_id)
 
 
 def index_credential(s: Session, c: Credential) -> None:
@@ -113,6 +116,7 @@ def index_credential(s: Session, c: Credential) -> None:
     ]
     add_chunk(s, Chunk(org_id=c.org_id, source_type="credential", source_id=c.id,
                        text="\n".join(x for x in parts if x), label=f"{c.kind.title()}: {c.name}"))
+    embeddings.enqueue_embedding(s, c.org_id)
 
 
 def index_approved_answer(s: Session, a: Answer) -> None:
@@ -122,6 +126,7 @@ def index_approved_answer(s: Session, a: Answer) -> None:
     add_chunk(s, Chunk(org_id=a.org_id, source_type="answer", source_id=a.id,
                        text=f"Question: {req.text}\nApproved answer: {body}",
                        label=f"Approved answer ({req.bid.title})"))
+    embeddings.enqueue_embedding(s, a.org_id)
 
 
 # ---------------------------------------------------------------- solicitations
@@ -374,6 +379,7 @@ def _abandon_answer(org_id: int, req_id: int, message: str) -> None:
 jobs.register("ingest_document", ingest_document, _abandon_document)
 jobs.register("process_file", process_solicitation_file, _abandon_file)
 jobs.register("draft_answer", draft_requirement, _abandon_answer)
+jobs.register("embed_library", embeddings.embed_library, lambda *_: None)  # keyword search still works meanwhile
 
 
 def _draft(s: Session, req: Requirement, ans: Answer) -> None:

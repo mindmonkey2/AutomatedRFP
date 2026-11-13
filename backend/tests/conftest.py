@@ -99,8 +99,8 @@ def _db():
     with eng.begin() as conn:
         role = conn.execute(text("SELECT rolsuper, rolbypassrls FROM pg_roles WHERE rolname = current_user")).one()
         assert not (role.rolsuper or role.rolbypassrls), "TEST_DATABASE_URL must use a non-superuser role"
-        conn.execute(text("DROP SCHEMA public CASCADE"))
-        conn.execute(text("CREATE SCHEMA public"))
+        # Drop everything the app role owns; extensions installed by the superuser (pgvector) stay.
+        conn.execute(text("DROP OWNED BY CURRENT_USER"))
     eng.dispose()
     cfg = Config(str(BACKEND_DIR / "alembic.ini"))
     cfg.set_main_option("sqlalchemy.url", TEST_DB)

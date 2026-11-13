@@ -138,6 +138,7 @@ solicitation itself, section by section, and returns structured data.
 
 | Layer | What it does | Where |
 | --- | --- | --- |
+| Retrieval | Keyword search and search by meaning (embeddings, pgvector) are fused, so a question worded differently from the library still finds the right passage; keyword-only if embeddings are off or fail | `retrieval.py`, `embeddings.py` |
 | Grounding | The model sees only retrieved passages and is told to use nothing else | `pipeline._draft`, `llm.DRAFT_SYSTEM` |
 | Structured output | Responses must match a schema (answer, citations with quotes, unsupported items, confidence) | `llm.py` schemas |
 | Explicit gaps | Missing facts become `[[TBD: ...]]` placeholders, listed as unsupported, never invented | `llm.DRAFT_SYSTEM` |
@@ -194,6 +195,19 @@ pass has to close. Run it yourself with
 `../.venv/bin/python -m evals.extraction` from `backend/` (needs `ANTHROPIC_API_KEY`).
 Answer keys were labelled with AI assistance; independent human review is pending.
 
+**Retrieval.** A draft can only be as good as the passages it is given, so search is measured too
+(`python -m evals.retrieval`): 28 RFP-style questions against a 26-passage company library, each
+labelled with the passage that answers it. Half reuse the passage's wording, half say it differently
+("protect children while the school remains in use" for a passage about occupied-campus work). The
+run uses the app's real search code and the default local model (`BAAI/bge-small-en-v1.5`, CPU):
+
+| Search | Found in top 5 | Same wording (12) | Different wording (16) | MRR |
+| --- | --- | --- | --- | --- |
+| Keyword only | 75% | 100% | 56% | 0.64 |
+| Keyword + meaning (hybrid) | **89%** | 100% | **81%** | 0.75 |
+
+The set is small and was written for this project, so treat the numbers as indicative.
+
 ## Security and data isolation
 
 - **Sign-in:** email and password (Argon2id hashing), server-side sessions in an httpOnly cookie,
@@ -233,7 +247,7 @@ Answer keys were labelled with AI assistance; independent human review is pendin
 | Postgres with migrations, full-text search, row-level security | Built |
 | Choice of AI provider: Claude or self-hosted models via any OpenAI-compatible server | Built |
 | One-command self-hosting: Docker Compose with optional local AI (Ollama) and automatic HTTPS (Caddy) | Built |
-| Semantic search (pgvector) alongside full-text search | Planned |
+| Search by meaning (local or Ollama embeddings, pgvector) fused with full-text search | Built |
 | Durable job queue in Postgres: survives restarts, retries temporary failures, live progress | Built |
 | OCR for scanned PDFs | Planned |
 | Filling the customer's own Excel questionnaire in place; fillable PDF forms | Planned |
@@ -366,7 +380,8 @@ backend/
     db.py          engine, tenant-scoped sessions (row-level security binding)
     models.py      database tables
     parsing.py     file parsing, chunking, obligation sweep
-    retrieval.py   Postgres full-text search
+    retrieval.py   hybrid search: Postgres full-text + vectors, rank fusion
+    embeddings.py  embedding providers (local model / OpenAI-compatible), pgvector storage, embed job
     llm.py         AI tasks, prompts, schemas, Claude provider
     llm_openai.py  self-hosted / OpenAI-compatible provider (Ollama, vLLM, llama.cpp, LM Studio)
     pipeline.py    job handlers: ingest, extract, addendum diff, draft, verify, score
@@ -402,6 +417,7 @@ All backend settings are environment variables (or `backend/.env`); see
 | `RFP_REVIEW_THRESHOLD` | `0.6` | Answers below this confidence go to review |
 | `RFP_ALLOW_SIGNUP` | `true` | Allow new companies to sign up |
 | `RFP_COOKIE_SECURE` | `false` | Set `true` behind HTTPS |
+| `RFP_EMBEDDING_PROVIDER` | `none` | Search by meaning: `local` (small CPU model inside the app; `pip install -r requirements-embeddings.txt`), `openai_compatible` (e.g. Ollama with `RFP_EMBEDDING_MODEL=nomic-embed-text`) or `none`. Needs Postgres with pgvector. The self-hosted stack uses `local` |
 | `RFP_FORWARDED_HOPS` | `0` | Number of reverse proxies (nginx, Caddy, a load balancer) in front of the app that append to `X-Forwarded-For`; set to `1` behind one so failed logins are also limited per visitor address. Keep the API port private when this is above 0 |
 | `RFP_EMBEDDED_WORKER` | `true` | Run background jobs inside the API; set `false` when running `python -m app.worker` separately |
 | `RFP_WORKER_THREADS` | `4` | Jobs run at once per worker (answers drafted in parallel); 1-2 for a single local GPU |
